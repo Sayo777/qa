@@ -93,6 +93,21 @@ public class Manager {
         this.type = type == null ? null : type.trim();
     }
 
+    @Override
+    public String toString() {
+        return "Manager{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", password='" + password + '\'' +
+                ", gender='" + gender + '\'' +
+                ", phone='" + phone + '\'' +
+                ", email='" + email + '\'' +
+                ", birth=" + birth +
+                ", enterpriseId=" + enterpriseId +
+                ", type='" + type + '\'' +
+                '}';
+    }
+
     public Manager(){
     }
 
