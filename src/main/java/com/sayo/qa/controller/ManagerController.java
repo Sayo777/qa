@@ -15,17 +15,45 @@ public class ManagerController {
     @Autowired
     private ManagerService managerService;
 
-    @RequestMapping(path = "/register",method = RequestMethod.POST)
+
+    @RequestMapping(path = "/register",method = RequestMethod.GET)
+    public String goRegister(){
+
+        System.out.println("------------------调用我的注册接口了getget");
+        return "/register";
+    }
+
+
+    @RequestMapping(path = "/login",method = RequestMethod.GET)
+    public String goLogin(){
+        return "/login";
+    }
+
+    @RequestMapping(path = "/registerpost",method = RequestMethod.POST)
     public String registerManager(String name, String password, String email,
                                   int enterpriseId, String type, Model model){
         Map<String, Object> map = managerService.register(name, password, email, enterpriseId, type);
         model.addAttribute("registerMap",map);
-        return "/login.html";
+        if (map.size()==0 ){//注册成功，跳转至登录界面
+            System.out.println("注册成功");
+            return "/login.html";
+        }else{//重新注册
+            for(Map.Entry<String,Object> entry:map.entrySet()){
+                     System.out.println(entry.getValue());
+            }
+            return "/register.html";
+        }
+
     }
 
     @RequestMapping(path = "/hi",method = RequestMethod.GET)
     public String hi(){
-        return "/login";
+        return "/index";
+    }
+
+    @RequestMapping(path = "/login",method = RequestMethod.POST)
+    public void login(){
+
     }
 
 

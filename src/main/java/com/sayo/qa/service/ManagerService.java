@@ -35,7 +35,9 @@ public class ManagerService {
 
         // 验证账号
         Manager m = managerMapper.selectByManagerName(name);
+
         if (m != null) {
+            System.out.println("该账号已经注册"+m);
             map.put("nameMsg", "该账号已存在!");
             return map;
         }
@@ -49,6 +51,20 @@ public class ManagerService {
         //注册管理员
         managerMapper.insertManagerParty(name, password, email, enperpriseId, type);
         return map;
+    }
+
+    public Map<String,Object> login(String name,String password,int enterpriseId,String type){
+        Map<String, Object> map = new HashMap<>();
+        //判断这个name存在不
+        Manager manager = managerMapper.selectByManagerName(name);
+        if (manager == null){
+            map.put("nameMsg","该账户不存在");
+            return map;
+        }
+
+
+        return map;
+
     }
 
 

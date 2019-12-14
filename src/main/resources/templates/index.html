@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
 	<meta charset="UTF-8">
 	<title>后台登录-L-admin2.0</title>
@@ -8,13 +8,13 @@
     <meta name="viewport" content="width=device-width,user-scalable=yes, minimum-scale=0.4, initial-scale=0.8,target-densitydpi=low-dpi" />
     <meta http-equiv="Cache-Control" content="no-siteapp" />
 
-    <link rel="shortcut icon" href="favicon.ico" type="image/x-icon" />
-    <link rel="stylesheet" href="css/font.css">
-	<link rel="stylesheet" href="css/xadmin.css">
+    <link rel="shortcut icon" th:href="@{/houtai/favicon.ico}" type="image/x-icon" />
+    <link rel="stylesheet" th:href="@{/houtai/css/font.css}">
+	<link rel="stylesheet" th:href="@{/houtai/css/xadmin.css}">
 	
-    <script src="js/jquery.min.js"></script>
-    <script src="lib/layui/layui.js" charset="utf-8"></script>
-    <script type="text/javascript" src="js/xadmin.js"></script>
+    <script th:src="@{/houtai/js/jquery.min.js}"></script>
+    <script th:src="@{/houtai/lib/layui/layui.js}" charset="utf-8"></script>
+    <script type="text/javascript" th:src="@{/houtai/js/xadmin.js}"></script>
 
 </head>
 <body>

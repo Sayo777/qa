@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>注册界面</title>
+    <link rel="stylesheet" type="text/css" th:href="@{/houtai/css/login.css}">
+</head>
+<body>
+<div id="login_form" class="form">
+    <form class="login-form" th:action="@{/manager/registerpost}" method="post">
+            <input type="text" placeholder="用户名" id="r_user_name" name="name" required="true"/>
+            <p>重复的</p>
+            <input type="password" placeholder="密码" id="my_password" name="password" required="true"/>
+            <input type="text" placeholder="电子邮件" id="my_email" name="email" required="true" />
+            <input type="text" placeholder="所在单位编码" id="enterpriseId" name="enterpriseId" required="true" />
+            <input type="text" placeholder="所在机构类型" id="type" name="type" required="true" />
+            <button  type="submit">创建账户</button>
+            <p class="message">已经有了一个账户? <a th:href="@{/manager/login}">立刻登录</a></p>
+    </form>
+</div>
+
+</body>
+</html>

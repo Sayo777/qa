@@ -17,6 +17,9 @@ class QaApplicationTests {
 
     @Test
     void contextLoads() {
+
+        Manager manager = managerMapper.selectByManagerName("刘备");
+        System.out.println(manager);
 //        Manager manager = new Manager(1,"芈月","123","女","1566266387",
 //                "2828@163.com", DateUtil.stringToDate("1998-09-27"),
 //                1,"第三方");
