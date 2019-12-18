@@ -58,7 +58,7 @@
     select
     <include refid="selectFields" />
     from manager
-    where name = #{name}
+    where name = #{name} and type = #{type}
   </select>
 
   <select id="selectByManagerEmail" resultType="com.sayo.qa.entity.Manager" parameterType="String">

@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.sayo.qa.dao.TaskMapper" >
+  <resultMap id="BaseResultMap" type="com.sayo.qa.entity.Task" >
+    <id column="task_id" property="taskId" jdbcType="INTEGER" />
+    <result column="qa_type" property="qaType" jdbcType="VARCHAR" />
+    <result column="qa_eid" property="qaEid" jdbcType="INTEGER" />
+    <result column="inspector_one" property="inspectorOne" jdbcType="INTEGER" />
+    <result column="inspector_two" property="inspectorTwo" jdbcType="INTEGER" />
+    <result column="start_time" property="startTime" jdbcType="TIMESTAMP" />
+    <result column="end_time" property="endTime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    task_id, qa_type, qa_eid, inspector_one, inspector_two, start_time, end_time
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from task
+    where task_id = #{taskId,jdbcType=INTEGER}
+  </select>
+
+  <select id="selectByQaId" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select
+    <include refid="Base_Column_List" />
+    from task
+    where qa_eid = #{qaId,jdbcType=INTEGER}
+  </select>
+
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from task
+    where task_id = #{taskId,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.sayo.qa.entity.Task" >
+    insert into task (task_id, qa_type, qa_eid, 
+      inspector_one, inspector_two, start_time, 
+      end_time)
+    values (#{taskId,jdbcType=INTEGER}, #{qaType,jdbcType=VARCHAR}, #{qaEid,jdbcType=INTEGER}, 
+      #{inspectorOne,jdbcType=INTEGER}, #{inspectorTwo,jdbcType=INTEGER}, #{startTime,jdbcType=TIMESTAMP}, 
+      #{endTime,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.sayo.qa.entity.Task" >
+    insert into task
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="taskId != null" >
+        task_id,
+      </if>
+      <if test="qaType != null" >
+        qa_type,
+      </if>
+      <if test="qaEid != null" >
+        qa_eid,
+      </if>
+      <if test="inspectorOne != null" >
+        inspector_one,
+      </if>
+      <if test="inspectorTwo != null" >
+        inspector_two,
+      </if>
+      <if test="startTime != null" >
+        start_time,
+      </if>
+      <if test="endTime != null" >
+        end_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="taskId != null" >
+        #{taskId,jdbcType=INTEGER},
+      </if>
+      <if test="qaType != null" >
+        #{qaType,jdbcType=VARCHAR},
+      </if>
+      <if test="qaEid != null" >
+        #{qaEid,jdbcType=INTEGER},
+      </if>
+      <if test="inspectorOne != null" >
+        #{inspectorOne,jdbcType=INTEGER},
+      </if>
+      <if test="inspectorTwo != null" >
+        #{inspectorTwo,jdbcType=INTEGER},
+      </if>
+      <if test="startTime != null" >
+        #{startTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="endTime != null" >
+        #{endTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.sayo.qa.entity.Task" >
+    update task
+    <set >
+      <if test="qaType != null" >
+        qa_type = #{qaType,jdbcType=VARCHAR},
+      </if>
+      <if test="qaEid != null" >
+        qa_eid = #{qaEid,jdbcType=INTEGER},
+      </if>
+      <if test="inspectorOne != null" >
+        inspector_one = #{inspectorOne,jdbcType=INTEGER},
+      </if>
+      <if test="inspectorTwo != null" >
+        inspector_two = #{inspectorTwo,jdbcType=INTEGER},
+      </if>
+      <if test="startTime != null" >
+        start_time = #{startTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="endTime != null" >
+        end_time = #{endTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where task_id = #{taskId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.sayo.qa.entity.Task" >
+    update task
+    set qa_type = #{qaType,jdbcType=VARCHAR},
+      qa_eid = #{qaEid,jdbcType=INTEGER},
+      inspector_one = #{inspectorOne,jdbcType=INTEGER},
+      inspector_two = #{inspectorTwo,jdbcType=INTEGER},
+      start_time = #{startTime,jdbcType=TIMESTAMP},
+      end_time = #{endTime,jdbcType=TIMESTAMP}
+    where task_id = #{taskId,jdbcType=INTEGER}
+  </update>
+</mapper>

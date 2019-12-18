@@ -16,5 +16,11 @@ public class DateUtil {
         }
         return date;
     }
+    public static String dateToString(String string){
+            Date time =new Date(string);
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+            String timeFormat = sdf.format(time);
+            return timeFormat;
+    }
 
 }

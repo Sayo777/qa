@@ -1,7 +1,9 @@
 package com.sayo.qa.dao;
 
 import com.sayo.qa.entity.Admin;
+import org.apache.ibatis.annotations.Mapper;
 
+@Mapper
 public interface AdminMapper {
     int deleteByPrimaryKey(Integer id);
 

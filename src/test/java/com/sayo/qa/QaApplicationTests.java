@@ -1,46 +1,47 @@
 package com.sayo.qa;
 
 import com.sayo.qa.CommonUtil.DateUtil;
+import com.sayo.qa.dao.CustomerMapper;
+import com.sayo.qa.dao.InspectorMapper;
 import com.sayo.qa.dao.ManagerMapper;
 import com.sayo.qa.entity.Admin;
+import com.sayo.qa.entity.Customer;
+import com.sayo.qa.entity.Inspector;
 import com.sayo.qa.entity.Manager;
+import com.sayo.qa.service.ThirdUserService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import java.util.Date;
+import java.util.List;
 
 @SpringBootTest
 class QaApplicationTests {
     @Autowired
     ManagerMapper managerMapper;
+    @Autowired
+    ThirdUserService thirdUserService;
+    @Autowired
+    InspectorMapper inspectorMapper;
+    @Autowired
+    CustomerMapper customerMapper;
 
     @Test
-    void contextLoads() {
+    public void test(){
+        List<Inspector> inspectors = inspectorMapper.selectInspector();
+        System.out.println(inspectors);
+    }
 
-        Manager manager = managerMapper.selectByManagerName("刘备");
-        System.out.println(manager);
-//        Manager manager = new Manager(1,"芈月","123","女","1566266387",
-//                "2828@163.com", DateUtil.stringToDate("1998-09-27"),
-//                1,"第三方");
-//        Manager manager2 = new Manager();
-//        manager2.setName("高渐离");
-//        manager2.setPassword("123");
-//        manager2.setEmail("email");
+    @Test
+    public  void contextLoads() {
+        Customer customer = new Customer();
+        customer.setName("企业用户2");
+        customer.setPassword("123");
+        customer.setEmail("123@33.com");
+        customerMapper.insertSelective(customer);
 
-
-
-//        manager2.setGender("男");
-//        manager2.setPhone("1283839");
-//        manager2.setBirth(new Date());
-//        manager2.setEnterpriseId(2);
-//        manager2.setType("政府");
-
-
-        managerMapper.insertManagerParty("高渐离","123","email",1,"政府");
-//        System.out.println(manager2);
-
-
+        System.out.println(customerMapper.selectCustomerByName("企业用户2"));
     }
     public int MoreThanHalfNum_Solution(int [] array) {
         int times = array.length/2;

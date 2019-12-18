@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+
+    <title>第三方平台</title>
+    <meta name="keywords" content="H+后台主题,后台bootstrap框架,会员中心主题,后台HTML,响应式后台">
+    <meta name="description" content="H+是一个完全响应式，基于Bootstrap3最新版本开发的扁平化主题，她采用了主流的左右两栏式布局，使用了Html5+CSS3等现代技术">
+
+    <link rel="shortcut icon" th:href="@{/hh/favicon.ico}">
+    <link th:href="@{/hh/css/bootstrap.min.css?v=3.3.6}" rel="stylesheet">
+    <link th:href="@{/hh/css/font-awesome.css?v=4.4.0}" rel="stylesheet">
+
+    <link th:href="@{/hh/css/animate.css}" rel="stylesheet">
+    <link th:href="@{/hh/css/style.css?v=4.1.0}" rel="stylesheet">
+    <!--[if lt IE 9]>
+    <meta http-equiv="refresh" content="0;ie.html" />
+    <![endif]-->
+    <script>if(window.top !== window.self){ window.top.location = window.location;}</script>
+</head>
+
+<body class="gray-bg">
+
+    <div class="middle-box text-center loginscreen  animated fadeInDown" style="width: 600px;">
+        <div>
+            <div>
+
+                <h2 style="font-size: 30pt" >第三方机构</h2>
+
+            </div>
+            <h3>欢迎使用 质检平台</h3>
+
+            <form class="m-t" role="form" th:action="@{/manager/login3User}" style="border: red solid 1px" method="post">
+                <div style="float: left;margin-left: 30px">
+                    <div class="form-group form-inline">
+                        <label >姓 名：</label>
+                        <input type="text" name="name" class="form-control" placeholder="用户名" required="">
+                    </div>
+                    <div class="form-group form-inline">
+                        <label>密 码：</label>
+                        <input type="password" name="password" class="form-control" placeholder="密码" required="">
+                    </div >
+                    <div style="text-align: center">
+                        <label >
+                            <input type="radio" name="role" id="manager" value="管理员" checked="checked"> 管理员
+                        </label>
+                        <label style="margin-left: 30px" >
+                            <input type="radio" name="role" id="inspector" value="质检员"> 质检员
+                        </label>
+
+                    </div>
+                </div>
+                <div>
+                    <div class="form-group form-inline">
+                        <label style="margin-top: 10px;color: red" th:text="${nameMsg}">用户名</label>
+                    </div>
+                    <div class="form-group form-inline">
+                        <label style="margin-top: 20px;color: red;" th:text="${passwordMsg}">密码</label>
+                    </div>
+
+                </div>
+
+
+                <button id="rolebtn" type="submit" class="btn btn-primary block full-width m-b" >登 录</button>
+
+
+                <p class="text-muted text-center"> <a href="login.html#"><small>忘记密码了？</small></a> | <a th:href="@{/manager/register3User}">注册一个新账号</a>
+                </p>
+
+            </form>
+        </div>
+    </div>
+
+    <!-- 全局js -->
+    <script th:src="@{/hh/js/jquery.min.js?v=2.1.4}"></script>
+    <script th:src="@{/hh/js/bootstrap.min.js?v=3.3.6}"></script>
+
+    <script type="text/javascript">
+
+    </script>
+</body>
+
+</html>

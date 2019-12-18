@@ -1,0 +1,246 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.sayo.qa.dao.InspectorMapper" >
+  <resultMap id="BaseResultMap" type="com.sayo.qa.entity.Inspector" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="name" property="name" jdbcType="VARCHAR" />
+    <result column="password" property="password" jdbcType="VARCHAR" />
+    <result column="gender" property="gender" jdbcType="VARCHAR" />
+    <result column="phone" property="phone" jdbcType="VARCHAR" />
+    <result column="email" property="email" jdbcType="VARCHAR" />
+    <result column="edu_degree" property="eduDegree" jdbcType="VARCHAR" />
+    <result column="birth" property="birth" jdbcType="TIMESTAMP" />
+    <result column="type" property="type" jdbcType="VARCHAR" />
+    <result column="address" property="address" jdbcType="VARCHAR" />
+    <result column="province" property="province" jdbcType="VARCHAR" />
+    <result column="city" property="city" jdbcType="VARCHAR" />
+    <result column="enterprise_id" property="enterpriseId" jdbcType="INTEGER" />
+    <result column="proof_src" property="proofSrc" jdbcType="VARCHAR" />
+    <result column="identity_card" property="identityCard" jdbcType="VARCHAR" />
+    <result column="inspect_type" property="inspectType" jdbcType="INTEGER" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, name, password, gender, phone, email, edu_degree, birth, type, address, province, 
+    city, enterprise_id, proof_src, identity_card,inspect_type
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from inspector
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+
+  <select id="selectInspector" resultMap="BaseResultMap" >
+    select
+    <include refid="Base_Column_List" />
+    from inspector
+  </select>
+
+  <select id="selectInspectorByName" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select
+    <include refid="Base_Column_List" />
+    from inspector
+    where name = #{name} and type = #{type}
+  </select>
+
+  <select id="selectInspectorByEmail" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select
+    <include refid="Base_Column_List" />
+    from inspector
+    where email = #{email}
+  </select>
+
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from inspector
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+
+  <insert id="insertPart" >
+    insert into inspector ( name, password,email,
+      enterprise_id,type
+      )
+    values ( #{name,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR},
+      #{email,jdbcType=VARCHAR},#{enterpriseId,jdbcType=INTEGER},#{type,jdbcType=VARCHAR}
+      )
+  </insert>
+
+  <insert id="insert" parameterType="com.sayo.qa.entity.Inspector" keyProperty="id">
+    insert into inspector ( name, password,
+      gender, phone, email, 
+      edu_degree, birth, type, 
+      address, province, city, 
+      enterprise_id, proof_src, identity_card,inspect_type
+      )
+    values ( #{name,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR},
+      #{gender,jdbcType=VARCHAR}, #{phone,jdbcType=VARCHAR}, #{email,jdbcType=VARCHAR}, 
+      #{eduDegree,jdbcType=VARCHAR}, #{birth,jdbcType=TIMESTAMP}, #{type,jdbcType=VARCHAR}, 
+      #{address,jdbcType=VARCHAR}, #{province,jdbcType=VARCHAR}, #{city,jdbcType=VARCHAR}, 
+      #{enterpriseId,jdbcType=INTEGER}, #{proofSrc,jdbcType=VARCHAR}, #{identityCard,jdbcType=VARCHAR},
+      #{inspectType,jdbcType=INTEGER}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.sayo.qa.entity.Inspector" >
+    insert into inspector
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="name != null" >
+        name,
+      </if>
+      <if test="password != null" >
+        password,
+      </if>
+      <if test="gender != null" >
+        gender,
+      </if>
+      <if test="phone != null" >
+        phone,
+      </if>
+      <if test="email != null" >
+        email,
+      </if>
+      <if test="eduDegree != null" >
+        edu_degree,
+      </if>
+      <if test="birth != null" >
+        birth,
+      </if>
+      <if test="type != null" >
+        type,
+      </if>
+      <if test="address != null" >
+        address,
+      </if>
+      <if test="province != null" >
+        province,
+      </if>
+      <if test="city != null" >
+        city,
+      </if>
+      <if test="enterpriseId != null" >
+        enterprise_id,
+      </if>
+      <if test="proofSrc != null" >
+        proof_src,
+      </if>
+      <if test="identityCard != null" >
+        identity_card,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="name != null" >
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="password != null" >
+        #{password,jdbcType=VARCHAR},
+      </if>
+      <if test="gender != null" >
+        #{gender,jdbcType=VARCHAR},
+      </if>
+      <if test="phone != null" >
+        #{phone,jdbcType=VARCHAR},
+      </if>
+      <if test="email != null" >
+        #{email,jdbcType=VARCHAR},
+      </if>
+      <if test="eduDegree != null" >
+        #{eduDegree,jdbcType=VARCHAR},
+      </if>
+      <if test="birth != null" >
+        #{birth,jdbcType=TIMESTAMP},
+      </if>
+      <if test="type != null" >
+        #{type,jdbcType=VARCHAR},
+      </if>
+      <if test="address != null" >
+        #{address,jdbcType=VARCHAR},
+      </if>
+      <if test="province != null" >
+        #{province,jdbcType=VARCHAR},
+      </if>
+      <if test="city != null" >
+        #{city,jdbcType=VARCHAR},
+      </if>
+      <if test="enterpriseId != null" >
+        #{enterpriseId,jdbcType=INTEGER},
+      </if>
+      <if test="proofSrc != null" >
+        #{proofSrc,jdbcType=VARCHAR},
+      </if>
+      <if test="identityCard != null" >
+        #{identityCard,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.sayo.qa.entity.Inspector" >
+    update inspector
+    <set >
+      <if test="name != null" >
+        name = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="password != null" >
+        password = #{password,jdbcType=VARCHAR},
+      </if>
+      <if test="gender != null" >
+        gender = #{gender,jdbcType=VARCHAR},
+      </if>
+      <if test="phone != null" >
+        phone = #{phone,jdbcType=VARCHAR},
+      </if>
+      <if test="email != null" >
+        email = #{email,jdbcType=VARCHAR},
+      </if>
+      <if test="eduDegree != null" >
+        edu_degree = #{eduDegree,jdbcType=VARCHAR},
+      </if>
+      <if test="birth != null" >
+        birth = #{birth,jdbcType=TIMESTAMP},
+      </if>
+      <if test="type != null" >
+        type = #{type,jdbcType=VARCHAR},
+      </if>
+      <if test="address != null" >
+        address = #{address,jdbcType=VARCHAR},
+      </if>
+      <if test="province != null" >
+        province = #{province,jdbcType=VARCHAR},
+      </if>
+      <if test="city != null" >
+        city = #{city,jdbcType=VARCHAR},
+      </if>
+      <if test="enterpriseId != null" >
+        enterprise_id = #{enterpriseId,jdbcType=INTEGER},
+      </if>
+      <if test="proofSrc != null" >
+        proof_src = #{proofSrc,jdbcType=VARCHAR},
+      </if>
+      <if test="identityCard != null" >
+        identity_card = #{identityCard,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.sayo.qa.entity.Inspector" >
+    update inspector
+    set name = #{name,jdbcType=VARCHAR},
+      password = #{password,jdbcType=VARCHAR},
+      gender = #{gender,jdbcType=VARCHAR},
+      phone = #{phone,jdbcType=VARCHAR},
+      email = #{email,jdbcType=VARCHAR},
+      edu_degree = #{eduDegree,jdbcType=VARCHAR},
+      birth = #{birth,jdbcType=TIMESTAMP},
+      type = #{type,jdbcType=VARCHAR},
+      address = #{address,jdbcType=VARCHAR},
+      province = #{province,jdbcType=VARCHAR},
+      city = #{city,jdbcType=VARCHAR},
+      enterprise_id = #{enterpriseId,jdbcType=INTEGER},
+      proof_src = #{proofSrc,jdbcType=VARCHAR},
+      identity_card = #{identityCard,jdbcType=VARCHAR},
+      inspect_type = #{inspectType,jdbcType=INTEGER}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

@@ -12,7 +12,7 @@ public interface ManagerMapper {
     int insertManagerParty(String name,String password,String email,int enterpriseId,String type);
 
     Manager selectByManagerId(Integer id);
-    Manager selectByManagerName(String name);
+    Manager selectByManagerName(String name,String type);
     Manager selectByManagerEmail(String email);
 
     int updateByManagerId(Manager record);

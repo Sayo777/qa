@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+
+    <title>H+ 后台主题UI框架 - 注册</title>
+    <meta name="keywords" content="H+后台主题,后台bootstrap框架,会员中心主题,后台HTML,响应式后台">
+    <meta name="description" content="H+是一个完全响应式，基于Bootstrap3最新版本开发的扁平化主题，她采用了主流的左右两栏式布局，使用了Html5+CSS3等现代技术">
+
+    <link rel="shortcut icon" th:href="@{/hh/favicon.ico}">
+    <link th:href="@{/hh/css/bootstrap.min.css?v=3.3.6}" rel="stylesheet">
+    <link th:href="@{/hh/css/font-awesome.css?v=4.4.0}" rel="stylesheet">
+    <link th:href="@{/hh/css/plugins/iCheck/custom.css}" rel="stylesheet">
+    <link th:href="@{/hh/css/animate.css}" rel="stylesheet">
+    <link th:href="@{/hh/css/style.css?v=4.1.0}" rel="stylesheet">
+    <script>if(window.top !== window.self){ window.top.location = window.location;}</script>
+
+</head>
+
+<body class="gray-bg">
+
+    <div class="middle-box text-center loginscreen   animated fadeInDown">
+        <div>
+
+            <h3>欢迎 受检企业用户注册</h3>
+            <form class="m-t" role="form" th:action="@{/customer/register}" method="post" >
+                <div class="form-group" >
+                    <input id="name" name="name" type="text" th:class="form-control" placeholder="请输入用户名"
+                           required="">
+                    <div style="float: left" th:utext="${nameMsg}">fanfa</div>
+                </div>
+                <div class="form-group" >
+                    <input id="password" name="password" type="password" class="form-control" placeholder="请输入密码" required="" >
+                    <div style="float: left" th:utext="${passwordMsg}">fanfa</div>
+                </div>
+                <div class="form-group" >
+                    <input id="repassword" name="passwordConfirm" type="password" class="form-control" placeholder="请再次输入密码" required="">
+                </div>
+                <div class="form-group" >
+                    <input id="email" name="email" type="email" class="form-control" placeholder="请输入邮箱" required="">
+                    <div style="float: left" th:utext="${emailMsg}">fanfa</div>
+                </div>
+                <div class="form-group text-left">
+                    <div class="checkbox i-checks">
+                        <label class="no-padding">
+                            <input type="checkbox" id="agree"><i></i> 我同意注册协议</label>
+                    </div>
+                </div>
+                <button type="submit" class="btn btn-primary block full-width m-b" onclick="return check()">注 册</button>
+
+                <p class="text-muted text-center"><small>已经有账户了？</small><a th:href="@{/customer/login}">点此登录</a>
+                </p>
+
+            </form>
+        </div>
+    </div>
+
+    <!-- 全局js -->
+    <script th:src="@{/hh/js/jquery.min.js?v=2.1.4}"></script>
+    <script th:src="@{/hh/js/bootstrap.min.js?v=3.3.6}"></script>
+    <!-- iCheck -->
+    <script th:src="@{/hh/js/plugins/iCheck/icheck.min.js}"></script>
+    <script>
+        $(document).ready(function () {
+            $('.i-checks').iCheck({
+                checkboxClass: 'icheckbox_square-green',
+                radioClass: 'iradio_square-green',
+            });
+        });
+        function check() {
+            var name = $("#name").val();
+            var pwd = $("#password").val();
+            var repwd = $("#repassword").val();
+            var email = $("#email").val();
+            var enterpriseId = $("#enterpriseId").val();
+            var type = $("#type").val();
+            if (pwd !=repwd){
+                alert("密码前后不一致")
+                return false;
+            }
+            if($("#agree").is(":checked")) {
+                console.log("这是return true的选择")
+                return true;
+            }else{
+                console.log("这是return false的选择")
+                alert("请勾选协议")
+                return false;
+            }
+        }
+    </script>
+
+
+
+</body>
+
+</html>
