@@ -52,11 +52,10 @@ public class CustomerController {
         return "/hh/registerCustomer.html";
     }
 
-    @RequestMapping(path = "/hh",method = RequestMethod.GET)
-    public String gohh(){
-        return "/hh/index.html";
+    @RequestMapping(path = "/hi",method = RequestMethod.GET)
+    public String getForm(){
+        return "/hh/form_enterpriseCheck.html";
     }
-
 
 
 
