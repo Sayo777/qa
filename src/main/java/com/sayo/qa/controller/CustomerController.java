@@ -21,7 +21,7 @@ public class CustomerController {
         if (map==null || map.isEmpty()){
             //登录成功
             System.out.println("进入企业用户首页");
-            return "/hh/indexCustomer.html";
+            return "/hh/indexCustomer";
         }else{
             model.addAttribute("nameMsg",map.get("nameMsg"));
             model.addAttribute("passwordMsg",map.get("passwordMsg"));
@@ -51,6 +51,12 @@ public class CustomerController {
     public String goRegister(){
         return "/hh/registerCustomer.html";
     }
+
+    @RequestMapping(path = "/hh",method = RequestMethod.GET)
+    public String gohh(){
+        return "/hh/index.html";
+    }
+
 
 
 
