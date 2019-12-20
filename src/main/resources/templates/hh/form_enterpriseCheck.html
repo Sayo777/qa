@@ -21,96 +21,102 @@
 </head>
 
 <body class="gray-bg">
-<div class="wrapper wrapper-content animated fadeInRight">
-    <div class="row">
-
-        <div class="col-sm-9">
-            <div class="ibox float-e-margins">
+<div class="wrapper wrapper-content animated fadeInRight" >
+    <div class="row" style="height: 600px;background-color: #3dc7ab">
+        <div class="col-sm-12" >
+            <div class="ibox float-e-margins" style="height: 600px;background-color: #3dc7ab">
                 <div class="ibox-title">
                     <h5>申请认证企业信息</h5>
 
                 </div>
-                <div class="ibox-content">
+                <div class="ibox-content" >
                     <form class="form-horizontal">
                         <div class="form-group">
                             <label class="col-sm-3 control-label">企业名称：</label>
                             <div class="col-sm-3">
-                                <input type="email" placeholder="用户名" class="form-control">
+                                <input type="text"  class="form-control">
                             </div>
                             <label class="col-sm-2 control-label">法定代表人：</label>
 
                             <div class="col-sm-3">
-                                <input type="email" placeholder="用户名" class="form-control">
+                                <input type="text"  class="form-control">
                             </div>
                         </div>
                         <div class="form-group">
                             <label class="col-sm-3 control-label">工商注册号：</label>
                             <div class="col-sm-3">
-                                <input type="email" placeholder="用户名" class="form-control">
+                                <input type="text"  class="form-control">
                             </div>
                             <label class="col-sm-2 control-label">信用代码：</label>
 
                             <div class="col-sm-3">
-                                <input type="email" placeholder="用户名" class="form-control">
+                                <input type="text"  class="form-control">
                             </div>
                         </div>
                         <div class="form-group">
                             <label class="col-sm-3 control-label">企业类型：</label>
                             <div class="col-sm-3">
-                                <input type="email" placeholder="用户名" class="form-control">
+                                <input type="text"  class="form-control">
                             </div>
                             <label class="col-sm-2 control-label">经营范围：</label>
 
                             <div class="col-sm-3">
-                                <input type="email" placeholder="用户名" class="form-control">
+                                <input type="text"  class="form-control">
                             </div>
                         </div>
                         <div class="form-group">
                             <label class="col-sm-3 control-label">经营状态：</label>
                             <div class="col-sm-3">
-                                <input type="email" placeholder="用户名" class="form-control">
+                                <input type="text"  class="form-control">
                             </div>
                             <label class="col-sm-2 control-label">组织机构代码：</label>
 
                             <div class="col-sm-3">
-                                <input type="email" placeholder="用户名" class="form-control">
+                                <input type="text"  class="form-control">
                             </div>
                         </div>
 
                         <div class="form-group">
                             <label class="col-sm-3 control-label">企业邮箱：</label>
                             <div class="col-sm-3">
-                                <input type="email" placeholder="用户名" class="form-control">
+                                <input type="email"  class="form-control">
                             </div>
                             <label class="col-sm-2 control-label">官网：</label>
 
                             <div class="col-sm-3">
-                                <input type="email" placeholder="用户名" class="form-control">
+                                <input type="text"  class="form-control">
                             </div>
                         </div>
                         <div class="form-group">
                             <label class="col-sm-3 control-label">营业停止时间：</label>
                             <div class="col-sm-3">
-                                <input type="email" placeholder="用户名" class="form-control">
+                                <input id="hello" class="laydate-icon form-control layer-date">
                             </div>
                             <label class="col-sm-2 control-label">企业审核日期：</label>
 
                             <div class="col-sm-3">
-                                <input type="email" placeholder="用户名" class="form-control">
+                                <input type="text"  class="form-control">
                             </div>
                         </div>
 
                         <div class="form-group">
                             <label class="col-sm-3 control-label">详细地址：</label>
-                            <div class="col-sm-6">
-                                <input type="email" placeholder="用户名" class="form-control">
+                                <select class="form-control m-b" name="s_province" id="s_province" style="width: 80px;float: left;margin-left: 10px"></select>
+                                <select class="form-control m-b" name="s_city" id="s_city" style="width: 90px;float: left;margin-left: 10px"></select>
+                                <select class="form-control m-b" name="s_county" id="s_county" style="width: 120px ;margin-left: 10px;"></select>
+                                <script class="resources library" th:src="@{/hh/js/area.js}" type="text/javascript"></script>
+                                <script type="text/javascript">_init_area();</script>
+                            <div class="col-sm-3">
+                                <input type="text"  class="form-control" style="width: 512px;margin-left: 260px">
                             </div>
-
+                            <div id="show"></div>
                         </div>
+
+
 
                         <div class="form-group">
                             <div class="col-sm-offset-3 col-sm-8">
-                                <button class="btn btn-sm btn-white" type="submit">登 录</button>
+                                <button class="btn btn-sm btn-white" type="submit">提交审核</button>
                             </div>
                         </div>
                     </form>
@@ -140,6 +146,60 @@
         });
     });
 </script>
+<script type="text/javascript">
+
+    var Gid  = document.getElementById ;
+
+    var showArea = function(){
+
+        Gid('show').innerHTML = "<h3>省" + Gid('s_province').value + " - 市" +
+
+            Gid('s_city').value + " - 县/区" +
+
+            Gid('s_county').value + "</h3>"
+
+    }
+
+    Gid('s_county').setAttribute('onchange','showArea()');
+
+</script>
+<!-- layerDate plugin javascript -->
+<script th:src="@{/hh/js/plugins/layer/laydate/laydate.js}"></script>
+<script>
+    //外部js调用
+    laydate({
+        elem: '#hello', //目标元素。由于laydate.js封装了一个轻量级的选择器引擎，因此elem还允许你传入class、tag但必须按照这种方式 '#id .class'
+        event: 'focus' //响应事件。如果没有传入event，则按照默认的click
+    });
+
+    //日期范围限制
+    var start = {
+        elem: '#start',
+        format: 'YYYY/MM/DD hh:mm:ss',
+        min: laydate.now(), //设定最小日期为当前日期
+        max: '2099-06-16 23:59:59', //最大日期
+        istime: true,
+        istoday: false,
+        choose: function (datas) {
+            end.min = datas; //开始日选好后，重置结束日的最小日期
+            end.start = datas //将结束日的初始值设定为开始日
+        }
+    };
+    var end = {
+        elem: '#end',
+        format: 'YYYY/MM/DD hh:mm:ss',
+        min: laydate.now(),
+        max: '2099-06-16 23:59:59',
+        istime: true,
+        istoday: false,
+        choose: function (datas) {
+            start.max = datas; //结束日选好后，重置开始日的最大日期
+        }
+    };
+    laydate(start);
+    laydate(end);
+</script>
+
 
 
 </body>

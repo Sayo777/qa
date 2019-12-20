@@ -18,11 +18,13 @@
     <result column="organ_code" property="organCode" jdbcType="VARCHAR" />
     <result column="deadline" property="deadline" jdbcType="VARCHAR" />
     <result column="audit_date" property="auditDate" jdbcType="TIMESTAMP" />
+    <result column="license_src" property="licenseSrc" jdbcType="VARCHAR" />
+    <result column="is_valid" property="isValid" jdbcType="INTEGER" />
   </resultMap>
   <sql id="Base_Column_List" >
     id, enterprise_name, enterprise_email, website, legal_person, commercial_number, 
     credit_code, type, address, province, city, scope, status, organ_code, deadline, 
-    audit_date
+    audit_date,license_src,is_valid
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
     select 
@@ -30,6 +32,23 @@
     from enterprise
     where id = #{id,jdbcType=INTEGER}
   </select>
+
+  <select id="selectByEname" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select
+    <include refid="Base_Column_List" />
+    from enterprise
+    where enterprise_name = #{eName}
+  </select>
+
+  <select id="selectByIsValid" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select
+    <include refid="Base_Column_List" />
+    from enterprise
+    <if test="isValid != null" >
+      where is_valid = #{isValid}
+    </if>
+  </select>
+
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
     delete from enterprise
     where id = #{id,jdbcType=INTEGER}
@@ -40,13 +59,13 @@
       credit_code, type, address, 
       province, city, scope, 
       status, organ_code, deadline, 
-      audit_date)
+      audit_date,license_src,is_valid )
     values (#{id,jdbcType=INTEGER}, #{enterpriseName,jdbcType=VARCHAR}, #{enterpriseEmail,jdbcType=VARCHAR}, 
       #{website,jdbcType=VARCHAR}, #{legalPerson,jdbcType=VARCHAR}, #{commercialNumber,jdbcType=VARCHAR}, 
       #{creditCode,jdbcType=VARCHAR}, #{type,jdbcType=VARCHAR}, #{address,jdbcType=VARCHAR}, 
       #{province,jdbcType=VARCHAR}, #{city,jdbcType=VARCHAR}, #{scope,jdbcType=VARCHAR}, 
       #{status,jdbcType=VARCHAR}, #{organCode,jdbcType=VARCHAR}, #{deadline,jdbcType=VARCHAR}, 
-      #{auditDate,jdbcType=TIMESTAMP})
+      #{auditDate,jdbcType=TIMESTAMP},#{licenseSrc},#{isValid})
   </insert>
   <insert id="insertSelective" parameterType="com.sayo.qa.entity.Enterprise" >
     insert into enterprise
@@ -99,6 +118,12 @@
       <if test="auditDate != null" >
         audit_date,
       </if>
+      <if test="licenseSrc != null" >
+        license_src,
+      </if>
+      <if test="isValid != null" >
+        is_valid,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="id != null" >
@@ -148,6 +173,12 @@
       </if>
       <if test="auditDate != null" >
         #{auditDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="licenseSrc != null" >
+        #{licenseSrc,jdbcType=VARCHAR},
+      </if>
+      <if test="isValid != null" >
+        #{idValid},
       </if>
     </trim>
   </insert>
@@ -199,6 +230,12 @@
       <if test="auditDate != null" >
         audit_date = #{auditDate,jdbcType=TIMESTAMP},
       </if>
+      <if test="licenseSrc != null" >
+        license_src = #{licenseSrc,jdbcType=TIMESTAMP},
+      </if>
+      <if test="isValid != null" >
+        is_valid = #{isValid},
+      </if>
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
@@ -218,7 +255,9 @@
       status = #{status,jdbcType=VARCHAR},
       organ_code = #{organCode,jdbcType=VARCHAR},
       deadline = #{deadline,jdbcType=VARCHAR},
-      audit_date = #{auditDate,jdbcType=TIMESTAMP}
+      audit_date = #{auditDate,jdbcType=TIMESTAMP},
+      license_src = #{licenseSrc},
+      is_valid = #{isValid}
     where id = #{id,jdbcType=INTEGER}
   </update>
 </mapper>

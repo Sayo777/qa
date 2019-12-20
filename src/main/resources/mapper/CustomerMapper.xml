@@ -35,6 +35,12 @@
     where email = #{email}
   </select>
 
+  <select id="selectEIdByCustomerId" parameterType="java.lang.Integer" resultType="java.lang.Integer">
+    select enterprise_id
+    from customer
+    where id = #{customerId}
+  </select>
+
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from customer
     where id = #{id,jdbcType=INTEGER}

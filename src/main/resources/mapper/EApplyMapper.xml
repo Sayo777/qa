@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.sayo.qa.dao.EApplyMapper" >
+  <resultMap id="BaseResultMap" type="com.sayo.qa.entity.EApply" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="applier_id" property="applierId" jdbcType="INTEGER" />
+    <result column="apply_ename" property="applyEname" jdbcType="VARCHAR" />
+    <result column="apply_time" property="applyTime" jdbcType="TIMESTAMP" />
+    <result column="check_result" property="checkResult" jdbcType="INTEGER" />
+    <result column="checker" property="checker" jdbcType="VARCHAR" />
+    <result column="reason" property="reason" jdbcType="VARCHAR" />
+    <result column="check_time" property="checkTime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, applier_id, apply_ename, apply_time, check_result, checker, reason, check_time
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from e_apply
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+
+  <select id="selectByEName" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select
+    <include refid="Base_Column_List" />
+    from e_apply
+    where apply_ename = #{eName}
+  </select>
+
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from e_apply
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.sayo.qa.entity.EApply" >
+    insert into e_apply (id, applier_id, apply_ename, 
+      apply_time, check_result, checker, 
+      reason, check_time)
+    values (#{id,jdbcType=INTEGER}, #{applierId,jdbcType=INTEGER}, #{applyEname,jdbcType=VARCHAR}, 
+      #{applyTime,jdbcType=TIMESTAMP}, #{checkResult,jdbcType=INTEGER}, #{checker,jdbcType=VARCHAR}, 
+      #{reason,jdbcType=VARCHAR}, #{checkTime,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.sayo.qa.entity.EApply" >
+    insert into e_apply
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="applierId != null" >
+        applier_id,
+      </if>
+      <if test="applyEname != null" >
+        apply_ename,
+      </if>
+      <if test="applyTime != null" >
+        apply_time,
+      </if>
+      <if test="checkResult != null" >
+        check_result,
+      </if>
+      <if test="checker != null" >
+        checker,
+      </if>
+      <if test="reason != null" >
+        reason,
+      </if>
+      <if test="checkTime != null" >
+        check_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="applierId != null" >
+        #{applierId,jdbcType=INTEGER},
+      </if>
+      <if test="applyEname != null" >
+        #{applyEname,jdbcType=VARCHAR},
+      </if>
+      <if test="applyTime != null" >
+        #{applyTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="checkResult != null" >
+        #{checkResult,jdbcType=INTEGER},
+      </if>
+      <if test="checker != null" >
+        #{checker,jdbcType=VARCHAR},
+      </if>
+      <if test="reason != null" >
+        #{reason,jdbcType=VARCHAR},
+      </if>
+      <if test="checkTime != null" >
+        #{checkTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.sayo.qa.entity.EApply" >
+    update e_apply
+    <set >
+      <if test="applierId != null" >
+        applier_id = #{applierId,jdbcType=INTEGER},
+      </if>
+      <if test="applyEname != null" >
+        apply_ename = #{applyEname,jdbcType=VARCHAR},
+      </if>
+      <if test="applyTime != null" >
+        apply_time = #{applyTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="checkResult != null" >
+        check_result = #{checkResult,jdbcType=INTEGER},
+      </if>
+      <if test="checker != null" >
+        checker = #{checker,jdbcType=VARCHAR},
+      </if>
+      <if test="reason != null" >
+        reason = #{reason,jdbcType=VARCHAR},
+      </if>
+      <if test="checkTime != null" >
+        check_time = #{checkTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.sayo.qa.entity.EApply" >
+    update e_apply
+    set applier_id = #{applierId,jdbcType=INTEGER},
+      apply_ename = #{applyEname,jdbcType=VARCHAR},
+      apply_time = #{applyTime,jdbcType=TIMESTAMP},
+      check_result = #{checkResult,jdbcType=INTEGER},
+      checker = #{checker,jdbcType=VARCHAR},
+      reason = #{reason,jdbcType=VARCHAR},
+      check_time = #{checkTime,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>
