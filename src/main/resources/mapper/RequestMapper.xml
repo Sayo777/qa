@@ -9,15 +9,28 @@
     <result column="req_type" property="reqType" jdbcType="INTEGER" />
     <result column="req_time" property="reqTime" jdbcType="TIMESTAMP" />
     <result column="status" property="status" jdbcType="VARCHAR" />
+    <result column="reason" property="reason" jdbcType="VARCHAR" />
   </resultMap>
   <sql id="Base_Column_List" >
-    id, req_id, req_eid, contact, req_type, req_time, status
+    id, req_id, req_eid, contact, req_type, req_time, status,reason
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
     select 
     <include refid="Base_Column_List" />
     from request
     where id = #{id,jdbcType=INTEGER}
+  </select>
+  <select id="selectByReqId" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select
+    <include refid="Base_Column_List" />
+    from request
+    where req_id = #{reqId,jdbcType=INTEGER}
+  </select>
+  <select id="selectByReqEId0" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select
+    <include refid="Base_Column_List" />
+    from request
+    where req_eid = #{reqEId,jdbcType=INTEGER} and status = '通过'
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
     delete from request
@@ -26,10 +39,10 @@
   <insert id="insert" parameterType="com.sayo.qa.entity.Request" >
     insert into request (id, req_id, req_eid, 
       contact, req_type, req_time, 
-      status)
+      status,reason)
     values (#{id,jdbcType=INTEGER}, #{reqId,jdbcType=INTEGER}, #{reqEid,jdbcType=INTEGER}, 
       #{contact,jdbcType=VARCHAR}, #{reqType,jdbcType=INTEGER}, #{reqTime,jdbcType=TIMESTAMP}, 
-      #{status,jdbcType=VARCHAR})
+      #{status,jdbcType=VARCHAR},#{reason})
   </insert>
   <insert id="insertSelective" parameterType="com.sayo.qa.entity.Request" >
     insert into request
@@ -55,6 +68,9 @@
       <if test="status != null" >
         status,
       </if>
+      <if test="reason != null" >
+        reason,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="id != null" >
@@ -77,6 +93,9 @@
       </if>
       <if test="status != null" >
         #{status,jdbcType=VARCHAR},
+      </if>
+      <if test="reason != null" >
+        #{reason,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
@@ -101,6 +120,9 @@
       <if test="status != null" >
         status = #{status,jdbcType=VARCHAR},
       </if>
+      <if test="reason != null" >
+        reason = #{reason,jdbcType=VARCHAR},
+      </if>
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
@@ -111,7 +133,8 @@
       contact = #{contact,jdbcType=VARCHAR},
       req_type = #{reqType,jdbcType=INTEGER},
       req_time = #{reqTime,jdbcType=TIMESTAMP},
-      status = #{status,jdbcType=VARCHAR}
+      status = #{status,jdbcType=VARCHAR},
+      reason = #{reason,jdbcType=VARCHAR}
     where id = #{id,jdbcType=INTEGER}
   </update>
 </mapper>

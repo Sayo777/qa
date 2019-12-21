@@ -1,0 +1,114 @@
+ <!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+
+    <title>已申请的抽检记录</title>
+    <meta name="keywords" content="H+后台主题,后台bootstrap框架,会员中心主题,后台HTML,响应式后台">
+    <meta name="description" content="H+是一个完全响应式，基于Bootstrap3最新版本开发的扁平化主题，她采用了主流的左右两栏式布局，使用了Html5+CSS3等现代技术">
+
+    <link rel="shortcut icon" th:href="@{/hh/favicon.ico}">
+    <link th:href="@{/hh/css/bootstrap.min.css?v=3.3.6}" rel="stylesheet">
+    <link th:href="@{/hh/css/font-awesome.css?v=4.4.0}" rel="stylesheet">
+    <link th:href="@{/hh/css/plugins/iCheck/custom.css}" rel="stylesheet">
+    <link th:href="@{/hh/css/animate.css}" rel="stylesheet">
+    <link th:href="@{/hh/css/style.css?v=4.1.0}" rel="stylesheet">
+
+</head>
+
+<body class="gray-bg">
+    <div class="wrapper wrapper-content animated fadeInRight">
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="ibox float-e-margins">
+                    <div class="ibox-title">
+                        <h5>申请记录列表</h5>
+                    </div>
+                    <div class="ibox-content">
+                        <div class="row">
+                            <div class="col-sm-5 m-b-xs" style="width: 200px;">
+                                <select class="input-sm form-control input-s-sm inline" >
+                                    <option value="1" >选项1</option>
+                                    <option value="1" >选项1</option>
+                                    <option value="1" >选项1</option>
+                                    <option value="1" >选项1</option>
+                                </select>
+                            </div>
+
+                            <div class="col-sm-3">
+                                <div class="input-group" >
+                                    <input type="text" placeholder="请输入关键词" class="input-sm form-control"> <span class="input-group-btn">
+                                        <button type="button" class="btn btn-sm btn-primary"> 搜索</button> </span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="table-responsive">
+                            <table class="table table-striped">
+                                <thead>
+                                    <tr>
+                                        <th>申请编号</th>
+                                        <th>申请人</th>
+                                        <th>企业名称</th>
+                                        <th>质检服装类型</th>
+                                        <th>申请时间</th>
+                                        <th>申请情况</th>
+                                        <th>详情</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr th:each="tasks:${appliesList}">
+                                        <td th:text="${tasks.eApply.id}">申请编号</td>
+                                        <td th:text="${tasks.applier}">申请人</td>
+                                        <td th:text="${tasks.eApply.applyEname}">企业名称</td>
+                                        <td th:text="${tasks.eApply.applyEname}">质检服装类型</td>
+                                        <td th:text="${#dates.format(tasks.eApply.applyTime,'yyyy-MM-dd HH:mm:ss')}">申请时间</td>
+                                        <td th:text="${tasks.checkResult}">申请情况</td>
+                                        <td th:text="${tasks.checkResult}">理由</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- 全局js -->
+    <script th:src="@{/hh/js/jquery.min.js?v=2.1.4}"></script>
+    <script th:src="@{/hh/js/bootstrap.min.js?v=3.3.6}"></script>
+
+
+
+    <!-- Peity -->
+    <script th:src="@{/hh/js/plugins/peity/jquery.peity.min.js}"></script>
+
+    <!-- 自定义js -->
+    <script th:src="@{/hh/js/content.js?v=1.0.0}"></script>
+
+
+    <!-- iCheck -->
+    <script th:src="@{/hh/js/plugins/iCheck/icheck.min.js}"></script>
+
+    <!-- Peity -->
+    <script th:src="@{/hh/js/demo/peity-demo.js}"></script>
+
+    <script>
+        $(document).ready(function () {
+            $('.i-checks').iCheck({
+                checkboxClass: 'icheckbox_square-green',
+                radioClass: 'iradio_square-green',
+            });
+        });
+    </script>
+
+
+</body>
+
+</html>

@@ -35,13 +35,7 @@ class QaApplicationTests {
 
     @Test
     public  void contextLoads() {
-        Customer customer = new Customer();
-        customer.setName("企业用户2");
-        customer.setPassword("123");
-        customer.setEmail("123@33.com");
-        customerMapper.insertSelective(customer);
 
-        System.out.println(customerMapper.selectCustomerByName("企业用户2"));
     }
     public int MoreThanHalfNum_Solution(int [] array) {
         int times = array.length/2;

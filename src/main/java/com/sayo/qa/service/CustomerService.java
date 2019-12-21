@@ -1,11 +1,7 @@
 package com.sayo.qa.service;
 
-import com.sayo.qa.dao.CustomerMapper;
-import com.sayo.qa.dao.EApplyMapper;
-import com.sayo.qa.dao.EnterpriseMapper;
-import com.sayo.qa.entity.Customer;
-import com.sayo.qa.entity.EApply;
-import com.sayo.qa.entity.Enterprise;
+import com.sayo.qa.dao.*;
+import com.sayo.qa.entity.*;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -16,14 +12,18 @@ import java.util.*;
 public class CustomerService {
     @Autowired
     private CustomerMapper customerMapper;
-
-
-
     @Autowired
     private EnterpriseMapper enterpriseMapper;
-
     @Autowired
     private EApplyMapper eApplyMapper;
+    @Autowired
+    private RequestMapper requestMapper;
+    @Autowired
+    private ClothesTypeMapper clothesTypeMapper;
+    @Autowired
+    private TaskMapper taskMapper;
+    @Autowired
+    private InspectorMapper inspectorMapper;
 
     public Map<String, Object> registerCustomer(String name, String password, String email) {
         Map<String, Object> map = new HashMap<>();
@@ -87,6 +87,7 @@ public class CustomerService {
         return map;
     }
 
+    //企业信息认证申请
     public Map<String,Object> apply(Enterprise enterprise){
         //申请企业认证
         Map<String,Object> map = new HashMap<>();
@@ -139,5 +140,69 @@ public class CustomerService {
             eApplyVoList.add(map);
         }
      return eApplyVoList;
+    }
+
+    //质检申请
+    public Map<String,Object> qaReq(String eName,int reqType,String reqName,String contact){
+        Map<String,Object> map = new HashMap<>();
+        Customer c = customerMapper.selectCustomerByName(reqName);
+        if (c==null){
+            map.put("reqName","没有该用户");
+            return map;
+        }
+        Enterprise e = enterpriseMapper.selectByEname(eName);
+        if (e==null || e.getIsValid() == 0){
+            map.put("eName","该企业未通过认证");
+            return map;
+        }
+        Request r = new Request();
+        r.setReqId(c.getId());
+        r.setReqEid(e.getId());
+        r.setContact(contact);
+        r.setReqType(reqType);
+        r.setReqTime(new Date());
+        requestMapper.insertSelective(r);
+        return map;
+    }
+
+    //申请记录表
+    public List<Map<String,Object>> getRequest(int customerId){
+        List<Request> list = requestMapper.selectByReqId(customerId);
+        List<Map<String,Object>> reqList = new ArrayList<>();
+        for (Request r: list) {
+            Map<String, Object> map = new HashMap<>();
+            map.put("request",r); //申请任务编号、申请时间、申请情况、详情理由
+            //申请人、企业名称、质检服装类型
+            Customer c = customerMapper.selectByPrimaryKey(r.getReqId());
+            map.put("reqName",c.getName());
+            ClothesType clothesType = clothesTypeMapper.selectByPrimaryKey(r.getReqType());
+            map.put("clothType",clothesType.getTypeName());
+            reqList.add(map);
+        }
+        return reqList;
+    }
+
+    //质检结果记录表
+    public List<Map<String,Object>> getReqrecord(int customerId){
+        List<Map<String,Object>> reqRecordList = new ArrayList<>();
+        Customer c = customerMapper.selectByPrimaryKey(customerId);
+        //找出该用户所在公司的质检申请（通过的记录）
+        List<Request> requestList = requestMapper.selectByReqEId0(c.getEnterpriseId());
+        for (Request r:requestList) {
+            Map<String,Object> map = new HashMap<>();
+            Task t = taskMapper.selectByPrimaryKey(r.getId());
+            //任务编号、执行机构类型、完成时间
+            map.put("task",t);
+            //执行单位名称???????
+            map.put("qaEName","质检机构xxxx");
+            // 质检服装类型、质检员1，质检员2
+            map.put("reqClothesType",clothesTypeMapper.selectByPrimaryKey(r.getReqType()).getTypeName());
+            Inspector i1 = inspectorMapper.selectByPrimaryKey(t.getInspectorOne());
+            Inspector i2 = inspectorMapper.selectByPrimaryKey(t.getInspectorTwo());
+            map.put("inspector1",i1.getName());
+            map.put("inspector2",i2.getName());
+            reqRecordList.add(map);
+        }
+        return reqRecordList;
     }
 }

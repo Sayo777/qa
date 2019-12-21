@@ -1,14 +1,19 @@
 package com.sayo.qa.controller;
 
+import com.sayo.qa.CommonUtil.CommunityUtil;
+import com.sayo.qa.CommonUtil.DateUtil;
 import com.sayo.qa.entity.Enterprise;
 import com.sayo.qa.service.CustomerService;
+import com.sayo.qa.service.FileUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.jws.WebParam;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -16,13 +21,17 @@ import java.util.Map;
 @RequestMapping("/customer")
 public class CustomerController {
     @Autowired
+    private FileUtil fileUtil;
+    @Autowired
     private CustomerService customerService;
 
     @RequestMapping(path = "/login",method = RequestMethod.POST)
-    public String login(String name, String password, Model model){
+    public String login(String name, String password, Model model,String key){
         Map<String,Object> map = customerService.loginCustomer(name,password);
         if (map==null || map.isEmpty()){
             //登录成功
+            String str = fileUtil.getUrl(key);
+
             System.out.println("进入企业用户首页");
             return "/hh/indexCustomer";
         }else{
@@ -46,7 +55,8 @@ public class CustomerController {
     }
 
     @RequestMapping(path = "/login",method = RequestMethod.GET)
-    public String goLogin(){
+    public String goLogin(Model model){
+        fileUtil.fileup(model);
         return "/hh/loginCustomer.html";
     }
 
@@ -60,16 +70,36 @@ public class CustomerController {
         return "/hh/form_enterpriseCheck.html";
     }
 
+    //申请企业信息认证
     @RequestMapping(path = "/eApply",method = RequestMethod.POST)
-    public String eApply(Enterprise enterprise, Model model){
-        Map<String,Object> map = customerService.apply(enterprise);
+    @ResponseBody
+    public String eApply(String enterpriseName,String legalPerson,String commercialNumber,String creditCode,String type,
+                         String scope,String status,String organCode,String enterpriseEmail,String website,
+                         String auditDate,String province,String city,String address,String county,Model model){
+        Enterprise e = new Enterprise();
+        e.setEnterpriseName(enterpriseName);
+        e.setEnterpriseEmail(enterpriseEmail);
+        e.setWebsite(website);
+        e.setLegalPerson(legalPerson);
+        e.setCommercialNumber(commercialNumber);
+        e.setCreditCode(creditCode);
+        e.setType(type);
+        e.setAddress(address);
+        e.setProvince(province);
+        e.setCity(city);
+        e.setCounty(county);
+        e.setScope(scope);
+        e.setStatus(status);
+        e.setOrganCode(organCode);
+        e.setAuditDate(DateUtil.stringToDate(auditDate));
+        Map<String,Object> map = customerService.apply(e);
         if (map == null || map.isEmpty()){
-            //申请中
-            return "/hh/indexCustomer";
+            return CommunityUtil.getJSONString(0,"申请成功");
         }else{
             //已经被申请过了
-            model.addAttribute("hasApplied",map.get("hasApplied"));
-            return "/hh/indexCustomer";
+            return CommunityUtil.getJSONString(0,"该企业已经认证过了");
+//            model.addAttribute("hasApplied",map.get("hasApplied"));
+//            return "/hh/indexCustomer";
         }
     }
 
@@ -85,6 +115,23 @@ public class CustomerController {
         model.addAttribute("appliesList",appliesList);
         //跳转至认证企业申请列表
         return "/hh/table_applied.html";
+    }
+
+    //申请质检
+    @RequestMapping(path = "/qaReq",method = RequestMethod.POST)
+    @ResponseBody
+    private String addDiscussPost(String eName,int reqType,String reqName,String contact){
+        customerService.qaReq(eName, reqType, reqName, contact);
+        //报错的情况将来统一处理
+        return CommunityUtil.getJSONString(0,"发布成功！");
+    }
+    @RequestMapping(path = "/qaReq1",method = RequestMethod.POST)
+    @ResponseBody
+    private String addDiscussPost(String eName, String province, String auditDate){
+       String aa = eName+"----"+province+"-----"+auditDate;
+       Date audit = new Date(auditDate);
+
+        return CommunityUtil.getJSONString(0,aa);
     }
 
 
