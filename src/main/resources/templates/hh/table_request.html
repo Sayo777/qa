@@ -7,9 +7,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 
-    <title>已申请的抽检记录</title>
-    <meta name="keywords" content="H+后台主题,后台bootstrap框架,会员中心主题,后台HTML,响应式后台">
-    <meta name="description" content="H+是一个完全响应式，基于Bootstrap3最新版本开发的扁平化主题，她采用了主流的左右两栏式布局，使用了Html5+CSS3等现代技术">
+    <title>抽检申请记录</title>
+    <meta name="keywords" content="抽检申请记录">
+    <meta name="description" content="抽检申请记录">
 
     <link rel="shortcut icon" th:href="@{/hh/favicon.ico}">
     <link th:href="@{/hh/css/bootstrap.min.css?v=3.3.6}" rel="stylesheet">
@@ -60,14 +60,14 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr th:each="tasks:${appliesList}">
-                                        <td th:text="${tasks.eApply.id}">申请编号</td>
-                                        <td th:text="${tasks.applier}">申请人</td>
-                                        <td th:text="${tasks.eApply.applyEname}">企业名称</td>
-                                        <td th:text="${tasks.eApply.applyEname}">质检服装类型</td>
-                                        <td th:text="${#dates.format(tasks.eApply.applyTime,'yyyy-MM-dd HH:mm:ss')}">申请时间</td>
-                                        <td th:text="${tasks.checkResult}">申请情况</td>
-                                        <td th:text="${tasks.checkResult}">理由</td>
+                                    <tr th:each="rList:${list}">
+                                        <td th:text="${rList.request.id}">申请编号</td>
+                                        <td th:text="${rList.reqName}">申请人</td>
+                                        <td th:text="${rList.reqEName}">企业名称</td>
+                                        <td th:text="${rList.clothType}">质检服装类型</td>
+                                        <td th:text="${#dates.format(rList.request.reqTime,'yyyy-MM-dd HH:mm:ss')}">申请时间</td>
+                                        <td th:text="${rList.request.status}">申请情况</td>
+                                        <td th:text="${rList.request.reason}">理由</td>
                                     </tr>
                                 </tbody>
                             </table>

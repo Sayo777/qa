@@ -2,7 +2,11 @@ package com.sayo.qa.controller;
 
 import com.sayo.qa.CommonUtil.CommunityUtil;
 import com.sayo.qa.CommonUtil.DateUtil;
+import com.sayo.qa.CommonUtil.HostHolderCustomer;
+import com.sayo.qa.entity.ClothesType;
+import com.sayo.qa.entity.Customer;
 import com.sayo.qa.entity.Enterprise;
+import com.sayo.qa.entity.Request;
 import com.sayo.qa.service.CustomerService;
 import com.sayo.qa.service.FileUtil;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,9 +17,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.jws.WebParam;
-import java.util.Date;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Controller
 @RequestMapping("/customer")
@@ -24,15 +26,27 @@ public class CustomerController {
     private FileUtil fileUtil;
     @Autowired
     private CustomerService customerService;
+    @Autowired
+    private HostHolderCustomer hostHolderCustomer;
+
+    @RequestMapping(path = "/hi",method = RequestMethod.GET)
+    public String getForm(Model model){
+        List<Map<String,Object>> list = customerService.getRequest();
+        model.addAttribute("list",list);
+        return "/hh/table_request.html";
+    }
+
 
     @RequestMapping(path = "/login",method = RequestMethod.POST)
     public String login(String name, String password, Model model,String key){
         Map<String,Object> map = customerService.loginCustomer(name,password);
+        Customer c = hostHolderCustomer.getCustomer();
         if (map==null || map.isEmpty()){
             //登录成功
             String str = fileUtil.getUrl(key);
 
             System.out.println("进入企业用户首页");
+
             return "/hh/indexCustomer";
         }else{
             model.addAttribute("nameMsg",map.get("nameMsg"));
@@ -65,10 +79,12 @@ public class CustomerController {
         return "/hh/registerCustomer.html";
     }
 
-    @RequestMapping(path = "/hi",method = RequestMethod.GET)
-    public String getForm(){
+    //页面跳转至信息认证页面
+    @RequestMapping(path = "/eApply",method = RequestMethod.GET)
+    public String getPageEApply(){
         return "/hh/form_enterpriseCheck.html";
     }
+
 
     //申请企业信息认证
     @RequestMapping(path = "/eApply",method = RequestMethod.POST)
@@ -98,8 +114,6 @@ public class CustomerController {
         }else{
             //已经被申请过了
             return CommunityUtil.getJSONString(0,"该企业已经认证过了");
-//            model.addAttribute("hasApplied",map.get("hasApplied"));
-//            return "/hh/indexCustomer";
         }
     }
 
@@ -120,11 +134,23 @@ public class CustomerController {
     //申请质检
     @RequestMapping(path = "/qaReq",method = RequestMethod.POST)
     @ResponseBody
-    private String addDiscussPost(String eName,int reqType,String reqName,String contact){
-        customerService.qaReq(eName, reqType, reqName, contact);
-        //报错的情况将来统一处理
-        return CommunityUtil.getJSONString(0,"发布成功！");
+    private String qaReq(String eName,int reqType,String reqName,String contact){
+        Map<String, Object> map = customerService.qaReq(eName, reqType, reqName, contact);
+        if (map == null || map.size() == 0){
+            return CommunityUtil.getJSONString(0,"申请成功！");
+        }else{
+            if (map.get("reqName")!=null){
+                return CommunityUtil.getJSONString(-1,"该申请人不存在");
+            }
+            return CommunityUtil.getJSONString(-1,"该企业未通过认证");
+        }
     }
+
+    @RequestMapping(path = "/qaReq",method = RequestMethod.GET)
+    public String getFormReqQa(){
+        return "/hh/form_reqQa.html";
+    }
+
     @RequestMapping(path = "/qaReq1",method = RequestMethod.POST)
     @ResponseBody
     private String addDiscussPost(String eName, String province, String auditDate){
@@ -132,6 +158,13 @@ public class CustomerController {
        Date audit = new Date(auditDate);
 
         return CommunityUtil.getJSONString(0,aa);
+    }
+
+    @RequestMapping(path = "/hello",method = RequestMethod.GET)
+    public void test(){
+        Customer customer = hostHolderCustomer.getCustomer();
+
+        return;
     }
 
 

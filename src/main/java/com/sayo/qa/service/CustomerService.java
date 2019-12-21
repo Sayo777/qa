@@ -1,9 +1,11 @@
 package com.sayo.qa.service;
 
+import com.sayo.qa.CommonUtil.HostHolderCustomer;
 import com.sayo.qa.dao.*;
 import com.sayo.qa.entity.*;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.AutoConfigurationPackage;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
@@ -24,6 +26,10 @@ public class CustomerService {
     private TaskMapper taskMapper;
     @Autowired
     private InspectorMapper inspectorMapper;
+    @Autowired
+    private HostHolderCustomer hostHolderCustomer;
+    @Autowired
+    private LoginTicketMapper loginTicketMapper;
 
     public Map<String, Object> registerCustomer(String name, String password, String email) {
         Map<String, Object> map = new HashMap<>();
@@ -84,6 +90,7 @@ public class CustomerService {
                 map.put("passwordMsg","密码不正确");
                 return map;
             }
+            hostHolderCustomer.setCustomer(customer);
         return map;
     }
 
@@ -165,9 +172,14 @@ public class CustomerService {
         return map;
     }
 
-    //申请记录表
-    public List<Map<String,Object>> getRequest(int customerId){
-        List<Request> list = requestMapper.selectByReqId(customerId);
+    //抽检申请记录表
+    public List<Map<String,Object>> getRequest(){
+        Customer customer = hostHolderCustomer.getCustomer();
+        if (customer == null){
+            throw new RuntimeException("并没有登录");
+        }
+        //查找的是该customer所在企业的所有申请记录，应该以企业id来查找
+        List<Request> list = requestMapper.selectByReqEId(customer.getEnterpriseId());
         List<Map<String,Object>> reqList = new ArrayList<>();
         for (Request r: list) {
             Map<String, Object> map = new HashMap<>();
@@ -177,6 +189,7 @@ public class CustomerService {
             map.put("reqName",c.getName());
             ClothesType clothesType = clothesTypeMapper.selectByPrimaryKey(r.getReqType());
             map.put("clothType",clothesType.getTypeName());
+            map.put("reqEName",enterpriseMapper.selectByPrimaryKey(r.getReqEid()).getEnterpriseName());
             reqList.add(map);
         }
         return reqList;
@@ -204,5 +217,13 @@ public class CustomerService {
             reqRecordList.add(map);
         }
         return reqRecordList;
+    }
+
+    public LoginTicket findLoginTicket(String ticket) {
+        return loginTicketMapper.selectByTicket(ticket);
+    }
+
+    public Customer findCustomerById(int customerId){
+        return customerMapper.selectByPrimaryKey(customerId);
     }
 }

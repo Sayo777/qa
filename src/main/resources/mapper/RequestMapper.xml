@@ -26,6 +26,13 @@
     from request
     where req_id = #{reqId,jdbcType=INTEGER}
   </select>
+
+  <select id="selectByReqEId" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select
+    <include refid="Base_Column_List" />
+    from request
+    where req_eid = #{reqEId,jdbcType=INTEGER}
+  </select>
   <select id="selectByReqEId0" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
     select
     <include refid="Base_Column_List" />

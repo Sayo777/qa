@@ -64,22 +64,20 @@
                     <li>
                         <a href="#"><i class="fa fa-user"></i> <span class="nav-label">企业信息</span><span class="fa arrow"></span></a>
                         <ul class="nav nav-second-level">
-                            <li><a class="J_menuItem" th:href="@{/customer/hi}">申请认证企业信息</a></li>
+                            <li><a class="J_menuItem" th:href="@{/customer/eApply}">申请认证企业信息</a></li>
                             <li><a class="J_menuItem" th:href="@{/customer/searchApplies}">已申请的企业信息</a></li>
                         </ul>
                     </li>
                     <li>
                         <a href="#"><i class="fa fa-edit"></i> <span class="nav-label">抽检申请</span><span class="fa arrow"></span></a>
                             <ul class="nav nav-second-level">
-                            <li><a class="J_menuItem" th:href="@{/manager/findInspector}">申请抽检</a></li>
+                            <li><a class="J_menuItem" th:href="@{/customer/qaReq}">申请抽检</a></li>
                             <li>
-                                <a class="J_menuItem" th:href="@{/3User/tasks}">已申请的抽检记录<span class="fa arrow"></span></a>
+                                <a class="J_menuItem" th:href="@{/3User/tasks}">抽检历史<span class="fa arrow"></span></a>
                                 <ul class="nav nav-third-level">
-                                    <li><a class="J_menuItem" href="form_webuploader.html">未受理</a>
+                                    <li><a class="J_menuItem" th:href="@{/customer/hi}">申请记录</a>
                                     </li>
-                                    <li><a class="J_menuItem" href="form_file_upload.html">已受理</a>
-                                    </li>
-                                    <li><a class="J_menuItem" href="form_avatar.html">已完成</a>
+                                    <li><a class="J_menuItem" href="form_file_upload.html">质检记录</a>
                                     </li>
                                 </ul>
                             </li>

@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sayo.qa.dao.LoginTicketMapper">
+  <resultMap id="BaseResultMap" type="com.sayo.qa.entity.LoginTicket">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="user_id" jdbcType="INTEGER" property="userId" />
+    <result column="ticket" jdbcType="VARCHAR" property="ticket" />
+    <result column="status" jdbcType="INTEGER" property="status" />
+    <result column="expired" jdbcType="TIMESTAMP" property="expired" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, user_id, ticket, status, expired
+  </sql>
+  <select id="selectByTicket" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from login_ticket
+    where ticket = #{ticket}
+  </select>
+
+  <insert id="insert" keyProperty="id" parameterType="com.sayo.qa.entity.LoginTicket">
+    insert into login_ticket ( user_id, ticket,
+      status, expired)
+    values (#{userId,jdbcType=INTEGER}, #{ticket,jdbcType=VARCHAR},
+      #{status,jdbcType=INTEGER}, #{expired,jdbcType=TIMESTAMP})
+  </insert>
+
+  <update id="updateByTicket" parameterType="String">
+    update login_ticket set status = #{status} where ticket = #{ticket}
+  </update>
+</mapper>

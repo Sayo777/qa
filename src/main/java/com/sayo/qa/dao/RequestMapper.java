@@ -15,6 +15,7 @@ public interface RequestMapper {
 
     Request selectByPrimaryKey(Integer id);
     List<Request> selectByReqId(Integer reqId);
+    List<Request> selectByReqEId(Integer reqEId);
     //查找某个公司审核通过的申请记录request
     List<Request> selectByReqEId0(Integer reqEId);
 
