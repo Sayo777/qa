@@ -39,6 +39,13 @@
     from request
     where req_eid = #{reqEId,jdbcType=INTEGER} and status = '通过'
   </select>
+
+  <select id="selectReqByStatus" resultMap="BaseResultMap" parameterType="String">
+    select
+    <include refid="Base_Column_List" />
+    from request
+    where  status = #{status}
+  </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
     delete from request
     where id = #{id,jdbcType=INTEGER}
@@ -143,5 +150,11 @@
       status = #{status,jdbcType=VARCHAR},
       reason = #{reason,jdbcType=VARCHAR}
     where id = #{id,jdbcType=INTEGER}
+  </update>
+
+  <update id="updateReqStatusById" >
+    update request
+    set status = #{status}
+    where id = #{id}
   </update>
 </mapper>

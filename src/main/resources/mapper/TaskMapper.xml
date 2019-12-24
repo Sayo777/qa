@@ -27,6 +27,20 @@
     where qa_eid = #{qaId,jdbcType=INTEGER}
   </select>
 
+  <select id="selectTaskByQaTypeAndEid" resultMap="BaseResultMap" >
+    select
+    <include refid="Base_Column_List" />
+    from task
+    where qa_type = #{type} and qa_eid = #{EId}
+  </select>
+
+  <select id="selectTaskByTaskId" resultMap="BaseResultMap" >
+    select
+    <include refid="Base_Column_List" />
+    from task
+    where task_id = #{taskId}
+  </select>
+
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
     delete from task
     where task_id = #{taskId,jdbcType=INTEGER}

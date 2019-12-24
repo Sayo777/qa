@@ -20,5 +20,9 @@ public class InspectorService {
         return inspectorMapper.selectByPrimaryKey(id);
     }
 
+    public List<Inspector> findInspectorsByType(String type){
+        return inspectorMapper.selectInspectorByType(type);
+    }
+
 
 }

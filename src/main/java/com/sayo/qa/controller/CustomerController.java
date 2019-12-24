@@ -10,6 +10,7 @@ import com.sayo.qa.entity.Request;
 import com.sayo.qa.service.CustomerService;
 import com.sayo.qa.service.FileUtil;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -17,6 +18,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.jws.WebParam;
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletResponse;
 import java.util.*;
 
 @Controller
@@ -28,6 +31,8 @@ public class CustomerController {
     private CustomerService customerService;
     @Autowired
     private HostHolderCustomer hostHolderCustomer;
+    @Value("/qa")
+    private String contextPath;
 
     @RequestMapping(path = "/hi",method = RequestMethod.GET)
     public String getForm(Model model){
@@ -38,15 +43,16 @@ public class CustomerController {
 
 
     @RequestMapping(path = "/login",method = RequestMethod.POST)
-    public String login(String name, String password, Model model,String key){
+    public String login(String name, String password, Model model,HttpServletResponse response){
         Map<String,Object> map = customerService.loginCustomer(name,password);
-        Customer c = hostHolderCustomer.getCustomer();
-        if (map==null || map.isEmpty()){
-            //登录成功
-            String str = fileUtil.getUrl(key);
+        if (map.containsKey("ticket")){
+            // String str = fileUtil.getUrl(key); 上传的文件url
+            String aa = map.get("ticket").toString();
 
-            System.out.println("进入企业用户首页");
-
+            Cookie cookie = new Cookie("ticket",map.get("ticket").toString());
+            cookie.setPath(contextPath);//cookie范围
+            cookie.setMaxAge(3600*12);//cookie有效时间
+            response.addCookie(cookie);
             return "/hh/indexCustomer";
         }else{
             model.addAttribute("nameMsg",map.get("nameMsg"));
@@ -125,7 +131,8 @@ public class CustomerController {
     @RequestMapping(path = "/searchApplies",method = RequestMethod.GET)
     public String searchApplies(Model model){
         /*这里需要的是customerId，暂时用1测试*/
-       List<Map<String,Object>> appliesList = customerService.getApplied(1);
+        Customer c = hostHolderCustomer.getCustomer();
+       List<Map<String,Object>> appliesList = customerService.getApplied(c.getId());
         model.addAttribute("appliesList",appliesList);
         //跳转至认证企业申请列表
         return "/hh/table_applied.html";
@@ -146,19 +153,12 @@ public class CustomerController {
         }
     }
 
+    //跳转至申请质检的页面
     @RequestMapping(path = "/qaReq",method = RequestMethod.GET)
     public String getFormReqQa(){
         return "/hh/form_reqQa.html";
     }
 
-    @RequestMapping(path = "/qaReq1",method = RequestMethod.POST)
-    @ResponseBody
-    private String addDiscussPost(String eName, String province, String auditDate){
-       String aa = eName+"----"+province+"-----"+auditDate;
-       Date audit = new Date(auditDate);
-
-        return CommunityUtil.getJSONString(0,aa);
-    }
 
     @RequestMapping(path = "/hello",method = RequestMethod.GET)
     public void test(){
@@ -166,6 +166,15 @@ public class CustomerController {
 
         return;
     }
+
+    @RequestMapping(path = "/getReqrecord",method = RequestMethod.GET)
+    public String getReqrecord(Model model){
+        List<Map<String,Object>> list = customerService.getReqrecord();
+        model.addAttribute("list",list);
+        return "/hh/table_reqResult.html";
+    }
+
+
 
 
 

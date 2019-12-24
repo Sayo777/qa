@@ -15,9 +15,12 @@ public interface InspectorMapper {
     int insertSelective(Inspector record);
 
     List<Inspector> selectInspector();
+    List<Inspector> selectInspectorByType(String type);
+
     Inspector selectByPrimaryKey(Integer id);
     Inspector selectInspectorByName(String name,String type);
     Inspector selectInspectorByEmail(String email);
+
 
     int updateByPrimaryKeySelective(Inspector record);
 

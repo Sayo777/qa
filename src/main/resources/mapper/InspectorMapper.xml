@@ -36,6 +36,12 @@
     from inspector
   </select>
 
+  <select id="selectInspectorByType" resultMap="BaseResultMap" parameterType="java.lang.String">
+    select
+    <include refid="Base_Column_List" />
+    from inspector where type = #{type}
+  </select>
+
   <select id="selectInspectorByName" resultMap="BaseResultMap" parameterType="java.lang.String" >
     select
     <include refid="Base_Column_List" />

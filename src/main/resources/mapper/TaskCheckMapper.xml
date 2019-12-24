@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.sayo.qa.dao.TaskCheckMapper" >
+  <resultMap id="BaseResultMap" type="com.sayo.qa.entity.TaskCheck" >
+    <id column="req_id" property="reqId" jdbcType="INTEGER" />
+    <result column="result" property="result" jdbcType="VARCHAR" />
+    <result column="reason" property="reason" jdbcType="VARCHAR" />
+    <result column="checker_id" property="checkerId" jdbcType="INTEGER" />
+    <result column="check_time" property="checkTime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    req_id, result, reason, checker_id, check_time
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from task_check
+    where req_id = #{reqId,jdbcType=INTEGER}
+  </select>
+
+
+
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from task_check
+    where req_id = #{reqId,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.sayo.qa.entity.TaskCheck" >
+    insert into task_check (req_id, result, reason, 
+      checker_id, check_time)
+    values (#{reqId,jdbcType=INTEGER}, #{result,jdbcType=VARCHAR}, #{reason,jdbcType=VARCHAR}, 
+      #{checkerId,jdbcType=INTEGER}, #{checkTime,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.sayo.qa.entity.TaskCheck" >
+    insert into task_check
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="reqId != null" >
+        req_id,
+      </if>
+      <if test="result != null" >
+        result,
+      </if>
+      <if test="reason != null" >
+        reason,
+      </if>
+      <if test="checkerId != null" >
+        checker_id,
+      </if>
+      <if test="checkTime != null" >
+        check_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="reqId != null" >
+        #{reqId,jdbcType=INTEGER},
+      </if>
+      <if test="result != null" >
+        #{result,jdbcType=VARCHAR},
+      </if>
+      <if test="reason != null" >
+        #{reason,jdbcType=VARCHAR},
+      </if>
+      <if test="checkerId != null" >
+        #{checkerId,jdbcType=INTEGER},
+      </if>
+      <if test="checkTime != null" >
+        #{checkTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.sayo.qa.entity.TaskCheck" >
+    update task_check
+    <set >
+      <if test="result != null" >
+        result = #{result,jdbcType=VARCHAR},
+      </if>
+      <if test="reason != null" >
+        reason = #{reason,jdbcType=VARCHAR},
+      </if>
+      <if test="checkerId != null" >
+        checker_id = #{checkerId,jdbcType=INTEGER},
+      </if>
+      <if test="checkTime != null" >
+        check_time = #{checkTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where req_id = #{reqId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.sayo.qa.entity.TaskCheck" >
+    update task_check
+    set result = #{result,jdbcType=VARCHAR},
+      reason = #{reason,jdbcType=VARCHAR},
+      checker_id = #{checkerId,jdbcType=INTEGER},
+      check_time = #{checkTime,jdbcType=TIMESTAMP}
+    where req_id = #{reqId,jdbcType=INTEGER}
+  </update>
+</mapper>

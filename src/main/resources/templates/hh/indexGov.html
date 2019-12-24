@@ -6,15 +6,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="renderer" content="webkit">
 
-    <title>企业端首页</title>
+    <title>政府端首页</title>
 
-    <meta name="keywords" content="H+后台主题,后台bootstrap框架,会员中心主题,后台HTML,响应式后台">
-    <meta name="description" content="H+是一个完全响应式，基于Bootstrap3最新版本开发的扁平化主题，她采用了主流的左右两栏式布局，使用了Html5+CSS3等现代技术">
+    <meta name="keywords" content="政府">
+    <meta name="description" content="政府">
 
     <!--[if lt IE 9]>
     <meta http-equiv="refresh" content="0;ie.html" />
     <![endif]-->
-
     <link rel="shortcut icon" th:href="@{/houtai/favicon.ico}">
     <link th:href="@{/houtai/css/bootstrap.min.css?v=3.3.6}" rel="stylesheet">
     <link th:href="@{/houtai/css/font-awesome.min.css?v=4.4.0}" rel="stylesheet">
@@ -36,7 +35,7 @@
                             <a data-toggle="dropdown" class="dropdown-toggle" href="#">
                                 <span class="clear">
                                <span class="block m-t-xs"><strong class="font-bold">Beaut-zihan</strong></span>
-                                <span class="text-muted text-xs block">企业用户<b class="caret"></b></span>
+                                <span class="text-muted text-xs block">政府用户<b class="caret"></b></span>
                                 </span>
                             </a>
                             <ul class="dropdown-menu animated fadeInRight m-t-xs">
@@ -56,31 +55,32 @@
                         <div class="logo-element">H+
                         </div>
                     </li>
-
-
-
-
-<!--                    企业信息-->
                     <li>
-                        <a href="#"><i class="fa fa-user"></i> <span class="nav-label">企业信息</span><span class="fa arrow"></span></a>
+                        <a href="#"><i class="fa fa-user"></i> <span class="nav-label">质检员管理</span><span class="fa arrow"></span></a>
                         <ul class="nav nav-second-level">
-                            <li><a class="J_menuItem" th:href="@{/customer/eApply}">申请认证企业信息</a></li>
-                            <li><a class="J_menuItem" th:href="@{/customer/searchApplies}">已申请的企业信息</a></li>
+                            <li><a class="J_menuItem" th:href="@{/customer/eApply}">质检员信息</a></li>
+                            <li><a class="J_menuItem" th:href="@{/customer/searchApplies}">质检员任务安排情况</a></li>
                         </ul>
                     </li>
                     <li>
-                        <a href="#"><i class="fa fa-edit"></i> <span class="nav-label">抽检申请</span><span class="fa arrow"></span></a>
+                        <a href="#"><i class="fa fa-edit"></i> <span class="nav-label">质检任务管理</span><span class="fa arrow"></span></a>
                             <ul class="nav nav-second-level">
-                            <li><a class="J_menuItem" th:href="@{/customer/qaReq}">申请抽检</a></li>
+                            <li><a class="J_menuItem" th:href="@{/customer/qaReq}">待审核</a></li>
                             <li>
-                                <a class="J_menuItem" th:href="@{/3User/tasks}">抽检历史<span class="fa arrow"></span></a>
+                                <a class="J_menuItem" th:href="@{/3User/tasks}">已审核<span class="fa arrow"></span></a>
                                 <ul class="nav nav-third-level">
-                                    <li><a class="J_menuItem" th:href="@{/customer/hi}">申请记录</a>
-                                    </li>
-                                    <li><a class="J_menuItem" th:href="@{/customer/getReqrecord}">质检记录</a>
-                                    </li>
+                                    <li><a class="J_menuItem" th:href="@{/customer/hi}">待处理任务</a></li>
+                                    <li><a class="J_menuItem" th:href="@{/customer/getReqrecord}">已完成任务</a></li>
+                                    <li><a class="J_menuItem" th:href="@{/customer/getReqrecord}">已拒绝</a></li>
                                 </ul>
                             </li>
+                        </ul>
+                    </li>
+                    <li>
+                        <a href="#"><i class="fa fa-user"></i> <span class="nav-label">第三方检测机构管理</span><span class="fa arrow"></span></a>
+                        <ul class="nav nav-second-level">
+                            <li><a class="J_menuItem" th:href="@{/customer/eApply}">机构信息审核</a></li>
+                            <li><a class="J_menuItem" th:href="@{/customer/eApply}">任务质检员审核</a></li>
                         </ul>
                     </li>
 

@@ -18,8 +18,11 @@ public interface RequestMapper {
     List<Request> selectByReqEId(Integer reqEId);
     //查找某个公司审核通过的申请记录request
     List<Request> selectByReqEId0(Integer reqEId);
+    //查找任务请求的处理status来查找任务
+    List<Request> selectReqByStatus(String status);
 
     int updateByPrimaryKeySelective(Request record);
+    int updateReqStatusById(int id,String status);
 
     int updateByPrimaryKey(Request record);
 }

@@ -4,10 +4,7 @@ import com.sayo.qa.CommonUtil.DateUtil;
 import com.sayo.qa.dao.TaskMapper;
 import com.sayo.qa.entity.Task;
 import com.sayo.qa.entity.ThirdUser;
-import com.sayo.qa.service.EnterpriseService;
-import com.sayo.qa.service.InspectorService;
-import com.sayo.qa.service.RequestService;
-import com.sayo.qa.service.ThirdUserService;
+import com.sayo.qa.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.AutoConfigurationPackage;
 import org.springframework.stereotype.Controller;
@@ -31,7 +28,8 @@ public class ThirdUserController {
 
     @Autowired
     private RequestService requestService;
-
+    @Autowired
+    private TaskService taskService;
 
     @Autowired
     private InspectorService inspectorService;
@@ -53,7 +51,7 @@ public class ThirdUserController {
 
     @RequestMapping(path = "/tasks",method = RequestMethod.GET)
     public String getTasks(Model model){
-        List<Task> taskList = thirdUserService.getTasks(1);
+        List<Task> taskList = taskService.findTaskByQaTypeAndEid("第三方",1);
         List<Map<String,Object>> taskVoList = new ArrayList<>();
         if (taskList!=null){
             for (Task task:taskList) {

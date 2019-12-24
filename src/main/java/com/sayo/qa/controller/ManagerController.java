@@ -90,7 +90,6 @@ public class ManagerController {
     @RequestMapping(path = "/findInspector",method = RequestMethod.GET)
     public String findInspector(Model model){
         List<Inspector> inspectors = inspectorService.findInspectors();
-        System.out.println(inspectors);
         model.addAttribute("inspectors",inspectors);
         return "/hh/html/table_basic.html";
     }
@@ -98,7 +97,6 @@ public class ManagerController {
     @RequestMapping(path = "/inspector/detail/{Id}",method = RequestMethod.GET)
     public String InspectorDetail(@PathVariable("Id") int id, Model model){
         Inspector i= inspectorService.findInspectorById(id);
-        System.out.println(i);
         model.addAttribute("iDetail",i);
         return "/hh/html/form_basic.html";
     }

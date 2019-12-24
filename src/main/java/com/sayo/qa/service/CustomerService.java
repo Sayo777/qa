@@ -1,5 +1,6 @@
 package com.sayo.qa.service;
 
+import com.sayo.qa.CommonUtil.CommunityUtil;
 import com.sayo.qa.CommonUtil.HostHolderCustomer;
 import com.sayo.qa.dao.*;
 import com.sayo.qa.entity.*;
@@ -90,7 +91,13 @@ public class CustomerService {
                 map.put("passwordMsg","密码不正确");
                 return map;
             }
-            hostHolderCustomer.setCustomer(customer);
+        LoginTicket loginTicket = new LoginTicket();
+        loginTicket.setUserId(customer.getId());
+        loginTicket.setTicket(CommunityUtil.generateUUID());
+        loginTicket.setStatus(0);
+        loginTicket.setExpired(new Date(System.currentTimeMillis() + 3600*12*1000));
+        loginTicketMapper.insert(loginTicket);
+        map.put("ticket",loginTicket.getTicket());
         return map;
     }
 
@@ -196,9 +203,9 @@ public class CustomerService {
     }
 
     //质检结果记录表
-    public List<Map<String,Object>> getReqrecord(int customerId){
+    public List<Map<String,Object>> getReqrecord(){
         List<Map<String,Object>> reqRecordList = new ArrayList<>();
-        Customer c = customerMapper.selectByPrimaryKey(customerId);
+        Customer c = hostHolderCustomer.getCustomer();
         //找出该用户所在公司的质检申请（通过的记录）
         List<Request> requestList = requestMapper.selectByReqEId0(c.getEnterpriseId());
         for (Request r:requestList) {

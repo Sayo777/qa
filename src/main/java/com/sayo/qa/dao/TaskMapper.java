@@ -15,6 +15,8 @@ public interface TaskMapper {
 
     Task selectByPrimaryKey(Integer taskId);
     List<Task> selectByQaId(int qaId);
+    List<Task> selectTaskByQaTypeAndEid(String type,int EId);
+    Task selectTaskByTaskId(int taskId);
 
     int updateByPrimaryKeySelective(Task record);
 

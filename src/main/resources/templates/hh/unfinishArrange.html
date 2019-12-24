@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+
+    <title>待审核任务列表</title>
+    <meta name="keywords" content="待审核任务列表">
+    <meta name="description" content="待审核任务列表">
+
+    <link rel="shortcut icon" th:href="@{/hh/favicon.ico}">
+    <link th:href="@{/hh/css/bootstrap.min.css?v=3.3.6}" rel="stylesheet">
+    <link th:href="@{/hh/css/font-awesome.css?v=4.4.0}" rel="stylesheet">
+    <link th:href="@{/hh/css/plugins/iCheck/custom.css}" rel="stylesheet">
+    <link th:href="@{/hh/css/animate.css}" rel="stylesheet">
+    <link th:href="@{/hh/css/style.css?v=4.1.0}" rel="stylesheet">
+
+</head>
+
+<body class="gray-bg">
+<div class="wrapper wrapper-content animated fadeInRight">
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="ibox float-e-margins">
+                <div class="ibox-title">
+                    <h5>待完成任务列表</h5>
+                </div>
+                <div class="ibox-content">
+                    <div class="row">
+                        <div class="col-sm-5 m-b-xs" style="width: 200px;">
+                            <select class="input-sm form-control input-s-sm inline">
+                                <option value="1">选项1</option>
+                                <option value="1">选项1</option>
+                                <option value="1">选项1</option>
+                                <option value="1">选项1</option>
+                            </select>
+                        </div>
+
+                        <div class="col-sm-3">
+                            <div class="input-group">
+                                <input type="text" placeholder="请输入关键词" class="input-sm form-control"> <span
+                                    class="input-group-btn">
+                                        <button type="button" class="btn btn-sm btn-primary"> 搜索</button> </span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="table-responsive">
+                        <table class="table table-striped">
+                            <thead>
+                            <tr>
+                                <th>任务编号</th>
+                                <th>申请企业</th>
+                                <th>申请人</th>
+                                <th>申请质检类型</th>
+                                <th>申请时间</th>
+                                <th>审核时间</th>
+                                <th>详细信息</th>
+                                <th>安排质检</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr th:each="list:${list}">
+                                <td th:text="${list.req.requestId}">任务编号</td>
+                                <td th:text="${list.enterpriseName}">申请企业</td>
+                                <td th:text="${list.reqName}">申请人</td>
+                                <td th:text="${list.reqType}">申请质检类型</td>
+                                <td th:text="${#dates.format(list.reqTime,'yyyy-MM-dd HH:mm:ss')}">申请时间</td>
+                                <td th:text="${#dates.format(list.taskCheck,'yyyy-MM-dd HH:mm:ss')}">审核时间</td>
+                                <td><input type="hidden" id="reqId" th:value="${list.req.requestId}"/>
+                                    <button id="checkBtn" type="button" class="btn btn-primary" data-toggle="modal"
+                                            data-target="#myModal6">查看
+                                    </button>
+                                </td>
+                                <td><input type="hidden" id="reqId" th:value="${list.req.requestId}"/>
+                                    <button id="checkBtn" type="button" class="btn btn-primary" data-toggle="modal"
+                                            data-target="#arrange">立即安排
+                                    </button>
+                                </td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="modal inmodal fade" id="myModal6" tabindex="-1" role="dialog" aria-hidden="true">
+                        <div class="modal-dialog modal-sm" style="margin:50px auto;width: 600px">
+                            <div class="modal-content" style="height: 300px;padding: 10px">
+                                <div style="background-color: #0cc215;margin-top: 5px">
+                                    <strong style="display:inline">申请企业:</strong>
+                                    <i>senmafushi</i>
+                                    <strong style="display:inline;margin-left: 130px">申请企业:</strong>
+                                    <i>senmafushi</i>
+                                </div>
+                                <div style="background-color: #0cc215;margin-top: 5px">
+                                    <strong style="display:inline">申请企业:</strong>
+                                    <i>senmafushi</i>
+                                    <strong style="display:inline;margin-left: 130px">申请企业:</strong>
+                                    <i>senmafushi</i>
+                                </div>
+
+                                <!--                                <div class="modal-header">-->
+                                <!--                                    <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>-->
+                                <!--                                    <h4 class="modal-title">审核</h4>-->
+                                <!--                                </div>-->
+                                <!--                                <div class="modal-body">-->
+                                <!--                                    <div>审核结果：</div>-->
+                                <!--                                    <select class="input-sm form-control input-s-sm inline" id="result">-->
+                                <!--                                        <option value="通过" >通过</option>-->
+                                <!--                                        <option value="不通过" >不通过</option>-->
+                                <!--                                    </select>-->
+                                <!--                                    <div style="margin-top: 15px">理由（不通过时请说明原因）：</div>-->
+                                <!--                                    <textarea class="form-control" rows="3" id="reason"></textarea>-->
+                                <!--                                </div>-->
+                                <!--                                <div class="modal-footer">-->
+                                <!--                                    <button type="button" class="btn btn-white" data-dismiss="modal">取消</button>-->
+                                <!--                                    <button type="button" class="btn btn-primary" id="check">确定</button>-->
+                                <!--                                </div>-->
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <div class="modal inmodal fade" id="arrange" tabindex="-1" role="dialog" aria-hidden="true">
+                        <div class="modal-dialog modal-sm" style="margin:50px auto;width: 600px">
+                            <div class="modal-content" style="height: 300px;padding: 10px">
+
+                                <div class="modal-header">
+                                    <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span
+                                            class="sr-only">Close</span></button>
+                                    <strong class="modal-title">请选择执行单位</strong>
+                                </div>
+                                <div class="modal-body">
+                                    <div class="form-group">
+                                        <div class="radio i-checks">
+                                            <label>
+                                                <input type="radio" value="option1" name="a"> <i></i> 选项1</label>
+                                        </div>
+                                        <div class="radio i-checks">
+                                            <label>
+                                                <input type="radio" checked="" value="option2" name="a"> <i></i> 选项2（选中）</label>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-white" data-dismiss="modal">取消</button>
+                                    <button type="button" class="btn btn-primary" id="check">确定</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<!-- 全局js -->
+<script th:src="@{/hh/js/jquery.min.js?v=2.1.4}"></script>
+<script th:src="@{/hh/js/bootstrap.min.js?v=3.3.6}"></script>
+
+
+<!-- Peity -->
+<script th:src="@{/hh/js/plugins/peity/jquery.peity.min.js}"></script>
+
+<!-- 自定义js -->
+<script th:src="@{/hh/js/content.js?v=1.0.0}"></script>
+
+
+<!-- iCheck -->
+<script th:src="@{/hh/js/plugins/iCheck/icheck.min.js}"></script>
+
+<!-- Peity -->
+<script th:src="@{/hh/js/demo/peity-demo.js}"></script>
+
+<script>
+    $(document).ready(function () {
+        $(function () {
+            $("#check").click(check);
+        });
+
+        function check() {
+            // $("#publishModal").modal("hide");
+            //获取标题和内容，异步请求
+            var reqId = $("#checkBtn").prev().val()
+            var status = result.value;
+            var reason = $("#reason").val();
+            if (status == "不通过" && reason == '') {
+                alert("请说明未通过原因！")
+                return false;
+            }
+            //发送异步请求
+            $.post(
+                "/qa/task/checkStatus",
+                {"reqId": reqId, "status": status, "reason": reason},
+                function (data) {
+                    data = $.parseJSON(data);
+                    // alert(data.msg);
+                    //在提示框当中显示返回的消息
+                    // $("#hintBody").text(data.msg);
+                    // 提示框显示
+                    // $("#hintModal").modal("show");
+                    //2s后自动隐藏提示框
+                    setTimeout(function () {
+                        // $("#hintModal").modal("hide");
+                        //刷新页面
+                        if (data.code == 0) {
+                            window.location.reload();
+                        }
+                    }, 500);
+                }
+            );
+
+
+        }
+
+    });
+</script>
+
+
+</body>
+
+</html>
