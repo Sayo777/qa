@@ -17,6 +17,18 @@
     <link th:href="@{/hh/css/plugins/iCheck/custom.css}" rel="stylesheet">
     <link th:href="@{/hh/css/animate.css}" rel="stylesheet">
     <link th:href="@{/hh/css/style.css?v=4.1.0}" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" th:href="@{/hh/css/tree.css}"/>
+
+    <style type="text/css">
+        *{
+            margin: 0;
+            padding: 0;
+        }
+        .dv{
+            width: 161px;
+            background-color: rgb(255, 250, 232);
+        }
+    </style>
 
 </head>
 
@@ -69,20 +81,21 @@
                                 <td th:text="${list.reqType}">申请质检类型</td>
                                 <td th:text="${#dates.format(list.reqTime,'yyyy-MM-dd HH:mm:ss')}">申请时间</td>
                                 <td th:text="${#dates.format(list.taskCheck,'yyyy-MM-dd HH:mm:ss')}">审核时间</td>
-                                <td><input type="hidden" id="reqId" th:value="${list.req.requestId}"/>
-                                    <button id="checkBtn" type="button" class="btn btn-primary" data-toggle="modal"
-                                            data-target="#myModal6">查看
+                                <td><input type="hidden"  th:value="${list.req.requestId}"/>
+                                    <button th:id="searchBtn+(${list.req.requestId})" type="button" onclick='test(this)' class="btn btn-primary" data-toggle="modal"
+                                            >查看
                                     </button>
                                 </td>
-                                <td><input type="hidden" id="reqId" th:value="${list.req.requestId}"/>
-                                    <button id="checkBtn" type="button" class="btn btn-primary" data-toggle="modal"
-                                            data-target="#arrange">立即安排
+                                <td>
+                                    <button th:id="arrangeBtn+(${list.req.requestId})" type="button" onclick='arrange(this)' class="btn btn-primary" data-toggle="modal" data-target="#arrange">
+                                        立即安排
                                     </button>
                                 </td>
                             </tr>
                             </tbody>
                         </table>
                     </div>
+                    <!--查看详情页面开始-->
                     <div class="modal inmodal fade" id="myModal6" tabindex="-1" role="dialog" aria-hidden="true">
                         <div class="modal-dialog modal-sm" style="margin:50px auto;width: 600px">
                             <div class="modal-content" style="height: 300px;padding: 10px">
@@ -98,53 +111,88 @@
                                     <strong style="display:inline;margin-left: 130px">申请企业:</strong>
                                     <i>senmafushi</i>
                                 </div>
-
-                                <!--                                <div class="modal-header">-->
-                                <!--                                    <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>-->
-                                <!--                                    <h4 class="modal-title">审核</h4>-->
-                                <!--                                </div>-->
-                                <!--                                <div class="modal-body">-->
-                                <!--                                    <div>审核结果：</div>-->
-                                <!--                                    <select class="input-sm form-control input-s-sm inline" id="result">-->
-                                <!--                                        <option value="通过" >通过</option>-->
-                                <!--                                        <option value="不通过" >不通过</option>-->
-                                <!--                                    </select>-->
-                                <!--                                    <div style="margin-top: 15px">理由（不通过时请说明原因）：</div>-->
-                                <!--                                    <textarea class="form-control" rows="3" id="reason"></textarea>-->
-                                <!--                                </div>-->
-                                <!--                                <div class="modal-footer">-->
-                                <!--                                    <button type="button" class="btn btn-white" data-dismiss="modal">取消</button>-->
-                                <!--                                    <button type="button" class="btn btn-primary" id="check">确定</button>-->
-                                <!--                                </div>-->
                             </div>
                         </div>
                     </div>
-
+                    <!--查看详情页面结束-->
 
                     <div class="modal inmodal fade" id="arrange" tabindex="-1" role="dialog" aria-hidden="true">
-                        <div class="modal-dialog modal-sm" style="margin:50px auto;width: 600px">
-                            <div class="modal-content" style="height: 300px;padding: 10px">
+                        <div class="modal-dialog modal-sm" style="margin:10px auto;width: 800px;background-color: antiquewhite">
+                            <div class="modal-content" style="padding: 10px;">
 
-                                <div class="modal-header">
+                                <div class="modal-header" style="height: 20px;margin-top: 10px">
                                     <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span
                                             class="sr-only">Close</span></button>
-                                    <strong class="modal-title">请选择执行单位</strong>
+                                    <strong>请选择执行单位</strong>
                                 </div>
                                 <div class="modal-body">
                                     <div class="form-group">
-                                        <div class="radio i-checks">
-                                            <label>
-                                                <input type="radio" value="option1" name="a"> <i></i> 选项1</label>
-                                        </div>
-                                        <div class="radio i-checks">
-                                            <label>
-                                                <input type="radio" checked="" value="option2" name="a"> <i></i> 选项2（选中）</label>
-                                        </div>
+                                        <select class="form-control m-b" name="account" id="select">
+                                            <option value="1">本单位</option>
+                                            <option value="2">第三方质检机构</option>
+                                        </select>
                                     </div>
+<!--                                    本单位-->
+                                    <div id="box1" class="form-horizontal" style="margin-left: 10px">
+                                        <div class="form-group">
+                                            <label class="col-sm-3 control-label">质检员1 :</label>
+                                            <div class="col-sm-3">
+                                                <div id="justAnInputBox1" class="select-tree-wrap"></div>
+                                            </div>
+
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="col-sm-3 control-label">质检员2 :</label>
+                                            <div class="col-sm-3">
+                                                <input id="na2" name="name" type="text" >
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                    <div id="box2" style="display: none;margin-left: 10px" class="form-horizontal" >
+                                        <div class="form-group">
+                                            <label class="col-sm-3 control-label">第三方质检机构 :</label>
+                                            <div class="col-sm-3">
+                                                <input id="na2k3" name="name" type="text" >
+                                            </div>
+                                        </div>
+                                        <div id="demo" class="form-group">
+                                            <label class="col-sm-3 control-label">指定质检员 :</label>
+                                            <div class="col-sm-3">
+                                                <label >
+                                                    <input type="radio" name="is_assign" id="manager" value="1" > 是
+                                                </label>
+                                                <label style="margin-left: 30px" >
+                                                    <input type="radio" name="is_assign" id="inspector" value="0" checked="checked"> 否
+                                                </label>
+                                            </div>
+                                        </div>
+                                        <div id="isAssignbox" style="display: none">
+
+                                            <div class="form-group">
+                                                <label class="col-sm-3 control-label">质检员1 :</label>
+                                                <div class="col-sm-3"><input id="name" name="name" type="text" ></div>
+                                            </div>
+                                            <div class="form-group">
+                                                <label class="col-sm-3 control-label">质检员2 :</label>
+                                                <div class="col-sm-3"><input id="name2" name="name" type="text" ></div>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="control-label" style="margin-left: 105px;">质检时间 :</label>
+
+                                            <input id="hello" class="laydate-icon layer-date" style="width:162px;height:25px;margin-left: 26px" required="" autocomplete="off">
+
+                                    </div>
+
                                 </div>
-                                <div class="modal-footer">
+
+
+                                <div class="modal-footer" style="margin-bottom: 10px;text-align: center">
                                     <button type="button" class="btn btn-white" data-dismiss="modal">取消</button>
-                                    <button type="button" class="btn btn-primary" id="check">确定</button>
+                                    <button type="button" class="btn btn-primary" id="arrangeTask">确定</button>
                                 </div>
                             </div>
                         </div>
@@ -159,6 +207,7 @@
 
 <!-- 全局js -->
 <script th:src="@{/hh/js/jquery.min.js?v=2.1.4}"></script>
+<script type="text/javascript" th:src="@{/hh/js/comboTreePlugin.js}"></script>
 <script th:src="@{/hh/js/bootstrap.min.js?v=3.3.6}"></script>
 
 
@@ -174,12 +223,63 @@
 
 <!-- Peity -->
 <script th:src="@{/hh/js/demo/peity-demo.js}"></script>
-
+<script th:src="@{/hh/js/plugins/layer/laydate/laydate.js}"></script>
 <script>
+    laydate({
+        elem: '#hello', //目标元素。由于laydate.js封装了一个轻量级的选择器引擎，因此elem还允许你传入class、tag但必须按照这种方式 '#id .class'
+        event: 'focus' //响应事件。如果没有传入event，则按照默认的click
+    });
+
+
+
+</script>
+<script>
+    function test(obj){alert(obj.id)}
+    function arrange(obj){
+        clickId = obj.id;
+    }
+
     $(document).ready(function () {
+        $("#demo :radio").on('click', function () {
+            var val= $(this).val();
+            if(val==1){ //指定质检员
+                $("#isAssignbox").show();
+            } else{
+                $("#isAssignbox").hide();
+            }
+        })
+        $("#select").change(function(){
+            var selectedValue=$(this).val();
+            if(selectedValue==1){
+                $("#box1").show();
+                $("#box2").hide();
+            }
+            if(selectedValue==2){
+                $("#box2").show();
+                $("#box1").hide();
+            }
+        });
         $(function () {
             $("#check").click(check);
+            $("#arrangeTask").click(arrange);
+            $("#searchBtn").click(search);
         });
+        function search() {
+            var aa = $("#searchBtn").prev().val();
+            alert(aa);
+        }
+
+        function arrange() {
+            var reqId = clickId;
+            var qaType = $("#select").val();
+            //质检员1
+            var inspector1 = document.getElementById("justAnInputBox1").innerText;
+            alert(inspector1);
+            // 质检员2
+
+
+            alert(reqId+"--------"+qaType+"---质检员"+inspector1);
+        }
 
         function check() {
             // $("#publishModal").modal("hide");
@@ -217,6 +317,101 @@
         }
 
     });
+</script>
+
+<script type="text/javascript">
+    // $.ajax({
+    // 	url: '',
+    // 	type: 'post',
+    // 	contentType : "application/json;charset=utf-8",
+    // 	dataType:'json',
+    // 	success: function(data) {
+    //
+    // 	}
+    // });
+
+    var SampleJSONData = [
+        {
+            "id": '73A64FDAFFC',
+            "title": "总裁办",
+            "subs": [
+                {
+                    "id": '73At4FDoFFC',
+                    "title": "张三"
+                },
+                {
+                    "id": '73At4FpAFFC',
+                    "title": "李四"
+                },
+                {
+                    "id": '73AtwFDAFFC',
+                    "title": "数据中心",
+                    "subs": [
+                        {
+                            "id": '13At4FDAFFC',
+                            "title": "王五"
+                        },
+                        {
+                            "id": '83At4FDAFFC',
+                            "title": "赵武"
+                        },
+                        {
+                            "id": '83Al4FDAFFC',
+                            "title": "通讯中心",
+                            "subs": [
+                                {
+                                    "id": '73At4FmAFFC',
+                                    "title": "谢一"
+                                },
+                                {
+                                    "id": '73At4FpAFFC',
+                                    "title": "谢四"
+                                }
+                            ]
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "id": '72A64FDAFFC',
+            "title": "技术部",
+            "subs": [
+                {
+                    "id": '73At4FDAFFC',
+                    "title": "赵小刚"
+                },
+                {
+                    "id": '73AtuFDAFFC',
+                    "title": "李小刚"
+                },
+                {
+                    "id": '73yt4FDAFFC',
+                    "title": "王小刚"
+                }
+            ]
+        }
+    ];
+
+    let aaa = $('#justAnInputBox1').comboTree({
+        source : SampleJSONData,
+        isMultiple: false,
+        isFirstClassSelectable:false, //第一级是否可选
+        cascadeSelect: true,
+        selectedlength:3 //最多可选
+    });
+
+    //多选
+    let bbb = $('#justAnInputBox2').comboTree({
+        source : SampleJSONData,
+        isMultiple: true,
+        isFirstClassSelectable:false, //第一级是否可选
+        cascadeSelect: true,
+        selectedlength: 100 //最多可选
+    });
+
+    // bbb.datas(); //获取数据
+
 </script>
 
 
