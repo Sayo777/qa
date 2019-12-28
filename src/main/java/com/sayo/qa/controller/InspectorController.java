@@ -1,5 +1,8 @@
 package com.sayo.qa.controller;
 
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONArray;
+import com.sayo.qa.CommonUtil.CommunityUtil;
 import com.sayo.qa.CommonUtil.DateUtil;
 import com.sayo.qa.entity.*;
 import com.sayo.qa.service.*;
@@ -9,6 +12,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -30,6 +34,8 @@ public class InspectorController {
     private CustomerService customerService;
     @Autowired
     private  ClothesTypeService clothesTypeService;
+    @Autowired
+    private ThirdqaService thirdqaService;
 
     //质检员列表
     @RequestMapping(path = "/searchInspectorGov",method = RequestMethod.GET)
@@ -85,6 +91,100 @@ public class InspectorController {
     }
 
 
+    //质检员列表(政府的)
+    @RequestMapping(path = "/test",method = RequestMethod.POST)
+    @ResponseBody
+    public String test(){
+        List<Map<String,Object>> list = new ArrayList<>();
+        List<String> clothesList = clothesTypeService.getClothesList();
+        for(int i = 0;i<clothesList.size();i++){
+            Map<String,Object> map = new HashMap<>();
+            map.put("id",i+1);
+            map.put("title",clothesList.get(i));
+            map.put("subs",getInspectorsByClothesType(i+1,"政府"));
+            list.add(map);
+        }
+        String json = JSON.toJSONString(list);
+        return json;
+    }
+
+    //质检员列表(第三方质检机构的)
+    @RequestMapping(path = "/test1",method = RequestMethod.POST)
+    @ResponseBody
+    public String test1(int enterpriseId){
+        int j = enterpriseId;
+        List<Map<String,Object>> list = new ArrayList<>();
+        List<String> clothesList = clothesTypeService.getClothesList();
+        for(int i = 0;i<clothesList.size();i++){
+            Map<String,Object> map = new HashMap<>();
+            map.put("id",i+1);
+            map.put("title",clothesList.get(i));
+            map.put("subs",get3InspectorsByClothesType(enterpriseId,i+1));
+            list.add(map);
+        }
+        String json = JSON.toJSONString(list);
+        return json;
+    }
+
+
+    //第三方质检平台列表
+    @RequestMapping(path = "/all3qa",method = RequestMethod.POST)
+    @ResponseBody
+    public String all3qa(){
+        List<Thirdqa> thirdqaList = thirdqaService.findThirdqas();
+        List<Map<String,Object>> list1 = new ArrayList<>();
+        for (Thirdqa t:thirdqaList
+             ) {
+            Map<String,Object> map = new HashMap<>();
+            map.put("id",t.getId());
+            map.put("title",t.getThirdName());
+            list1.add(map);
+        }
+
+        List<Map<String,Object>> list = new ArrayList<>();
+        Map<String,Object> map = new HashMap<>();
+        map.put("id",1);
+        map.put("title","所有第三方质检机构");
+        map.put("subs",list1);
+        list.add(map);
+        return JSON.toJSONString(list);
+    }
+
+    /**
+     * 根据检测服装类型的不同来划分质检员
+     * @param clothesType 质检服装类型
+     * @param type 质检员工作单位类型
+     * @return
+     */
+    public List<Map<String,Object>> getInspectorsByClothesType(int clothesType,String type){
+        List<Inspector> list= inspectorService.findInspectorByTypeAndQaType(type,clothesType);
+        List<Map<String,Object>> list1 = new ArrayList<>();
+        for (Inspector i: list) {
+            Map<String,Object> map = new HashMap<>();
+            map.put("id",i.getId());
+            map.put("title",i.getName());
+            list1.add(map);
+        }
+        return list1;
+    }
+
+    /**
+     * 找出某个机构的某类质检员有哪些
+     * @param qaType 质检服装类型
+     * @param enterpriseId 第三方机构id
+     * @return
+     */
+    public List<Map<String,Object>> get3InspectorsByClothesType(int enterpriseId,int qaType){
+        List<Inspector> list= inspectorService.findInspectorByqa3AndQaType(enterpriseId, qaType);
+        List<Map<String,Object>> list1 = new ArrayList<>();
+        for (Inspector i: list) {
+            Map<String,Object> map = new HashMap<>();
+            map.put("id",i.getId());
+            map.put("title",i.getName());
+            list1.add(map);
+        }
+        return list1;
+    }
 
 
 

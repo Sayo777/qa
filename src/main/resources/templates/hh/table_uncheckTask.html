@@ -68,7 +68,9 @@
                                 <td th:text="${list.reqType}">申请质检类型</td>
                                 <td th:text="${#dates.format(list.req.reqTime,'yyyy-MM-dd HH:mm:ss')}">申请时间</td>
 <!--                                <td ><a th:href="@{|/inspector/TaskArrange/${list.req.id}|}"><i class="fa fa-check text-navy">操作</i></a></td>-->
-                                <td ><input type="hidden" id="reqId" th:value="${list.req.id}"/><button id="checkBtn" type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal6">
+                                <td>
+                                    <input type="hidden"  th:value="${list.req.id}"/>
+                                    <button th:id="checkBtn" type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal6">
                                    点击审核
                                 </button></td>
                             </tr>
@@ -133,7 +135,6 @@
 
         function check() {
             // $("#publishModal").modal("hide");
-            //获取标题和内容，异步请求
             var reqId = $("#checkBtn").prev().val()
             var status = result.value;
             var reason = $("#reason").val();

@@ -20,7 +20,8 @@ public interface InspectorMapper {
     Inspector selectByPrimaryKey(Integer id);
     Inspector selectInspectorByName(String name,String type);
     Inspector selectInspectorByEmail(String email);
-
+    List<Inspector> selectInspectorByTypeAndQaType(String type,int qaType);
+    List<Inspector> selectInspectorByqa3AndQaType(int enterpriseId,int qaType);
 
     int updateByPrimaryKeySelective(Inspector record);
 

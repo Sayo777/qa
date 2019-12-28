@@ -56,6 +56,20 @@
     where email = #{email}
   </select>
 
+  <select id="selectInspectorByTypeAndQaType" resultMap="BaseResultMap" >
+    select
+    <include refid="Base_Column_List" />
+    from inspector
+    where type = #{type} and inspect_type = #{qaType}
+  </select>
+
+  <select id="selectInspectorByqa3AndQaType" resultMap="BaseResultMap" >
+    select
+    <include refid="Base_Column_List" />
+    from inspector
+    where enterprise_id = #{enterpriseId} and inspect_type = #{qaType}
+  </select>
+
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
     delete from inspector
     where id = #{id,jdbcType=INTEGER}

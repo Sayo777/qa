@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html xmlns:th="http://www.thymeleaf.org">
 
 <head>
 
@@ -7,94 +7,94 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 
-    <title>H+ 后台主题UI框架 - 表单向导</title>
-    <meta name="keywords" content="H+后台主题,后台bootstrap框架,会员中心主题,后台HTML,响应式后台">
-    <meta name="description" content="H+是一个完全响应式，基于Bootstrap3最新版本开发的扁平化主题，她采用了主流的左右两栏式布局，使用了Html5+CSS3等现代技术">
+    <title>待审核任务列表</title>
+    <meta name="keywords" content="待审核任务列表">
+    <meta name="description" content="待审核任务列表">
 
-    <link rel="shortcut icon" href="favicon.ico"> <link href="css/bootstrap.min.css?v=3.3.6" rel="stylesheet">
-    <link href="css/font-awesome.css?v=4.4.0" rel="stylesheet">
-    <link href="css/plugins/iCheck/custom.css" rel="stylesheet">
-    <link href="css/plugins/steps/jquery.steps.css" rel="stylesheet">
-    <link href="css/animate.css" rel="stylesheet">
-    <link href="css/style.css?v=4.1.0" rel="stylesheet">
-
+    <link rel="shortcut icon" th:href="@{/hh/favicon.ico}">
+    <link th:href="@{/hh/css/bootstrap.min.css?v=3.3.6}" rel="stylesheet">
+    <link th:href="@{/hh/css/font-awesome.css?v=4.4.0}" rel="stylesheet">
+    <link th:href="@{/hh/css/plugins/iCheck/custom.css}" rel="stylesheet">
+    <link th:href="@{/hh/css/plugins/steps/jquery.steps.css}" rel="stylesheet">
+    <link th:href="@{/hh/css/animate.css}" rel="stylesheet">
+    <link th:href="@{/hh/css/style.css?v=4.1.0}" rel="stylesheet">
 </head>
 
 <body class="gray-bg">
     <div class="wrapper wrapper-content animated fadeInRight">
         <div class="row">
-            <div class="col-sm-5">
-                <div class="jumbotron">
-                    <h1>表单向导</h1>
-                    <p>Smart UI 部件允许您快速创建表单向导接口。</p>
-                    <p><a href="http://www.jquery-steps.com/GettingStarted" target="_blank" class="btn btn-primary btn-lg" role="button">了解 jQuery Steps</a>
-                    </p>
-                </div>
-            </div>
-            <div class="col-sm-7">
-                <div class="ibox float-e-margins">
-                    <div class="ibox-title">
-                        <h5>基础表单向导</h5>
-                        <div class="ibox-tools">
-                            <a class="collapse-link">
-                                <i class="fa fa-chevron-up"></i>
-                            </a>
-                            <a class="dropdown-toggle" data-toggle="dropdown" href="form_wizard.html#">
-                                <i class="fa fa-wrench"></i>
-                            </a>
-                            <ul class="dropdown-menu dropdown-user">
-                                <li><a href="form_wizard.html#">选项1</a>
-                                </li>
-                                <li><a href="form_wizard.html#">选项2</a>
-                                </li>
-                            </ul>
-                            <a class="close-link">
-                                <i class="fa fa-times"></i>
-                            </a>
-                        </div>
-                    </div>
-                    <div class="ibox-content">
-                        <p>
-                            这是一个简单的表单向导示例
-                        </p>
-                        <div id="wizard">
-                            <h1>第一步</h1>
-                            <div class="step-content">
-                                <div class="text-center m-t-md">
-                                    <h2>第一步</h2>
-                                    <p>
-                                        这是第一步的内容
-                                    </p>
-                                </div>
-                            </div>
+<!--            <div class="col-sm-5">-->
+<!--                <div class="jumbotron">-->
+<!--                    <h1>表单向导</h1>-->
+<!--                    <p>Smart UI 部件允许您快速创建表单向导接口。</p>-->
+<!--                    <p><a href="http://www.jquery-steps.com/GettingStarted" target="_blank" class="btn btn-primary btn-lg" role="button">了解 jQuery Steps</a>-->
+<!--                    </p>-->
+<!--                </div>-->
+<!--            </div>-->
+<!--            <div class="col-sm-7">-->
+<!--                <div class="ibox float-e-margins">-->
+<!--                    <div class="ibox-title">-->
+<!--                        <h5>基础表单向导</h5>-->
+<!--                        <div class="ibox-tools">-->
+<!--                            <a class="collapse-link">-->
+<!--                                <i class="fa fa-chevron-up"></i>-->
+<!--                            </a>-->
+<!--                            <a class="dropdown-toggle" data-toggle="dropdown" href="form_wizard.html#">-->
+<!--                                <i class="fa fa-wrench"></i>-->
+<!--                            </a>-->
+<!--                            <ul class="dropdown-menu dropdown-user">-->
+<!--                                <li><a href="form_wizard.html#">选项1</a>-->
+<!--                                </li>-->
+<!--                                <li><a href="form_wizard.html#">选项2</a>-->
+<!--                                </li>-->
+<!--                            </ul>-->
+<!--                            <a class="close-link">-->
+<!--                                <i class="fa fa-times"></i>-->
+<!--                            </a>-->
+<!--                        </div>-->
+<!--                    </div>-->
+<!--                    <div class="ibox-content">-->
+<!--                        <p>-->
+<!--                            这是一个简单的表单向导示例-->
+<!--                        </p>-->
+<!--                        <div id="wizard">-->
+<!--                            <h1>第一步</h1>-->
+<!--                            <div class="step-content">-->
+<!--                                <div class="text-center m-t-md">-->
+<!--                                    <h2>第一步</h2>-->
+<!--                                    <p>-->
+<!--                                        这是第一步的内容-->
+<!--                                    </p>-->
+<!--                                </div>-->
+<!--                            </div>-->
 
-                            <h1>第二步</h1>
-                            <div class="step-content">
-                                <div class="text-center m-t-md">
-                                    <h2>第二步</h2>
-                                    <p>
-                                        这是第二步的内容
-                                    </p>
-                                </div>
-                            </div>
+<!--                            <h1>第二步</h1>-->
+<!--                            <div class="step-content">-->
+<!--                                <div class="text-center m-t-md">-->
+<!--                                    <h2>第二步</h2>-->
+<!--                                    <p>-->
+<!--                                        这是第二步的内容-->
+<!--                                    </p>-->
+<!--                                </div>-->
+<!--                            </div>-->
 
-                            <h1>第三步</h1>
-                            <div class="step-content">
-                                <div class="text-center m-t-md">
-                                    <h2>第三步</h2>
-                                    <p>
-                                        这是第三步的内容
-                                    </p>
-                                </div>
-                            </div>
-                        </div>
+<!--                            <h1>第三步</h1>-->
+<!--                            <div class="step-content">-->
+<!--                                <div class="text-center m-t-md">-->
+<!--                                    <h2>第三步</h2>-->
+<!--                                    <p>-->
+<!--                                        这是第三步的内容-->
+<!--                                    </p>-->
+<!--                                </div>-->
+<!--                            </div>-->
+<!--                        </div>-->
 
-                    </div>
-                </div>
-            </div>
+<!--                    </div>-->
+<!--                </div>-->
+<!--            </div>-->
         </div>
         <div class="row">
-            <div class="col-sm-12">
+            <div class="col-sm-7">
                 <div class="ibox">
                     <div class="ibox-title">
                         <h5>带验证的表单向导</h5>
@@ -125,32 +125,41 @@
                         </p>
 
                         <form id="form" action="form_wizard.html#" class="wizard-big">
-                            <h1>账户</h1>
+                            <h1>执行单位</h1>
                             <fieldset>
-                                <h2>账户信息</h2>
-                                <div class="row">
-                                    <div class="col-sm-8">
-                                        <div class="form-group">
-                                            <label>用户名 *</label>
-                                            <input id="userName" name="userName" type="text" class="form-control required">
-                                        </div>
-                                        <div class="form-group">
-                                            <label>密码 *</label>
-                                            <input id="password" name="password" type="text" class="form-control required">
-                                        </div>
-                                        <div class="form-group">
-                                            <label>确认密码 *</label>
-                                            <input id="confirm" name="confirm" type="text" class="form-control required">
-                                        </div>
-                                    </div>
-                                    <div class="col-sm-4">
-                                        <div class="text-center">
-                                            <div style="margin-top: 20px">
-                                                <i class="fa fa-sign-in" style="font-size: 180px;color: #e5e5e5 "></i>
-                                            </div>
-                                        </div>
-                                    </div>
+                                <h2>请选择执行机构类型</h2>
+                                <div class="radio i-checks">
+                                    <label>
+                                        <input type="radio" value="option1" name="a"> <i></i>本单位 </label>
                                 </div>
+                                <div class="radio i-checks">
+                                    <label>
+                                        <input type="radio" checked="" value="option2" name="a"> <i></i> 第三方质检机构</label>
+                                </div>
+<!--                                <div class="row">-->
+<!--                                    <div class="col-sm-8">-->
+<!--                                        <div class="form-group">-->
+<!--                                            <label>用户名 *</label>-->
+<!--                                            <input id="userName" name="userName" type="text" class="form-control required">-->
+<!--                                        </div>-->
+<!--                                       -->
+<!--                                        <div class="form-group">-->
+<!--                                            <label>密码 *</label>-->
+<!--                                            <input id="password" name="password" type="text" class="form-control required">-->
+<!--                                        </div>-->
+<!--                                        <div class="form-group">-->
+<!--                                            <label>确认密码 *</label>-->
+<!--                                            <input id="confirm" name="confirm" type="text" class="form-control required">-->
+<!--                                        </div>-->
+<!--                                    </div>-->
+<!--                                    <div class="col-sm-4">-->
+<!--                                        <div class="text-center">-->
+<!--                                            <div style="margin-top: 20px">-->
+<!--                                                <i class="fa fa-sign-in" style="font-size: 180px;color: #e5e5e5 "></i>-->
+<!--                                            </div>-->
+<!--                                        </div>-->
+<!--                                    </div>-->
+<!--                                </div>-->
 
                             </fieldset>
                             <h1>个人资料</h1>
@@ -198,21 +207,21 @@
     </div>
 
     <!-- 全局js -->
-    <script src="js/jquery.min.js?v=2.1.4"></script>
-    <script src="js/bootstrap.min.js?v=3.3.6"></script>
+    <script th:src="@{/hh/js/jquery.min.js?v=2.1.4}"></script>
+    <script th:src="@{/hh/js/bootstrap.min.js?v=3.3.6}"></script>
 
 
 
     <!-- 自定义js -->
-    <script src="js/content.js?v=1.0.0"></script>
+    <script th:src="@{/hh/js/content.js?v=1.0.0}"></script>
 
 
     <!-- Steps -->
-    <script src="js/plugins/staps/jquery.steps.min.js"></script>
+    <script th:src="@{/hh/js/plugins/staps/jquery.steps.min.js}"></script>
 
     <!-- Jquery Validate -->
-    <script src="js/plugins/validate/jquery.validate.min.js"></script>
-    <script src="js/plugins/validate/messages_zh.min.js"></script>
+    <script th:src="@{/hh/js/plugins/validate/jquery.validate.min.js}"></script>
+    <script th:src="@{/hh/js/plugins/validate/messages_zh.min.js}"></script>
 
 
     <script>
@@ -286,8 +295,7 @@
         });
     </script>
 
-    <script type="text/javascript" src="http://tajs.qq.com/stats?sId=9051096" charset="UTF-8"></script>
-    <!--统计代码，可删除-->
+
 
 </body>
 

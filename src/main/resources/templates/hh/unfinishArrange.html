@@ -144,17 +144,17 @@
                                         <div class="form-group">
                                             <label class="col-sm-3 control-label">质检员2 :</label>
                                             <div class="col-sm-3">
-                                                <input id="na2" name="name" type="text" >
+                                                <div id="justAnInputBox3" class="select-tree-wrap"></div>
                                             </div>
                                         </div>
 
                                     </div>
                                     <div id="box2" style="display: none;margin-left: 10px" class="form-horizontal" >
                                         <div class="form-group">
-                                            <label class="col-sm-3 control-label">第三方质检机构 :</label>
-                                            <div class="col-sm-3">
-                                                <input id="na2k3" name="name" type="text" >
-                                            </div>
+                                                <div class="form-group">
+                                                    <label class="col-sm-3 control-label">质检机构 :</label>
+                                                    <div class="col-sm-3"><div id="qaName" class="select-tree-wrap"></div></div>
+                                                </div>
                                         </div>
                                         <div id="demo" class="form-group">
                                             <label class="col-sm-3 control-label">指定质检员 :</label>
@@ -168,14 +168,13 @@
                                             </div>
                                         </div>
                                         <div id="isAssignbox" style="display: none">
-
                                             <div class="form-group">
                                                 <label class="col-sm-3 control-label">质检员1 :</label>
-                                                <div class="col-sm-3"><input id="name" name="name" type="text" ></div>
+                                                <div class="col-sm-3"><div id="justAnInputBox4" class="select-tree-wrap"></div></div>
                                             </div>
                                             <div class="form-group">
                                                 <label class="col-sm-3 control-label">质检员2 :</label>
-                                                <div class="col-sm-3"><input id="name2" name="name" type="text" ></div>
+                                                <div class="col-sm-3"><div id="justAnInputBox5" class="select-tree-wrap"></div></div>
                                             </div>
                                         </div>
 
@@ -240,8 +239,9 @@
     }
 
     $(document).ready(function () {
+         val = 0;
         $("#demo :radio").on('click', function () {
-            var val= $(this).val();
+            val= $(this).val();
             if(val==1){ //指定质检员
                 $("#isAssignbox").show();
             } else{
@@ -272,13 +272,26 @@
         function arrange() {
             var reqId = clickId;
             var qaType = $("#select").val();
-            //质检员1
-            var inspector1 = document.getElementById("justAnInputBox1").innerText;
-            alert(inspector1);
-            // 质检员2
+            var arrangeTime = $("#hello").val();
+            if (qaType == 1){
+                 inspector1 = document.getElementById("justAnInputBox1").innerText;
+                 inspector2 = document.getElementById("justAnInputBox3").innerText;
+
+                alert("执行添加到政府任务,质检员是："+inspector1+"&"+inspector2);
+            }else{
+                var qaName = document.getElementById("qaName").innerText;
+                if(val == 0){
+
+                    alert("不指定质检员的三方机构:"+qaName);
+
+                }else{
+                    inspector1 = document.getElementById("justAnInputBox4").innerText;
+                    inspector2 = document.getElementById("justAnInputBox5").innerText;
+                    alert("指定质检员的三方机构"+qaName+"，质检员是："+inspector1+"&"+inspector2);
+                }
+            }
 
 
-            alert(reqId+"--------"+qaType+"---质检员"+inspector1);
         }
 
         function check() {
@@ -320,97 +333,66 @@
 </script>
 
 <script type="text/javascript">
-    // $.ajax({
-    // 	url: '',
-    // 	type: 'post',
-    // 	contentType : "application/json;charset=utf-8",
-    // 	dataType:'json',
-    // 	success: function(data) {
-    //
-    // 	}
-    // });
+     SampleJSONData = [];
+     all3qa = [];
+    $.ajax({
+    	url: '/qa/inspector/test',
+    	type: 'post',
+    	contentType : "application/json;charset=utf-8",
+    	dataType:'json',
+        async:false,
+    	success: function(data) {
+            SampleJSONData = data;
+    	}
+    });
+    $.ajax({
+    	url: '/qa/inspector/all3qa',
+    	type: 'post',
+    	contentType : "application/json;charset=utf-8",
+    	dataType:'json',
+        async:false,
+    	success: function(data) {
+            all3qa = data;
+    	}
+    });
 
-    var SampleJSONData = [
-        {
-            "id": '73A64FDAFFC',
-            "title": "总裁办",
-            "subs": [
-                {
-                    "id": '73At4FDoFFC',
-                    "title": "张三"
-                },
-                {
-                    "id": '73At4FpAFFC',
-                    "title": "李四"
-                },
-                {
-                    "id": '73AtwFDAFFC',
-                    "title": "数据中心",
-                    "subs": [
-                        {
-                            "id": '13At4FDAFFC',
-                            "title": "王五"
-                        },
-                        {
-                            "id": '83At4FDAFFC',
-                            "title": "赵武"
-                        },
-                        {
-                            "id": '83Al4FDAFFC',
-                            "title": "通讯中心",
-                            "subs": [
-                                {
-                                    "id": '73At4FmAFFC',
-                                    "title": "谢一"
-                                },
-                                {
-                                    "id": '73At4FpAFFC',
-                                    "title": "谢四"
-                                }
-                            ]
-                        }
-                    ]
-                }
-            ]
-        },
-        {
-            "id": '72A64FDAFFC',
-            "title": "技术部",
-            "subs": [
-                {
-                    "id": '73At4FDAFFC',
-                    "title": "赵小刚"
-                },
-                {
-                    "id": '73AtuFDAFFC',
-                    "title": "李小刚"
-                },
-                {
-                    "id": '73yt4FDAFFC',
-                    "title": "王小刚"
-                }
-            ]
-        }
-    ];
-
-    let aaa = $('#justAnInputBox1').comboTree({
+    $('#justAnInputBox1').comboTree({
         source : SampleJSONData,
         isMultiple: false,
         isFirstClassSelectable:false, //第一级是否可选
         cascadeSelect: true,
         selectedlength:3 //最多可选
     });
-
-    //多选
-    let bbb = $('#justAnInputBox2').comboTree({
+    $('#justAnInputBox1').onselect(function () {
+        alert("999999");
+    })
+    $('#justAnInputBox3').comboTree({
         source : SampleJSONData,
-        isMultiple: true,
+        isMultiple: false,
         isFirstClassSelectable:false, //第一级是否可选
         cascadeSelect: true,
-        selectedlength: 100 //最多可选
+        selectedlength:3 //最多可选
+    });$('#justAnInputBox4').comboTree({
+        source : SampleJSONData,
+        isMultiple: false,
+        isFirstClassSelectable:false, //第一级是否可选
+        cascadeSelect: true,
+        selectedlength:3 //最多可选
+    });$('#justAnInputBox5').comboTree({
+        source : SampleJSONData,
+        isMultiple: false,
+        isFirstClassSelectable:false, //第一级是否可选
+        cascadeSelect: true,
+        selectedlength:3 //最多可选
+    });$('#qaName').comboTree({
+        source : all3qa,
+        isMultiple: false,
+        isFirstClassSelectable:false, //第一级是否可选
+        cascadeSelect: true,
+        selectedlength:3 //最多可选
     });
 
-    // bbb.datas(); //获取数据
+
 
 </script>
 

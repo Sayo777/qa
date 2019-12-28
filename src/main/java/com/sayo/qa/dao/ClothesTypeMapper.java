@@ -3,6 +3,8 @@ package com.sayo.qa.dao;
 import com.sayo.qa.entity.ClothesType;
 import org.apache.ibatis.annotations.Mapper;
 
+import java.util.List;
+
 @Mapper
 public interface ClothesTypeMapper {
     int deleteByPrimaryKey(Integer id);
@@ -12,8 +14,9 @@ public interface ClothesTypeMapper {
     int insertSelective(ClothesType record);
 
     ClothesType selectByPrimaryKey(Integer id);
-
+    List<String> selectClothesTypes();
     int updateByPrimaryKeySelective(ClothesType record);
 
     int updateByPrimaryKey(ClothesType record);
+
 }

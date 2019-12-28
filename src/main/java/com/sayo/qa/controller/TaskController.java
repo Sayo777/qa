@@ -96,4 +96,17 @@ public class TaskController {
         model.addAttribute("list",list);
         return "/hh/unfinishArrange.html";
     }
+
+    @RequestMapping(path = "/hi",method = RequestMethod.GET)
+    public String test(){
+        return "/hh/html/form_wizard.html";
+    }
+
+    //安排政府质检任务
+//    @RequestMapping(path = "/taskToGov",method = RequestMethod.POST)
+//    @ResponseBody
+//    public String taskToGov(){
+//
+//    }
+    //安排第三方质检任务
 }
