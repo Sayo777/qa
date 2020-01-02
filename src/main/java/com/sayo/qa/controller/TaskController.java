@@ -33,8 +33,10 @@ public class TaskController {
     private InspectorService inspectorService;
     @Autowired
     private ThirdqaService thirdqaService;
+    @Autowired
+    private ResultService resultService;
 
-    //没有被审核的质检任务请求
+    //待审核的质检任务请求
     @RequestMapping(path = "/uncheckedReq",method = RequestMethod.GET)
     public String getCheckedTask(Model model){
         List<Request>  uncheckList = requestService.findReqByStatus("未审核");
@@ -162,6 +164,15 @@ public class TaskController {
     }
 
 
+    /**
+     * 安排给第三方并且指定质检员
+     * @param reqId 请求编码
+     * @param arrangeTime 安排时间
+     * @param qaName 第三方质检机构名称
+     * @param inspector1 质检员1
+     * @param inspector2 质检员2
+     * @return
+     */
     @RequestMapping(path = "/taskTo3",method = RequestMethod.POST)
     @ResponseBody
     public String taskToGov(int reqId,String arrangeTime,String qaName,String inspector1,String inspector2){
@@ -184,4 +195,32 @@ public class TaskController {
         List<Inspector> list = inspectorService.findInspectorByqa3(qa3Id);
         return list;
     }
+
+    /**
+     * 已完成的质检任务
+     * @param model
+     * @return
+     */
+    @RequestMapping(path = "/finishedTask",method = RequestMethod.GET)
+    public String FinishedTask(Model model){
+        List<Result> results = resultService.findResults();
+        List<Map<String,Object>> Volist = new ArrayList<>();
+        Map<String,Object> map = null;
+        for (Result r: results) {
+            map = new HashMap<>();
+            //申请信息
+            Request request = requestService.getRequest(r.getTaskId());
+            map.put("reqEName",enterpriseService.getEnterPriseById(request.getReqEid()).getEnterpriseName()); //申请企业
+            map.put("reqName",customerService.findCustomerById(request.getReqId()).getName());//申请人
+            map.put("reqType",clothesTypeService.getClothesType(request.getReqType()));//申请质检类型
+            Task task = taskService.findTaskByTaskId(r.getTaskId());
+            map.put("task",task); //任务编号(task.taskId)、质检时间(task.startTime)
+            //质检报告(r.resultId),质检流程详情(r.qaProcess)
+            map.put("result",r);
+            Volist.add(map);
+        }
+        model.addAttribute("Volist",Volist);
+        return "/hh/table_finishedTask.html";
+    }
+
 }

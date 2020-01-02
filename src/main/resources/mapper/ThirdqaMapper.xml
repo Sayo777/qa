@@ -1,0 +1,245 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.sayo.qa.dao.ThirdqaMapper" >
+  <resultMap id="BaseResultMap" type="com.sayo.qa.entity.Thirdqa" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="third_name" property="thirdName" jdbcType="VARCHAR" />
+    <result column="third_email" property="thirdEmail" jdbcType="VARCHAR" />
+    <result column="third_scope" property="thirdScope" jdbcType="VARCHAR" />
+    <result column="legal_person" property="legalPerson" jdbcType="VARCHAR" />
+    <result column="commercial_number" property="commercialNumber" jdbcType="INTEGER" />
+    <result column="credit_code" property="creditCode" jdbcType="VARCHAR" />
+    <result column="type" property="type" jdbcType="VARCHAR" />
+    <result column="address" property="address" jdbcType="VARCHAR" />
+    <result column="province" property="province" jdbcType="VARCHAR" />
+    <result column="city" property="city" jdbcType="VARCHAR" />
+    <result column="scope" property="scope" jdbcType="VARCHAR" />
+    <result column="status" property="status" jdbcType="VARCHAR" />
+    <result column="organ_code" property="organCode" jdbcType="VARCHAR" />
+    <result column="deadline" property="deadline" jdbcType="VARCHAR" />
+    <result column="audit_date" property="auditDate" jdbcType="DATE" />
+    <result column="notes" property="notes" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, third_name, third_email, third_scope, legal_person, commercial_number, credit_code, 
+    type, address, province, city, scope, status, organ_code, deadline, audit_date, notes
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from thirdqa
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <select id="selectThirdqas" resultMap="BaseResultMap" >
+    select
+    <include refid="Base_Column_List" />
+    from thirdqa
+  </select>
+
+  <select id="selectIdByName" resultType="Integer">
+    select
+   id
+    from thirdqa where third_name = #{name}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from thirdqa
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.sayo.qa.entity.Thirdqa" >
+    insert into thirdqa (id, third_name, third_email, 
+      third_scope, legal_person, commercial_number, 
+      credit_code, type, address, 
+      province, city, scope, 
+      status, organ_code, deadline, 
+      audit_date, notes)
+    values (#{id,jdbcType=INTEGER}, #{thirdName,jdbcType=VARCHAR}, #{thirdEmail,jdbcType=VARCHAR}, 
+      #{thirdScope,jdbcType=VARCHAR}, #{legalPerson,jdbcType=VARCHAR}, #{commercialNumber,jdbcType=INTEGER}, 
+      #{creditCode,jdbcType=VARCHAR}, #{type,jdbcType=VARCHAR}, #{address,jdbcType=VARCHAR}, 
+      #{province,jdbcType=VARCHAR}, #{city,jdbcType=VARCHAR}, #{scope,jdbcType=VARCHAR}, 
+      #{status,jdbcType=VARCHAR}, #{organCode,jdbcType=VARCHAR}, #{deadline,jdbcType=VARCHAR}, 
+      #{auditDate,jdbcType=DATE}, #{notes,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.sayo.qa.entity.Thirdqa" >
+    insert into thirdqa
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="thirdName != null" >
+        third_name,
+      </if>
+      <if test="thirdEmail != null" >
+        third_email,
+      </if>
+      <if test="thirdScope != null" >
+        third_scope,
+      </if>
+      <if test="legalPerson != null" >
+        legal_person,
+      </if>
+      <if test="commercialNumber != null" >
+        commercial_number,
+      </if>
+      <if test="creditCode != null" >
+        credit_code,
+      </if>
+      <if test="type != null" >
+        type,
+      </if>
+      <if test="address != null" >
+        address,
+      </if>
+      <if test="province != null" >
+        province,
+      </if>
+      <if test="city != null" >
+        city,
+      </if>
+      <if test="scope != null" >
+        scope,
+      </if>
+      <if test="status != null" >
+        status,
+      </if>
+      <if test="organCode != null" >
+        organ_code,
+      </if>
+      <if test="deadline != null" >
+        deadline,
+      </if>
+      <if test="auditDate != null" >
+        audit_date,
+      </if>
+      <if test="notes != null" >
+        notes,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="thirdName != null" >
+        #{thirdName,jdbcType=VARCHAR},
+      </if>
+      <if test="thirdEmail != null" >
+        #{thirdEmail,jdbcType=VARCHAR},
+      </if>
+      <if test="thirdScope != null" >
+        #{thirdScope,jdbcType=VARCHAR},
+      </if>
+      <if test="legalPerson != null" >
+        #{legalPerson,jdbcType=VARCHAR},
+      </if>
+      <if test="commercialNumber != null" >
+        #{commercialNumber,jdbcType=INTEGER},
+      </if>
+      <if test="creditCode != null" >
+        #{creditCode,jdbcType=VARCHAR},
+      </if>
+      <if test="type != null" >
+        #{type,jdbcType=VARCHAR},
+      </if>
+      <if test="address != null" >
+        #{address,jdbcType=VARCHAR},
+      </if>
+      <if test="province != null" >
+        #{province,jdbcType=VARCHAR},
+      </if>
+      <if test="city != null" >
+        #{city,jdbcType=VARCHAR},
+      </if>
+      <if test="scope != null" >
+        #{scope,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null" >
+        #{status,jdbcType=VARCHAR},
+      </if>
+      <if test="organCode != null" >
+        #{organCode,jdbcType=VARCHAR},
+      </if>
+      <if test="deadline != null" >
+        #{deadline,jdbcType=VARCHAR},
+      </if>
+      <if test="auditDate != null" >
+        #{auditDate,jdbcType=DATE},
+      </if>
+      <if test="notes != null" >
+        #{notes,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.sayo.qa.entity.Thirdqa" >
+    update thirdqa
+    <set >
+      <if test="thirdName != null" >
+        third_name = #{thirdName,jdbcType=VARCHAR},
+      </if>
+      <if test="thirdEmail != null" >
+        third_email = #{thirdEmail,jdbcType=VARCHAR},
+      </if>
+      <if test="thirdScope != null" >
+        third_scope = #{thirdScope,jdbcType=VARCHAR},
+      </if>
+      <if test="legalPerson != null" >
+        legal_person = #{legalPerson,jdbcType=VARCHAR},
+      </if>
+      <if test="commercialNumber != null" >
+        commercial_number = #{commercialNumber,jdbcType=INTEGER},
+      </if>
+      <if test="creditCode != null" >
+        credit_code = #{creditCode,jdbcType=VARCHAR},
+      </if>
+      <if test="type != null" >
+        type = #{type,jdbcType=VARCHAR},
+      </if>
+      <if test="address != null" >
+        address = #{address,jdbcType=VARCHAR},
+      </if>
+      <if test="province != null" >
+        province = #{province,jdbcType=VARCHAR},
+      </if>
+      <if test="city != null" >
+        city = #{city,jdbcType=VARCHAR},
+      </if>
+      <if test="scope != null" >
+        scope = #{scope,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null" >
+        status = #{status,jdbcType=VARCHAR},
+      </if>
+      <if test="organCode != null" >
+        organ_code = #{organCode,jdbcType=VARCHAR},
+      </if>
+      <if test="deadline != null" >
+        deadline = #{deadline,jdbcType=VARCHAR},
+      </if>
+      <if test="auditDate != null" >
+        audit_date = #{auditDate,jdbcType=DATE},
+      </if>
+      <if test="notes != null" >
+        notes = #{notes,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.sayo.qa.entity.Thirdqa" >
+    update thirdqa
+    set third_name = #{thirdName,jdbcType=VARCHAR},
+      third_email = #{thirdEmail,jdbcType=VARCHAR},
+      third_scope = #{thirdScope,jdbcType=VARCHAR},
+      legal_person = #{legalPerson,jdbcType=VARCHAR},
+      commercial_number = #{commercialNumber,jdbcType=INTEGER},
+      credit_code = #{creditCode,jdbcType=VARCHAR},
+      type = #{type,jdbcType=VARCHAR},
+      address = #{address,jdbcType=VARCHAR},
+      province = #{province,jdbcType=VARCHAR},
+      city = #{city,jdbcType=VARCHAR},
+      scope = #{scope,jdbcType=VARCHAR},
+      status = #{status,jdbcType=VARCHAR},
+      organ_code = #{organCode,jdbcType=VARCHAR},
+      deadline = #{deadline,jdbcType=VARCHAR},
+      audit_date = #{auditDate,jdbcType=DATE},
+      notes = #{notes,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

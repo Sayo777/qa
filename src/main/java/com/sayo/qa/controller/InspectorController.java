@@ -37,7 +37,7 @@ public class InspectorController {
     @Autowired
     private ThirdqaService thirdqaService;
 
-    //质检员列表
+    //质检员列表（政府）
     @RequestMapping(path = "/searchInspectorGov",method = RequestMethod.GET)
     public String getInspectorGov(Model model){
         List<Inspector> inspectors = inspectorService.findInspectorsByType("政府");

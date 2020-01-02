@@ -58,19 +58,20 @@
                     <li>
                         <a href="#"><i class="fa fa-user"></i> <span class="nav-label">质检员管理</span><span class="fa arrow"></span></a>
                         <ul class="nav nav-second-level">
-                            <li><a class="J_menuItem" th:href="@{/customer/eApply}">质检员信息</a></li>
-                            <li><a class="J_menuItem" th:href="@{/customer/searchApplies}">质检员任务安排情况</a></li>
+                            <li><a class="J_menuItem" th:href="@{/inspector/searchInspectorGov}">质检员信息</a></li>
+                            <li><a class="J_menuItem" th:href="@{/inspector/TaskArrange}">质检员任务安排情况</a></li>
                         </ul>
                     </li>
                     <li>
                         <a href="#"><i class="fa fa-edit"></i> <span class="nav-label">质检任务管理</span><span class="fa arrow"></span></a>
                             <ul class="nav nav-second-level">
-                            <li><a class="J_menuItem" th:href="@{/customer/qaReq}">待审核</a></li>
+                            <li><a class="J_menuItem" th:href="@{/task/uncheckedReq}">待审核</a></li>
                             <li>
-                                <a class="J_menuItem" th:href="@{/3User/tasks}">已审核<span class="fa arrow"></span></a>
+<!--                                <a class="J_menuItem" th:href="@{/3User/tasks}">已审核<span class="fa arrow"></span></a>-->
+                                <a href="#"> <span class="nav-label">已审核</span><span class="fa arrow"></span></a>
                                 <ul class="nav nav-third-level">
-                                    <li><a class="J_menuItem" th:href="@{/customer/hi}">待处理任务</a></li>
-                                    <li><a class="J_menuItem" th:href="@{/customer/getReqrecord}">已完成任务</a></li>
+                                    <li><a class="J_menuItem" th:href="@{/task/unfinishTask}">待处理任务</a></li>
+                                    <li><a class="J_menuItem" th:href="@{/task/finishedTask}">已完成任务</a></li>
                                     <li><a class="J_menuItem" th:href="@{/customer/getReqrecord}">已拒绝</a></li>
                                 </ul>
                             </li>
