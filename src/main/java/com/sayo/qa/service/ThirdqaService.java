@@ -15,4 +15,8 @@ public class ThirdqaService {
     public List<Thirdqa> findThirdqas(){
         return thirdqaMapper.selectThirdqas();
     }
+
+    public int findIdByName(String name){
+        return thirdqaMapper.selectIdByName(name);
+    }
 }

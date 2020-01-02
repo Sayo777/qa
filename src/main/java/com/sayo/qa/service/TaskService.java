@@ -40,5 +40,9 @@ public class TaskService {
         return taskCheckMapper.selectByPrimaryKey(reqId);
     }
 
+    public int addTaskSelective(Task task){
+        return taskMapper.insertSelective(task);
+    }
+
 
 }

@@ -1,6 +1,7 @@
 package com.sayo.qa.controller;
 
 import com.sayo.qa.CommonUtil.CommunityUtil;
+import com.sayo.qa.CommonUtil.DateUtil;
 import com.sayo.qa.entity.*;
 import com.sayo.qa.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,6 +29,10 @@ public class TaskController {
     private ReqArrangeService reqArrangeService;
     @Autowired
     private TaskService taskService;
+    @Autowired
+    private InspectorService inspectorService;
+    @Autowired
+    private ThirdqaService thirdqaService;
 
     //没有被审核的质检任务请求
     @RequestMapping(path = "/uncheckedReq",method = RequestMethod.GET)
@@ -94,6 +99,24 @@ public class TaskController {
             list.add(map);
         }
         model.addAttribute("list",list);
+
+        //质检机构
+        List<Thirdqa> thirdqaList = thirdqaService.findThirdqas();
+        model.addAttribute("thirdQa",thirdqaList);
+        List<Inspector> inspectors = inspectorService.findInspectorsByType("第三方");
+        List<Map<String,Object>> VoList = new ArrayList<>();
+        List<String> qaTypeList = clothesTypeService.getClothesList();
+        for (String type:qaTypeList) {
+            Map<String,Object> map = new HashMap<>();
+            List<Inspector> list1 = inspectorService.findInspectorByTypeAndQaType("第三方",clothesTypeService.findIdByTypeName(type));
+
+            map.put("type",type);
+            map.put("list1",list1);
+            VoList.add(map);
+        }
+        model.addAttribute("Volist",VoList);
+
+        model.addAttribute("inspectorsList",inspectors);
         return "/hh/unfinishArrange.html";
     }
 
@@ -102,11 +125,63 @@ public class TaskController {
         return "/hh/html/form_wizard.html";
     }
 
-    //安排政府质检任务
-//    @RequestMapping(path = "/taskToGov",method = RequestMethod.POST)
-//    @ResponseBody
-//    public String taskToGov(){
-//
-//    }
-    //安排第三方质检任务
+    /**
+     * 安排政府质检任务,安排完后更新任务安排表req_arrange
+     * @param reqId 任务请求编码
+     * @param arrangeTime 安排时间
+     * @param inspector1 质检员1
+     * @param inspector2 质检员2
+     * @return
+     */
+    @RequestMapping(path = "/taskToGov",method = RequestMethod.POST)
+    @ResponseBody
+    public String taskToGov(int reqId,String arrangeTime,String inspector1,String inspector2){
+        Task task = new Task();
+        task.setTaskId(reqId);
+        task.setQaType("政府");
+        task.setQaEid(1);
+        task.setInspectorOne(inspectorService.findInspectorByName(inspector1).getId());
+        task.setInspectorTwo(inspectorService.findInspectorByName(inspector2).getId());
+        task.setStartTime(DateUtil.stringToDate(arrangeTime));
+        taskService.addTaskSelective(task);
+        //将请求安排表req_arrange表该请求的isArrange变为1
+        reqArrangeService.updateReqArrange(reqId);
+        return CommunityUtil.getJSONString(0,"安排成功！");
+    }
+    //安排第三方质检任务(没有指定人)
+    @RequestMapping(path = "/taskTo3un",method = RequestMethod.POST)
+    @ResponseBody
+    public String taskToGov(int reqId,String arrangeTime,String qaName){
+        Task task = new Task();
+        task.setTaskId(reqId);
+        task.setQaType("第三方");
+        task.setQaEid(thirdqaService.findIdByName(qaName));
+        task.setStartTime(DateUtil.stringToDate(arrangeTime));
+        taskService.addTaskSelective(task);
+        return CommunityUtil.getJSONString(0,"安排给"+qaName+"成功！");
+    }
+
+
+    @RequestMapping(path = "/taskTo3",method = RequestMethod.POST)
+    @ResponseBody
+    public String taskToGov(int reqId,String arrangeTime,String qaName,String inspector1,String inspector2){
+        Task task = new Task();
+        task.setTaskId(reqId);
+        task.setQaType("第三方");
+        task.setQaEid(thirdqaService.findIdByName(qaName));
+        task.setInspectorOne(inspectorService.findInspectorByName(inspector1).getId());
+        task.setInspectorTwo(inspectorService.findInspectorByName(inspector2).getId());
+        task.setStartTime(DateUtil.stringToDate(arrangeTime));
+        taskService.addTaskSelective(task);
+        return CommunityUtil.getJSONString(0,"安排给"+qaName+"成功！"+inspector1+"---"+inspector2);
+    }
+
+
+    @RequestMapping(path = "/test",method = RequestMethod.POST)
+    @ResponseBody
+    public Object test11(String enterpriseName){
+        int qa3Id = thirdqaService.findIdByName(enterpriseName);
+        List<Inspector> list = inspectorService.findInspectorByqa3(qa3Id);
+        return list;
+    }
 }

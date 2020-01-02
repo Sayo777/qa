@@ -19,9 +19,12 @@ public interface InspectorMapper {
 
     Inspector selectByPrimaryKey(Integer id);
     Inspector selectInspectorByName(String name,String type);
+    Inspector selectInspectorByname(String name);
     Inspector selectInspectorByEmail(String email);
     List<Inspector> selectInspectorByTypeAndQaType(String type,int qaType);
     List<Inspector> selectInspectorByqa3AndQaType(int enterpriseId,int qaType);
+    List<Inspector> selectInspectorByqa3(int enterpriseId);
+
 
     int updateByPrimaryKeySelective(Inspector record);
 

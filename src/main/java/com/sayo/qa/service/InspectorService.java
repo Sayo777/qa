@@ -31,4 +31,10 @@ public class InspectorService {
     public List<Inspector> findInspectorByqa3AndQaType(int enterpriseId,int qaType){
         return inspectorMapper.selectInspectorByqa3AndQaType(enterpriseId,qaType);
     }
+    public List<Inspector> findInspectorByqa3(int enterpriseId){
+        return inspectorMapper.selectInspectorByqa3(enterpriseId);
+    }
+    public Inspector findInspectorByName(String name){
+        return inspectorMapper.selectInspectorByname(name);
+    }
 }

@@ -19,4 +19,8 @@ public class ClothesTypeService {
     public List<String> getClothesList(){
         return clothesTypeMapper.selectClothesTypes();
     }
+
+    public int findIdByTypeName(String type){
+        return clothesTypeMapper.selectIdByTypeString(type);
+    }
 }

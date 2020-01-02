@@ -82,12 +82,12 @@
                                 <td th:text="${#dates.format(list.reqTime,'yyyy-MM-dd HH:mm:ss')}">申请时间</td>
                                 <td th:text="${#dates.format(list.taskCheck,'yyyy-MM-dd HH:mm:ss')}">审核时间</td>
                                 <td><input type="hidden"  th:value="${list.req.requestId}"/>
-                                    <button th:id="searchBtn+(${list.req.requestId})" type="button" onclick='test(this)' class="btn btn-primary" data-toggle="modal"
+                                    <button th:id="${list.req.requestId}" type="button" onclick='test(this)' class="btn btn-primary" data-toggle="modal"
                                             >查看
                                     </button>
                                 </td>
                                 <td>
-                                    <button th:id="arrangeBtn+(${list.req.requestId})" type="button" onclick='arrange(this)' class="btn btn-primary" data-toggle="modal" data-target="#arrange">
+                                    <button th:id="${list.req.requestId}" type="button" onclick='arrange(this)' class="btn btn-primary" data-toggle="modal" data-target="#arrange">
                                         立即安排
                                     </button>
                                 </td>
@@ -137,14 +137,27 @@
                                         <div class="form-group">
                                             <label class="col-sm-3 control-label">质检员1 :</label>
                                             <div class="col-sm-3">
-                                                <div id="justAnInputBox1" class="select-tree-wrap"></div>
+                                                                                                        <select data-placeholder="选择省份..." class="chosen-select" style="width:350px;" tabindex="2" id="inspector1">
+                                                <!--                                                            <option value="110000" hassubinfo="true" th:each="lists:${inspectorsList}" th:text="${lists.name}">北京</option>-->
+                                                                                                            <optgroup  th:each="wailist:${Volist}"  th:label="${wailist.type}">
+                                                                                                                <option th:each="newlist:${wailist.list1}" th:text="${newlist.name}" th:value="${newlist.name}">列表数据</option>
+                                                                                                            </optgroup>
+
+
+                                                                                                        </select>
                                             </div>
 
                                         </div>
                                         <div class="form-group">
                                             <label class="col-sm-3 control-label">质检员2 :</label>
                                             <div class="col-sm-3">
-                                                <div id="justAnInputBox3" class="select-tree-wrap"></div>
+                                                <select data-placeholder="选择省份..." class="chosen-select" style="width:350px;" tabindex="2" id="inspector2">
+                                                    <optgroup  th:each="wailist:${Volist}"  th:label="${wailist.type}">
+                                                        <option th:each="newlist:${wailist.list1}" th:text="${newlist.name}" th:value="${newlist.name}">列表数据</option>
+                                                    </optgroup>
+
+
+                                                </select>
                                             </div>
                                         </div>
 
@@ -153,7 +166,13 @@
                                         <div class="form-group">
                                                 <div class="form-group">
                                                     <label class="col-sm-3 control-label">质检机构 :</label>
-                                                    <div class="col-sm-3"><div id="qaName" class="select-tree-wrap"></div></div>
+                                                    <div class="col-sm-3">
+                                                        <select data-placeholder="选择质检机构" class="chosen-select" style="width:350px;" tabindex="2"
+                                                                id="aa" th:onchange="myChange(this.options[this.options.selectedIndex].text)">
+
+
+                                                            <option th:each="thirdQaList:${thirdQa}" th:text="${thirdQaList.thirdName}">列表数据</option>
+                                                    </select></div>
                                                 </div>
                                         </div>
                                         <div id="demo" class="form-group">
@@ -170,11 +189,21 @@
                                         <div id="isAssignbox" style="display: none">
                                             <div class="form-group">
                                                 <label class="col-sm-3 control-label">质检员1 :</label>
-                                                <div class="col-sm-3"><div id="justAnInputBox4" class="select-tree-wrap"></div></div>
+                                                <div class="col-sm-3">
+                                                    <div class="input-group">
+                                                        <select id="subclass1" style="width:350px;"  >
+                                                        </select>
+                                                    </div></div>
                                             </div>
                                             <div class="form-group">
                                                 <label class="col-sm-3 control-label">质检员2 :</label>
-                                                <div class="col-sm-3"><div id="justAnInputBox5" class="select-tree-wrap"></div></div>
+                                                <div class="col-sm-3">
+                                                    <div class="input-group">
+                                                        <select  class="chosen-select"
+                                                                id="subclass2" style="width:350px;" tabindex="2" >
+
+                                                        </select>
+                                                    </div></div>
                                             </div>
                                         </div>
 
@@ -239,7 +268,8 @@
     }
 
     $(document).ready(function () {
-         val = 0;
+        $('#aa').trigger('change');
+        val = 0;
         $("#demo :radio").on('click', function () {
             val= $(this).val();
             if(val==1){ //指定质检员
@@ -274,20 +304,58 @@
             var qaType = $("#select").val();
             var arrangeTime = $("#hello").val();
             if (qaType == 1){
-                 inspector1 = document.getElementById("justAnInputBox1").innerText;
-                 inspector2 = document.getElementById("justAnInputBox3").innerText;
-
-                alert("执行添加到政府任务,质检员是："+inspector1+"&"+inspector2);
+                console.log("执行添加到政府任务,质检员是："+inspector1+"&"+inspector2+"，质检时间"+arrangeTime);
+                 inspector1 = $("#inspector1").val();
+                 inspector2 = $("#inspector2").val();
+                $.post(
+                    "/qa/task/taskToGov",
+                    {"reqId":reqId,"arrangeTime":arrangeTime,"inspector1":inspector1,"inspector2":inspector2},
+                    function (data) {
+                        data = $.parseJSON(data);
+                        alert(data.msg);
+                        setTimeout(function(){
+                            if (data.code == 0){
+                                window.location.reload();
+                            }
+                        }, 2000);
+                    }
+                );
             }else{
-                var qaName = document.getElementById("qaName").innerText;
+                var qaName = $("#aa").val();
                 if(val == 0){
-
                     alert("不指定质检员的三方机构:"+qaName);
-
+                    $.post(
+                        "/qa/task/taskTo3un",
+                        {"reqId":reqId,"arrangeTime":arrangeTime,"qaName":qaName},
+                        function (data) {
+                            data = $.parseJSON(data);
+                            alert(data.msg);
+                            setTimeout(function(){
+                                if (data.code == 0){
+                                    window.location.reload();
+                                }
+                            }, 2000);
+                        }
+                    );
                 }else{
-                    inspector1 = document.getElementById("justAnInputBox4").innerText;
-                    inspector2 = document.getElementById("justAnInputBox5").innerText;
-                    alert("指定质检员的三方机构"+qaName+"，质检员是："+inspector1+"&"+inspector2);
+                    inspector1 = $("#subclass1").val();
+                    inspector2 = $("#subclass2").val();
+                    $.post(
+                        "/qa/task/taskTo3",
+                        {"reqId":reqId,"arrangeTime":arrangeTime,"qaName":qaName,"inspector1":inspector1,"inspector2":inspector2},
+                        function (data) {
+                            data = $.parseJSON(data);
+                            alert(data.msg);
+                            setTimeout(function(){
+                                if (data.code == 0){
+                                    window.location.reload();
+                                }
+                            }, 2000);
+                        }
+                    );
+
+
+                    alert("指定质检员的三方机构"+qaName+"，质检员是："+inspector1+"&"+inspector2+"，质检时间"+arrangeTime);
                 }
             }
 
@@ -332,70 +400,28 @@
     });
 </script>
 
-<script type="text/javascript">
-     SampleJSONData = [];
-     all3qa = [];
-    $.ajax({
-    	url: '/qa/inspector/test',
-    	type: 'post',
-    	contentType : "application/json;charset=utf-8",
-    	dataType:'json',
-        async:false,
-    	success: function(data) {
-            SampleJSONData = data;
-    	}
-    });
-    $.ajax({
-    	url: '/qa/inspector/all3qa',
-    	type: 'post',
-    	contentType : "application/json;charset=utf-8",
-    	dataType:'json',
-        async:false,
-    	success: function(data) {
-            all3qa = data;
-    	}
-    });
-
-    $('#justAnInputBox1').comboTree({
-        source : SampleJSONData,
-        isMultiple: false,
-        isFirstClassSelectable:false, //第一级是否可选
-        cascadeSelect: true,
-        selectedlength:3 //最多可选
-    });
-    $('#justAnInputBox1').onselect(function () {
-        alert("999999");
-    })
-    $('#justAnInputBox3').comboTree({
-        source : SampleJSONData,
-        isMultiple: false,
-        isFirstClassSelectable:false, //第一级是否可选
-        cascadeSelect: true,
-        selectedlength:3 //最多可选
-    });$('#justAnInputBox4').comboTree({
-        source : SampleJSONData,
-        isMultiple: false,
-        isFirstClassSelectable:false, //第一级是否可选
-        cascadeSelect: true,
-        selectedlength:3 //最多可选
-    });$('#justAnInputBox5').comboTree({
-        source : SampleJSONData,
-        isMultiple: false,
-        isFirstClassSelectable:false, //第一级是否可选
-        cascadeSelect: true,
-        selectedlength:3 //最多可选
-    });$('#qaName').comboTree({
-        source : all3qa,
-        isMultiple: false,
-        isFirstClassSelectable:false, //第一级是否可选
-        cascadeSelect: true,
-        selectedlength:3 //最多可选
-    });
-
-
-
+<script>
+    function myChange(tx) {
+        console.log(tx);//tx就是所选择的text
+        $.post(
+            "/qa/task/test",
+            {"enterpriseName":tx},
+            function (data) {
+                // data = $.parseJSON(data);
+                var contain = "<option>请选择</option>"
+                for (var i = 0;i<data.length;i++){
+                    contain += "<option id = ";
+                    contain += data[i].id;
+                    contain += ">";
+                    contain += data[i].name;
+                    contain += "</option>";
+                }
+                $("#subclass1").html(contain);
+                $("#subclass2").html(contain);
+            }
+        );
+    }
 </script>
-
 
 </body>
 

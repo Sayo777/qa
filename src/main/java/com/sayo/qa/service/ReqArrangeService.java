@@ -13,4 +13,9 @@ public class ReqArrangeService {
     public int insertArrange(ReqArrange reqArrange){
         return reqArrangeMapper.insert(reqArrange);
     }
+
+    public int updateReqArrange(int reqId){
+        return reqArrangeMapper.updateByReqId(reqId);
+    }
+
 }

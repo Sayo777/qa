@@ -56,6 +56,10 @@
     </set>
     where request_id = #{requestId,jdbcType=INTEGER}
   </update>
+  <update id="updateByReqId">
+    update req_arrange set is_arrange = 1 where request_id = #{requestId,jdbcType=INTEGER}
+  </update>
+
   <update id="updateByPrimaryKey" parameterType="com.sayo.qa.entity.ReqArrange" >
     update req_arrange
     set is_arrange = #{isArrange,jdbcType=INTEGER}

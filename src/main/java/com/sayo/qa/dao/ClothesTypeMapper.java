@@ -15,6 +15,7 @@ public interface ClothesTypeMapper {
 
     ClothesType selectByPrimaryKey(Integer id);
     List<String> selectClothesTypes();
+    int selectIdByTypeString(String type);
     int updateByPrimaryKeySelective(ClothesType record);
 
     int updateByPrimaryKey(ClothesType record);

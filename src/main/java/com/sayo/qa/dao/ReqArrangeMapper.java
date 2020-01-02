@@ -17,6 +17,7 @@ public interface ReqArrangeMapper {
     List<ReqArrange> selectReqByIsArrange(int isArrange);
 
     int updateByPrimaryKeySelective(ReqArrange record);
+    int updateByReqId(int requestId);
 
     int updateByPrimaryKey(ReqArrange record);
 }

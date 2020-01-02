@@ -49,6 +49,13 @@
     where name = #{name} and type = #{type}
   </select>
 
+  <select id="selectInspectorByname" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select
+    <include refid="Base_Column_List" />
+    from inspector
+    where name = #{name}
+  </select>
+
   <select id="selectInspectorByEmail" resultMap="BaseResultMap" parameterType="java.lang.String" >
     select
     <include refid="Base_Column_List" />
@@ -69,6 +76,15 @@
     from inspector
     where enterprise_id = #{enterpriseId} and inspect_type = #{qaType}
   </select>
+
+  <select id="selectInspectorByqa3" resultMap="BaseResultMap" >
+    select
+    <include refid="Base_Column_List" />
+    from inspector
+    where enterprise_id = #{enterpriseId}
+  </select>
+
+
 
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
     delete from inspector

@@ -21,6 +21,12 @@
     type_name
     from clothes_type
   </select>
+
+  <select id="selectIdByTypeString" resultType="Integer">
+    select
+    id
+    from clothes_type where type_name = #{type}
+  </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
     delete from clothes_type
     where id = #{id,jdbcType=INTEGER}
