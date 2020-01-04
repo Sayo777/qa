@@ -37,6 +37,7 @@ public class InspectorController {
     @Autowired
     private ThirdqaService thirdqaService;
 
+
     //质检员列表（政府）
     @RequestMapping(path = "/searchInspectorGov",method = RequestMethod.GET)
     public String getInspectorGov(Model model){
@@ -186,6 +187,65 @@ public class InspectorController {
         return list1;
     }
 
+    //-----------------质检员端客户-------------------------------------------------
+    @RequestMapping(path = "/index",method = RequestMethod.GET)
+    public String getInspectorIndex(){
+        return "/hh/indexInspector.html";
+    }
+
+    /**
+     *
+     * @param model
+     * @param LoginInspector 登录的质检员，从hostholder中获取(暂时用id为2的质检员来代替)
+     * @return
+     */
+    @RequestMapping(path = "/unInspectTask",method = RequestMethod.GET)
+    public String getUnInspectTask(Model model,Inspector LoginInspector){
+        LoginInspector = inspectorService.findInspectorById(2);
+        List<Task> tasks = taskService.findTaskByInsoector0(LoginInspector.getId());
+        List<Map<String,Object>> VoList = new ArrayList<>();
+        Map<String,Object> map = null;
+        for (Task t: tasks) {
+            map = new HashMap<>();
+            map.put("VoTask",getVoTaskByTask(t)); // 任务编号、受检企业、申请人、联系电话、受检服装类型、受检时间、地址
+            map.put("inspector1",inspectorService.findInspectorById(t.getInspectorOne()));
+            map.put("inspector2",inspectorService.findInspectorById(t.getInspectorTwo()));
+            VoList.add(map);
+        }
+        model.addAttribute("VoList",VoList);
+        return "/hh/inspector/unInspectTask.html";
+    }
+
+    //根据taskId 封装出 任务编号、受检企业、申请人、联系电话、受检服装类型
+    public VoTask getVoTaskByTask(Task task){
+        Request request = requestService.getRequest(task.getTaskId());
+        Enterprise enterprise = enterpriseService.getEnterPriseById(task.getQaEid());
+        Customer customer = customerService.findCustomerById(request.getReqId());
+        VoTask voTask = new VoTask();
+        String address = enterprise.getProvince()+enterprise.getCity()+enterprise.getCounty()+enterprise.getAddress();
+        voTask.setTaskId(task.getTaskId());
+        voTask.setQaEnterprise(enterprise);
+        voTask.setQaCustomer(customer);
+        voTask.setContact(request.getContact());
+        voTask.setClothType(clothesTypeService.getClothesType(request.getReqType()));
+        voTask.setStartTime(task.getStartTime());
+        voTask.setAddress(address);
+        return voTask;
+    }
+
+
+    @RequestMapping(path = "/confirm",method = RequestMethod.POST)
+    @ResponseBody
+    public String inspectorConfirm(int taskId,int inspector1,String pwd1,int inspector2,String pwd2){
+        Map<String,Object> map = inspectorService.identityConfirm(taskId,inspector1,pwd1,inspector2,pwd2);
+        if (map == null || map.size() == 0){
+            return CommunityUtil.getJSONString(0,"验证通过");
+        }else if (map.get("inspector1Msg")!=null){
+            return CommunityUtil.getJSONString(1,map.get("inspector1Msg").toString());
+        }else{
+            return CommunityUtil.getJSONString(1,map.get("inspector2Msg").toString());
+        }
+    }
 
 
 }

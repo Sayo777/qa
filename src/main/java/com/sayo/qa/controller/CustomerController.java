@@ -48,7 +48,6 @@ public class CustomerController {
         if (map.containsKey("ticket")){
             // String str = fileUtil.getUrl(key); 上传的文件url
             String aa = map.get("ticket").toString();
-
             Cookie cookie = new Cookie("ticket",map.get("ticket").toString());
             cookie.setPath(contextPath);//cookie范围
             cookie.setMaxAge(3600*12);//cookie有效时间

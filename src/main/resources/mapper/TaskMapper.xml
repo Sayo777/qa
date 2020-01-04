@@ -27,6 +27,13 @@
     where qa_eid = #{qaId,jdbcType=INTEGER}
   </select>
 
+  <select id="selectTaskByInspectorId0" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select
+    <include refid="Base_Column_List" />
+    from task
+    where inspector_one = #{inspectorId} or inspector_two = #{inspectorId} and end_time = null
+  </select>
+
   <select id="selectTaskByQaTypeAndEid" resultMap="BaseResultMap" >
     select
     <include refid="Base_Column_List" />

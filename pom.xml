@@ -94,6 +94,23 @@
             <artifactId>qiniu-java-sdk</artifactId>
             <version>7.2.23</version>
         </dependency>
+<!--        word生成依赖-->
+        <dependency>
+            <groupId>cn.afterturn</groupId>
+            <artifactId>easypoi-base</artifactId>
+            <version>4.1.0</version>
+        </dependency>
+        <dependency>
+            <groupId>org.jfree</groupId>
+            <artifactId>jcommon</artifactId>
+            <version>1.0.24</version>
+        </dependency>
+        <dependency>
+            <groupId>org.jfree</groupId>
+            <artifactId>jfreechart</artifactId>
+            <version>1.5.0</version>
+        </dependency>
+<!--        word生成依赖-->
     </dependencies>
     <build>
         <plugins>

@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+
+    <title>待审核任务列表</title>
+    <meta name="keywords" content="待审核任务列表">
+    <meta name="description" content="待审核任务列表">
+
+    <link rel="shortcut icon" th:href="@{/hh/favicon.ico}">
+    <link th:href="@{/hh/css/bootstrap.min.css?v=3.3.6}" rel="stylesheet">
+    <link th:href="@{/hh/css/font-awesome.css?v=4.4.0}" rel="stylesheet">
+    <link th:href="@{/hh/css/plugins/iCheck/custom.css}" rel="stylesheet">
+    <link th:href="@{/hh/css/animate.css}" rel="stylesheet">
+    <link th:href="@{/hh/css/style.css?v=4.1.0}" rel="stylesheet">
+
+</head>
+
+<body class="gray-bg">
+<div class="wrapper wrapper-content animated fadeInRight">
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="ibox float-e-margins">
+                <div class="ibox-title">
+                    <h5>待办任务列表</h5>
+                </div>
+                <div class="ibox-content">
+                    <div class="row">
+                        <div class="col-sm-5 m-b-xs" style="width: 200px;">
+                            <select class="input-sm form-control input-s-sm inline" >
+                                <option value="1" >选项1</option>
+                                <option value="1" >选项1</option>
+                                <option value="1" >选项1</option>
+                                <option value="1" >选项1</option>
+                            </select>
+                        </div>
+
+                        <div class="col-sm-3">
+                            <div class="input-group" >
+                                <input type="text" placeholder="请输入关键词" class="input-sm form-control"> <span class="input-group-btn">
+                                        <button type="button" class="btn btn-sm btn-primary"> 搜索</button> </span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="table-responsive">
+                        <table class="table table-striped">
+                            <thead>
+                            <tr>
+                                <th>任务编号</th>
+                                <th>1号质检员</th>
+                                <th>2号质检员</th>
+                                <th>受检企业</th>
+                                <th>地址</th>
+                                <th>申请人</th>
+                                <th>联系电话</th>
+                                <th>受检服装类型</th>
+                                <th>安排时间</th>
+                                <th>操作</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr th:each="list:${VoList}">
+                                <td th:text="${list.VoTask.taskId}">任务编号</td>
+                                <td th:text="${list.inspector1.name}">1号质检员</td>
+                                <td th:text="${list.inspector2.name}">2号质检员</td>
+                                <td th:text="${list.VoTask.qaEnterprise.enterpriseName}">受检企业</td>
+                                <td th:text="${list.VoTask.address}">地址</td>
+                                <td th:text="${list.VoTask.qaCustomer.name}">申请人</td>
+                                <td th:text="${list.VoTask.contact}">联系电话</td>
+                                <td th:text="${list.VoTask.clothType}">受检服装类型</td>
+                                <td th:text="${#dates.format(list.VoTask.startTime,'yyyy-MM-dd HH:mm:ss')}">受检时间</td>
+                                <!--                                <td ><a th:href="@{|/inspector/TaskArrange/${list.req.id}|}"><i class="fa fa-check text-navy">操作</i></a></td>-->
+                                <td>
+                                    <input type="hidden"  th:value="${list.VoTask.taskId}"/>
+                                    <button th:id="${list.VoTask.taskId}" onclick='test(this)' type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal6">
+                                        开始质检
+                                    </button></td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="modal inmodal fade" id="myModal6" tabindex="-1" role="dialog"  aria-hidden="true">
+                        <div class="modal-dialog modal-sm">
+                            <div class="modal-content">
+                                <div style="text-align: center;margin-top: 10px; font-size: 14pt">
+                                    <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                                    <div>身份核对</div>
+                                </div>
+                                <form method="post" th:action="@{/inspector/confirm}">
+                                <div class="modal-body">
+                                    <input type="hidden" id="myTaskId" />
+                                    <div>1号质检员：</div>
+                                    <div class="form-group form-inline">
+                                        <label >账 号：</label>
+                                        <input type="text" id="inspector1" name="inpsector1" class="form-control" placeholder="用户名" required="" autocomplete="off">
+                                    </div>
+                                    <div class="form-group form-inline">
+                                        <label >密 码：</label>
+                                        <input type="password" id="pwd1" name="pwd1" class="form-control" placeholder="密码" required="">
+                                    </div>
+                                    <hr style="height:3px;border:none;border-top:3px double #6B8E23;"/>
+                                    <div>2号质检员：</div>
+                                    <div class="form-group form-inline">
+                                        <label >账 号：</label>
+                                        <input type="text" id="inspector2" name="inspector2" class="form-control" placeholder="用户名" required="" autocomplete="off">
+                                    </div>
+                                    <div class="form-group form-inline">
+                                        <label >密 码：</label>
+                                        <input type="password" id="pwd2" name="pwd2" class="form-control" placeholder="密码" required="">
+                                    </div>
+
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-white" data-dismiss="modal">取消</button>
+                                    <button type="button" class="btn btn-primary" id="check">确定</button>
+<!--                                    <button type="submit"  class="btn btn-primary">确定</button>-->
+                                </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<!-- 全局js -->
+<script th:src="@{/hh/js/jquery.min.js?v=2.1.4}"></script>
+<script th:src="@{/hh/js/bootstrap.min.js?v=3.3.6}"></script>
+
+
+
+<!-- Peity -->
+<script th:src="@{/hh/js/plugins/peity/jquery.peity.min.js}"></script>
+
+<!-- 自定义js -->
+<script th:src="@{/hh/js/content.js?v=1.0.0}"></script>
+
+
+<!-- iCheck -->
+<script th:src="@{/hh/js/plugins/iCheck/icheck.min.js}"></script>
+
+<!-- Peity -->
+<script th:src="@{/hh/js/demo/peity-demo.js}"></script>
+
+<script>
+    $(document).ready(function () {
+        $(function(){
+            $("#check").click(check);
+        });
+        function check() {
+            var taskId = document.getElementById("myTaskId").value;
+            var inspector1 = document.getElementById("inspector1").value;
+            var inspector2 = document.getElementById("inspector2").value;
+            var pwd1 = document.getElementById("pwd1").value;
+            var pwd2 = document.getElementById("pwd2").value;
+            $.post(
+                "/qa/inspector/confirm",
+                {"taskId":taskId,"inspector1":inspector1,"pwd1":pwd1,"inspector2":inspector2,"pwd2":pwd2},
+                function (data) {
+                    data = $.parseJSON(data);
+                    if (data.code==0){
+                        alert(data.msg);
+                        window.location.href = 'http://localhost:8080/qa/gov/index';
+                    } else{
+                        alert(data.msg);
+                    }
+                }
+            );
+        }
+
+
+
+    });
+</script>
+<script>
+    function test(obj) {
+        alert(obj.id);
+        document.getElementById("myTaskId").value=obj.id;
+
+
+
+    }
+</script>
+
+</body>
+
+</html>

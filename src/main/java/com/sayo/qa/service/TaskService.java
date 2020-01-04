@@ -44,5 +44,13 @@ public class TaskService {
         return taskMapper.insertSelective(task);
     }
 
+    /**
+     * 未被执行的task（只能看见自己的任务，所在公司的任务是不是也可以查看？？？？？？？？？）
+     * @param inspectorId 质检员
+     * @return
+     */
+    public List<Task> findTaskByInsoector0(int inspectorId){
+        return taskMapper.selectTaskByInspectorId0(inspectorId);
+    }
 
 }

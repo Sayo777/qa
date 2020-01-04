@@ -55,19 +55,18 @@
                         <div class="logo-element">H+
                         </div>
                     </li>
-                    <li>
+                    <li class="active">
                         <a href="#"><i class="fa fa-user"></i> <span class="nav-label">质检员管理</span><span class="fa arrow"></span></a>
                         <ul class="nav nav-second-level">
                             <li><a class="J_menuItem" th:href="@{/inspector/searchInspectorGov}">质检员信息</a></li>
                             <li><a class="J_menuItem" th:href="@{/inspector/TaskArrange}">质检员任务安排情况</a></li>
                         </ul>
                     </li>
-                    <li>
+                    <li class="active">
                         <a href="#"><i class="fa fa-edit"></i> <span class="nav-label">质检任务管理</span><span class="fa arrow"></span></a>
                             <ul class="nav nav-second-level">
                             <li><a class="J_menuItem" th:href="@{/task/uncheckedReq}">待审核</a></li>
-                            <li>
-<!--                                <a class="J_menuItem" th:href="@{/3User/tasks}">已审核<span class="fa arrow"></span></a>-->
+                            <li class="active">
                                 <a href="#"> <span class="nav-label">已审核</span><span class="fa arrow"></span></a>
                                 <ul class="nav nav-third-level">
                                     <li><a class="J_menuItem" th:href="@{/task/unfinishTask}">待处理任务</a></li>
