@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="apple-touch-fullscreen" content="yes">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <meta name="format-detection" content="telephone=no">
+
+    <title>信息照片上传</title>
+
+    <link rel="stylesheet" type="text/css" th:href="@{/hh/css/base.css}">
+    <link rel="stylesheet" type="text/css" th:href="@{/hh/css/home.css}">
+
+</head>
+<body>
+<section class="aui-content">
+    <div style="height:20px;"></div>
+    <div class="aui-content-up">
+        <form name="form1" id="form1">
+            <div class="aui-content-up-form">
+                <h2>客户资料</h2>
+            </div>
+<!--            <div class="aui-form-group clear">-->
+<!--                <label class="aui-label-control">-->
+<!--                    姓名 <em>*</em>-->
+<!--                </label>-->
+<!--                <div class="aui-form-input">-->
+<!--                    <input type="text" class="aui-form-control-two" name="yourname" onBlur="checkna()" required id="1"-->
+<!--                           placeholder="请输入身份证名字">-->
+<!--                    <span class="tips" id="divname">长度1~6个字符</span>-->
+<!--                </div>-->
+<!--            </div>-->
+<!--            <div class="aui-form-group clear">-->
+<!--                <label class="aui-label-control">-->
+<!--                    手机号码 <em>*</em>-->
+<!--                </label>-->
+<!--                <div class="aui-form-input">-->
+<!--                    <input type="text" class="aui-form-control-two" name="youphone" id="2" placeholder="请输入11位的手机号码"-->
+<!--                           onBlur="checkpsd1()" required/>-->
+<!--                    <span class="tips" id="phone">必须是11位的数字</span>-->
+<!--                </div>-->
+<!--            </div>-->
+<!--            <div class="aui-form-group clear">-->
+<!--                <label class="aui-label-control">-->
+<!--                    资质图片 <em>*</em>-->
+<!--                </label>-->
+<!--                <div class="aui-form-input">-->
+<!--                    <input type="text" class="aui-form-control-two" name="youziz" id="3"-->
+<!--                           placeholder="请输入营业执照编码/统一社会信用代码" onBlur="checkpsd2()" required/>-->
+<!--                    <span class="tips" id="zizhi">必须是18位社会信用代码</span>-->
+<!--                </div>-->
+<!--            </div>-->
+<!--            <div class="aui-form-group clear">-->
+<!--                <label class="aui-label-control">-->
+<!--                    推广内容-->
+<!--                </label>-->
+<!--                <div class="aui-form-input">-->
+<!--                    <textarea class="aui-form-control" name="description" id="4" minlength="5">请输入您要推广的内容...</textarea>-->
+<!--                </div>-->
+<!--            </div>-->
+            <div class="aui-form-group clear">
+                <label class="aui-label-control">
+                    基本信息 <em>*</em>
+                    <span>小于5M</span>
+                </label>
+                <div class="aui-form-input">
+                    <div class="aui-content-img-box aui-content-full">
+                        <div class="aui-photo aui-up-img clear">
+                            <section class="aui-file-up fl">
+                                <img th:src="@{/hh/img/up.png}" class="add-img">
+                                <input type="hidden"  name="token" th:value="${uploadToken}">
+                                <input type="hidden"  name="key" th:value="${fileName}">
+                                <input type="file" name="file" id="file" class="file" value=""
+                                       accept="image/jpg,image/jpeg,image/png,image/bmp" multiple/>
+                            </section>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="aui-form-group-text">
+                <h3>需要以下材料</h3>
+                <p>营业执照或组织机构代码等生产方《化妆品生产许可证》代生产合同或经销证明国产非特殊用途化妆品食药监查询截图进口化妆品，需提供国务院食药监行政部门备案登记即《进口（非）特殊用途化妆品备案凭证》</p>
+            </div>
+            <div class="aui-btn-default">
+                <button class="aui-btn aui-btn-account" type="submit">保存并提交审核</button>
+            </div>
+        </form>
+    </div>
+
+</section>
+<!-- mask begin -->
+<div class="aui-mask aui-works-mask">
+    <div class="aui-mask-content">
+        <p class="aui-delete-text">确定要删除你上传的资料？</p>
+        <p class="aui-check-text">
+            <span class="aui-delete aui-accept-ok">确定</span>
+            <span class="aui-accept-no">取消</span>
+        </p>
+    </div>
+</div>
+<!-- mask end -->
+<script type="text/javascript" th:src="@{/hh/js/jquery.min.js}"></script>
+<script type="text/javascript" th:src="@{/hh/js/up.js}"></script>
+<script type="text/javascript">
+    $(function () {
+        $("#form1").submit(save);
+    })
+    function save() {
+        alert("save了");
+        $.ajax({
+            url: "http://upload-z2.qiniup.com",
+            method: "post",
+            processData: false,
+            contentType: false,
+            data: new FormData($("#form1")[0]),
+            success: function(data) {
+                if(data && data.code == 0) {
+                    console.log(data);
+                    alert(data)
+                    alert("上传成功!");
+                } else {
+                    alert("上传失败!");
+                }
+            }
+        });
+        return false;
+    }
+
+    //验证姓名
+    function checkna() {
+        na = form1.yourname.value;
+        if (na.length < 1 || na.length > 6) {
+            divname.innerHTML = '<font class="tips_false">长度是1~6个字符</font>';
+        } else {
+            divname.innerHTML = '<font class="tips_true">输入正确</font>';
+        }
+    }
+
+    //验证手机号码
+    function checkpsd1() {
+        na = form1.youphone.value;
+        if (na.length < 11 || na.length > 11) {
+            phone.innerHTML = '<font class="tips_false">必须是11位的数字</font>';
+        } else {
+            phone.innerHTML = '<font class="tips_true">输入正确</font>';
+        }
+    }
+
+    //验证社会统一代码
+    function checkpsd2() {
+        na = form1.youziz.value;
+        if (na.length < 18 || na.length > 18) {
+            zizhi.innerHTML = '<font class="tips_false">必须是18位社会信用代码</font>';
+        } else {
+            zizhi.innerHTML = '<font class="tips_true">输入正确</font>';
+        }
+    }
+
+
+</script>
+</body>
+</html>
