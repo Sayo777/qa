@@ -201,6 +201,7 @@
     border-radius: 2px;
     padding:10px 24px 1px 24px;
     width: 900px;
+    height: 1700px;
     margin: 0 auto;
 }
 
@@ -219,7 +220,7 @@
 
 .aui-label-control {
     display: inline-block;
-    width: 80px;
+    width: 110px;
     margin-bottom: 5px;
     min-width: 80px;
     padding-right: 10px;
@@ -231,7 +232,7 @@
 
 .aui-form-input {
     float: left;
-    width: 470px;
+    width: 300px;
     position:relative;
 }
 

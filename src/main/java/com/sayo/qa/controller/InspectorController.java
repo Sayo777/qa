@@ -294,5 +294,27 @@ public class InspectorController {
         return "/hh/inspector/webuploader.html";
     }
 
+    @RequestMapping(path = "/test",method = RequestMethod.GET)
+    public String teststet(Model model){
+        String fileName = CommunityUtil.generateUUID();
+        String fileName2 = CommunityUtil.generateUUID();
+        String fileName3 = CommunityUtil.generateUUID();
+        // 设置响应信息
+        StringMap policy = new StringMap();
+        policy.put("returnBody", CommunityUtil.getJSONString(0));
+        // 生成上传凭证
+        Auth auth = Auth.create(accessKey, secretKey);
+        String uploadToken = auth.uploadToken(headerBucketName, fileName, 3600, policy);
+        String uploadToken2 = auth.uploadToken(headerBucketName, fileName2, 3600, policy);
+        String uploadToken3 = auth.uploadToken(headerBucketName, fileName3, 3600, policy);
+        model.addAttribute("uploadToken", uploadToken);
+        model.addAttribute("fileName", fileName);
+        model.addAttribute("uploadToken2", uploadToken2);
+        model.addAttribute("fileName2", fileName2);
+        model.addAttribute("uploadToken3", uploadToken3);
+        model.addAttribute("fileName3", fileName3);
+        return "/hh/inspector/webuploader.html";
+    }
+
 
 }
