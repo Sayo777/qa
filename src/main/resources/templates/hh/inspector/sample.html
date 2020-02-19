@@ -1,0 +1,374 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+
+    <title>抽样单</title>
+    <link rel="shortcut icon" th:href="@{/hh/favicon.ico}">
+    <link th:href="@{/hh/css/bootstrap.min.css?v=3.3.6}" rel="stylesheet">
+    <link th:href="@{/hh/css/font-awesome.css?v=4.4.0}" rel="stylesheet">
+    <link th:href="@{/hh/css/plugins/iCheck/custom.css}" rel="stylesheet">
+    <link th:href="@{/hh/css/animate.css}" rel="stylesheet">
+    <link th:href="@{/hh/css/style.css?v=4.1.0}" rel="stylesheet">
+    <style>
+        /*给表格设置属性*/
+        .table {
+            width: 774px;
+            border-collapse: collapse;
+            table-layout: fixed;
+            margin: auto;
+        }
+
+        /*设置表格的td,th */
+        .table td, th {
+            border: 1px solid black;
+
+
+        }
+        .table td{
+            font-family:仿宋;
+            color: black;
+            font-size: 15px;
+        }
+
+        .sj {
+            width: 70px;
+            text-align: center; /*字体居中*/
+        }
+
+        .zj {
+            background-color: #ffffa7;
+        }
+
+        /*逗号选择器*/
+        .sw, .xw, .zw, .xx, .ws, .ws {
+            text-align: center;
+        }
+
+        table caption {
+            font-size: 20px;
+            color: #c00;
+            text-align: center;
+        }
+    </style>
+</head>
+
+<body class="gray-bg">
+
+
+<div class="ibox float-e-margins" style="background-color: #3dc7ab; margin: 0 auto;width: 900px">
+    <div class="ibox-content">
+        <form th:action="@{/inspector/sendSample}" method="post">
+            <table class="table">
+                <caption>产品质量监督抽查/复查抽样单</caption>
+                <tbody>
+                <tr>
+                    <th colspan="2" class="sj">任务来源（编号）</th>
+                    <input name="taskId" type="hidden" th:value="${taskId}">
+                    <td class="sj" th:text="${taskId}"></td>
+                    <th class="sj zj">监督抽查类别</th>
+                    <td class="sj zj">
+                        <input type="radio" name="level" id="country" value="国家级" checked="checked"> 国家级
+                        <input type="radio" name="level" id="province" value="省级"> 省级
+                        <input type="radio" name="level" id="city" value="市级"> 市级
+                    </td>
+                </tr>
+                <tr>
+                    <th rowspan="7">
+                        <div style="writing-mode: tb-rl;padding: 23px">受检产品信息</div>
+                    </th>
+                    <th>受检产品</th>
+                    <td>xxx
+                    </td>
+                    <th>型号/规格</th>
+                    <td>xxx</td>
+                </tr>
+                <tr>
+                    <th class="zj">抽样基数</th>
+                    <td class="zj" style="padding: 0px;">
+                        <div class="form-group has-warning" style="margin-bottom: 0px;">
+                            <input type="text" class="form-control" id="jishu" name="jishu">
+                        </div>
+                    </td>
+                    <th class="zj">抽样数量</th>
+                    <td class="zj" style="padding: 0px;">
+                        <div class="form-group has-warning" style="margin-bottom: 0px;">
+                            <input type="text" class="form-control" id="shuliang" name="shuliang">
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <th>执行标准</th>
+                    <td>xxx</td>
+                    <th>抽样日期</th>
+                    <td th:text="${#dates.format(insDate,'yyyy-MM-dd')}">xxx</td>
+                </tr>
+                <tr>
+                    <th class="zj">抽样方法</th>
+                    <td colspan="3" class="zj">
+
+                        <input type="radio" name="ways" id="simple" value="简单随机" style="margin-left: 10px"> 简单随机
+
+                        <input type="radio" name="ways" id="fenceng" value="分层随机" style="margin-left: 10px"> 分层随机
+
+                        <input type="radio" name="ways" id="system" value="系统随机" style="margin-left: 10px"> 系统随机
+
+                        <input type="radio" name="ways" id="all" value="全数抽样" style="margin-left: 10px"> 全数抽样
+
+
+                    </td>
+                </tr>
+                <tr>
+                    <th class="zj">备样数量</th>
+                    <td class="zj" style="padding: 0px;">
+                        <div class="form-group has-warning" style="margin-bottom: 0px;">
+                            <input type="text" class="form-control" id="bynumber" name="bynumber">
+                        </div>
+                    </td>
+                    <th class="zj">备样封存地点</th>
+                    <td  class="zj" style="padding: 0px">
+                        <input type="radio" name="byplace" id="shoujian" value="受检单位" style="margin-left: 4px"> 受检单位
+
+                        <input type="radio" name="byplace" id="chouyang" value="抽样单位"> 抽样单位
+
+                    </td>
+                </tr>
+                <tr>
+                    <th>市场准入情况</th>
+                    <td colspan="3">
+
+                        <input type="radio" name="shichang" id="industry" value="工业产品生产许可证" style="margin-left: 10px">
+                        工业产品生产许可证
+
+                        <input type="radio" name="shichang" id="3c" value="CCC认证" style="margin-left: 10px"> CCC认证
+
+                        <input type="radio" name="shichang" id="another" value="其他" checked="checked"
+                               style="margin-left: 10px"> 其他
+
+                    </td>
+                </tr>
+                <tr>
+                    <th>生产方式</th>   <!-- 合并两列 -->
+                    <td colspan="3">
+
+                        <input type="radio" name="shengchan" id="zixing" value="自行生产" checked="checked"
+                               style="margin-left: 10px"> 自行生产
+
+
+                        <input type="radio" name="shengchan" id="weituo" value="委托加工" style="margin-left: 10px"> 委托加工
+
+
+                        <input type="radio" name="shengchan" id="tiepai" value="贴牌" style="margin-left: 10px"> 贴牌
+
+
+                        <input type="radio" name="shengchan" id="fenzhuang" value="分装" style="margin-left: 10px"> 分装
+
+
+                        <input type="radio" name="shengchan" id="qita" value="其他" style="margin-left: 10px"> 其他
+
+
+                    </td>   <!-- 合并两列 -->
+                </tr>
+                <tr>
+                    <th rowspan="6">
+                        <div style="writing-mode: tb-rl;padding: 23px">受检单位信息</div>
+                    </th>
+                    <th>名称</th>
+                    <td th:text="${enterpriseName}">xxx</td>
+                    <th>法人代表</th>   <!-- 合并两列 -->
+                    <td th:text="${legalPerson}">xxx</td>   <!-- 合并两列 -->
+                </tr>
+                <tr>
+                    <th>联系人</th>   <!-- 合并两列 -->
+                    <td th:text="${contact}">xxx</td>   <!-- 合并两列 -->
+                    <th>电话</th>   <!-- 合并两列 -->
+                    <td th:text="${tel}">xxx</td>   <!-- 合并两列 -->
+                </tr>
+                <tr>
+                    <th>地址</th>   <!-- 合并两列 -->
+                    <td colspan="3" th:text="${address}">xxx</td>
+                </tr>
+                <tr>
+                    <th>工商注册号</th>   <!-- 合并两列 -->
+                    <td th:text="${commercialNumber}">xxx</td>   <!-- 合并两列 -->
+                    <th>组织机构代码</th>   <!-- 合并两列 -->
+                    <td th:text="${organCode}">xxx</td>   <!-- 合并两列 -->
+                </tr>
+                <tr>
+                    <th>邮箱</th>   <!-- 合并两列 -->
+                    <td th:text="${email}">xxx</td>   <!-- 合并两列 -->
+                    <th>官网</th>   <!-- 合并两列 -->
+                    <td th:text="${website}">xxx</td>   <!-- 合并两列 -->
+                </tr>
+                <tr>
+                    <th>经济类型</th>   <!-- 合并两列 -->
+                    <td colspan="3">
+
+                        <input type="radio" name="jingji" id="neizi" value="内资企业" th:attr ="checked=${jingji == '内资企业'?true:false}"
+                               style="margin-left: 10px"> 内资企业
+
+                        <input type="radio" name="jingji" id="港澳" value="港澳台投资企业" th:attr ="checked=${jingji == '港澳台投资企业'?true:false}" style="margin-left: 10px"> 港澳台投资企业
+
+                        <input type="radio" name="jingji" id="waizi" value="外资企业" th:attr ="checked=${jingji == '外资企业'?true:false}" style="margin-left: 10px"> 外资企业
+
+
+                    </td>
+                </tr>
+
+
+                <tr>
+                    <th rowspan="3" style="writing-mode: tb-rl;padding: 23px">抽样单位</th>
+                    <th>名称</th>
+                    <td th:text="${insName}">xxx</td>
+                    <th>邮编</th>
+                    <td th:text="${insEmail}">xxx</td>
+                </tr>
+                <tr>
+                    <th>联系人</th>
+                    <td th:text="${insContact}">xxx</td>
+                    <th>电话</th>
+                    <td th:text="${insTel}">xxx</td>
+                </tr>
+                <tr>
+                    <th>地址</th>   <!-- 合并两列 -->
+                    <td colspan="3" th:text="${insAddress}">xxx</td>
+                </tr>
+                <tr>
+                    <th class="zj">备注(选填)</th>
+                    <td colspan="4" class="zj" style="padding: 0px;">
+                        <div class="form-group has-warning" style="margin-bottom: 0px;">
+                            <input type="text" class="form-control" id="notes" name="notes">
+                        </div>
+                    </td>
+                </tr>
+                <tr style="height: 140px;">
+                    <th colspan="3" style="vertical-align: top">受检单位对上述内容无异议<br>受检单位代表签字:
+                        <p style="margin-top: 39px;margin-left: 197px">受检单位（盖章）</p>
+                        <p style="margin-top: 10px;margin-left: 200px">2020年1月23日</p>
+                    </th>
+                    <th colspan="2" style="vertical-align: top">抽样人员签名（至少两人）：
+                        <p th:text="${ins1}" style="display: inline;font-family: 楷体;color: black">xx</p>,
+                        <p th:text="${ins2}" style="display: inline;font-family: 楷体;color: black">xx</p>
+                        <img th:src="@{/hh/img/yinzhang.png}" style="width: 120px;height: 120px;float: right" >
+                        <p style="margin-left: 140px;margin-top: 55px;">抽样单位（盖章）</p>
+                        <p style="margin-top: 10px;margin-left: 154px">2020年1月23日</p>
+                    </th>
+                </tr>
+                </tbody>
+            </table>
+            <div style="margin-top: 8px;padding: 0px 30px">
+                <button class="btn btn-primary  m-b" id="send" type="submit" style="display: inline">发送</button>
+                <button class="btn btn-primary  m-b" id="cancel" type="reset" style="margin-left: 20px">重置</button>
+            </div>
+
+
+        </form>
+        <!--        <form name="finishForm" id="finishForm" th:action="@{/record/finish}" method="post">-->
+        <!--            <p>上传结果文档：</p>-->
+        <!--            <div style="border:1px dashed #000;width: 200px">-->
+        <!--                <input  type="hidden" name="token" th:value="${uploadToken}">-->
+        <!--                <input  type="hidden" name="key" th:value="${fileName}">-->
+        <!--                <input type="file"  multiple="multiple"  class="form-control" id="head-image" name="file" lang="es" required="" onchange="pre(this)">-->
+        <!--                <div id="preview">-->
+        <!--                    <img id="img_all" border=0 th:src="@{/hh/img/imgbackgroud.png}" width="180" height="180"/>-->
+        <!--                </div>-->
+
+
+        <!--            </div>-->
+        <!--            <button class="btn btn-primary block m-b" id="finish" type="submit">完成任务</button>-->
+        <!--        </form>-->
+    </div>
+
+</div>
+
+
+<!-- 全局js -->
+<script th:src="@{/hh/js/jquery.min.js?v=2.1.4}"></script>
+<script th:src="@{/hh/js/bootstrap.min.js?v=3.3.6}"></script>
+
+<script type="text/javascript">
+    $(function () {
+        $('input:not([autocomplete]),textarea:not([autocomplete]),select:not([autocomplete])').attr('autocomplete', 'off');
+    });
+</script>
+<script>
+    $(function () {
+    });
+
+    function download() {
+        //发送异步请求
+        $.ajaxSettings.async = false;
+        $.post(
+            "/qa/record/download",
+            {},
+            function (data) {
+            }
+        );
+        $.ajaxSettings.async = true;
+
+    }
+
+    function pre(file) {
+        $.ajax({
+            url: "http://upload-z0.qiniup.com",
+            method: "post",
+            processData: false,
+            contentType: false,
+            data: new FormData($("#finishForm")[0]),
+            success: function (data) {
+                if (data && data.code == 0) {
+                    alert("上传成功!");
+                } else {
+                    alert("上传失败!");
+                }
+            }
+        });
+        var MAXWIDTH = 260;
+        var MAXHEIGHT = 180;
+        var div = document.getElementById('preview');
+        if (file.files && file.files[0]) {
+            var img = document.getElementById('img_all');
+            img.onload = function () {
+                var rect = clacImgZoomParam(MAXWIDTH, MAXHEIGHT, img.offsetWidth, img.offsetHeight);
+                img.width = rect.width;
+                img.height = rect.height;
+                img.style.marginTop = rect.top + 'px';
+            }
+            var reader = new FileReader();
+            reader.onload = function (evt) {
+                img.src = evt.target.result;
+            }
+            reader.readAsDataURL(file.files[0]);
+        }
+
+    }
+
+    function clacImgZoomParam(maxWidth, maxHeight, width, height) {
+        var param = {top: 0, left: 0, width: width, height: height};
+        if (width > maxWidth || height > maxHeight) {
+            rateWidth = width / maxWidth;
+            rateHeight = height / maxHeight;
+
+            if (rateWidth > rateHeight) {
+                param.width = maxWidth;
+                param.height = Math.round(height / rateWidth);
+            } else {
+                param.width = Math.round(width / rateHeight);
+                param.height = maxHeight;
+            }
+        }
+
+        param.left = Math.round((maxWidth - param.width) / 2);
+        param.top = Math.round((maxHeight - param.height) / 2);
+        return param;
+    }
+</script>
+
+
+</body>
+
+</html>

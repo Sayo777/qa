@@ -19,4 +19,8 @@ public class ThirdqaService {
     public int findIdByName(String name){
         return thirdqaMapper.selectIdByName(name);
     }
+
+    public Thirdqa findThirdqaById(int id){
+        return thirdqaMapper.selectByPrimaryKey(id);
+    }
 }

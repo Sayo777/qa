@@ -68,4 +68,19 @@ public class InspectorService {
         }
         return map;
     }
+
+    public Map<String, Object> login(String name, String password) {
+        Map<String, Object> map = new HashMap<>();
+        //判断该User存在与否
+        Inspector inspector = inspectorMapper.selectInspectorByname(name);
+        if (inspector == null) {
+            map.put("nameMsg", "该用户不存在");
+            return map;
+        }
+        if (!password.equals(inspector.getPassword())) {
+            map.put("passwordMsg", "密码不正确");
+            return map;
+        }
+        return map;
+    }
 }

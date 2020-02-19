@@ -72,8 +72,7 @@ public class ManagerController {
                 System.out.println("进入的的第三方管理员首页");
                 return "/index.html";
             }else{
-                System.out.println("进入的的第三方质检员首页");
-                return "/index.html";
+                return "/hh/indexInspector.html";
             }
         }else{
             model.addAttribute("nameMsg",map.get("nameMsg"));

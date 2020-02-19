@@ -39,5 +39,9 @@ public class Thirdqa {
 
     private String notes;
 
+    private String contactPerson;
+
+    private String tel;
+
 
 }

@@ -8,6 +8,7 @@ import com.sayo.qa.CommonUtil.CommunityUtil;
 import com.sayo.qa.CommonUtil.DateUtil;
 import com.sayo.qa.entity.*;
 import com.sayo.qa.service.*;
+import com.sun.deploy.net.HttpRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
@@ -17,10 +18,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import javax.jws.WebParam;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
+import java.util.*;
 
 @Controller
 @RequestMapping("/inspector")
@@ -39,6 +40,8 @@ public class InspectorController {
     private  ClothesTypeService clothesTypeService;
     @Autowired
     private ThirdqaService thirdqaService;
+    @Autowired
+    private SampleService sampleService;
 
 
     //质检员列表（政府）
@@ -190,9 +193,26 @@ public class InspectorController {
         return list1;
     }
 
-    //-----------------质检员端客户-------------------------------------------------
+    //-----------------质检员端客户--------------------------------------------------------------------------------
     @RequestMapping(path = "/index",method = RequestMethod.GET)
     public String getInspectorIndex(){
+        return "/hh/inspector/login.html";
+    }
+
+    @RequestMapping(path = "/login",method = RequestMethod.GET)
+    public String login(String name, String password,Model model){
+        Map<String,Object> map = inspectorService.login(name,password);
+        if (map == null || map.size() ==0){
+            return "redirect:/inspector/indexInspector";
+        }else{
+            model.addAttribute("nameMsg",map.get("nameMsg"));
+            model.addAttribute("passwordMsg",map.get("passwordMsg"));
+            return "/hh/inspector/login.html";
+        }
+    }
+
+    @RequestMapping(path = "/indexInspector",method = RequestMethod.GET)
+    public String indexInspector(){
         return "/hh/indexInspector.html";
     }
 
@@ -213,9 +233,24 @@ public class InspectorController {
             map.put("VoTask",getVoTaskByTask(t)); // 任务编号、受检企业、申请人、联系电话、受检服装类型、受检时间、地址
             map.put("inspector1",inspectorService.findInspectorById(t.getInspectorOne()));
             map.put("inspector2",inspectorService.findInspectorById(t.getInspectorTwo()));
+            Sample sample = sampleService.findSampleByTaskId(t.getTaskId());
+            if (sample==null){
+                map.put("done",false);
+                map.put("status",true);//暂无
+            }else if(sample.getStatus()==1){
+                map.put("done",true);
+                map.put("status",true);
+            }else{
+                map.put("done",false);
+                map.put("status",false);
+            }
+
             VoList.add(map);
         }
+
         model.addAttribute("VoList",VoList);
+//        model.addAttribute("done",false);
+
         return "/hh/inspector/unInspectTask.html";
     }
 
@@ -237,6 +272,15 @@ public class InspectorController {
     }
 
 
+    /**
+     * 任务执行的身份认证确定
+     * @param taskId
+     * @param inspector1
+     * @param pwd1
+     * @param inspector2
+     * @param pwd2
+     * @return
+     */
     @RequestMapping(path = "/confirm",method = RequestMethod.POST)
     @ResponseBody
     public String inspectorConfirm(int taskId,int inspector1,String pwd1,int inspector2,String pwd2){
@@ -294,26 +338,111 @@ public class InspectorController {
         return "/hh/inspector/webuploader.html";
     }
 
-    @RequestMapping(path = "/test",method = RequestMethod.GET)
-    public String teststet(Model model){
+    /**
+     * 根据taskId来记录检测的过程数据
+     * @param taskId 任务编码
+     * @param model
+     * @return
+     */
+    @RequestMapping(path = "/record/{taskId}",method = RequestMethod.GET)
+    public String record(@PathVariable("taskId") String taskId, Model model, HttpServletRequest request){
+        //创建session对象
+        HttpSession session = request.getSession();
+//把用户数据保存在session域对象中
+        session.setAttribute("taskId",Integer.parseInt(taskId));
+
+//        System.out.println(taskId);
+
         String fileName = CommunityUtil.generateUUID();
-        String fileName2 = CommunityUtil.generateUUID();
-        String fileName3 = CommunityUtil.generateUUID();
-        // 设置响应信息
+//        String fileName2 = CommunityUtil.generateUUID();
+//        String fileName3 = CommunityUtil.generateUUID();
+//        // 设置响应信息
         StringMap policy = new StringMap();
         policy.put("returnBody", CommunityUtil.getJSONString(0));
         // 生成上传凭证
         Auth auth = Auth.create(accessKey, secretKey);
         String uploadToken = auth.uploadToken(headerBucketName, fileName, 3600, policy);
-        String uploadToken2 = auth.uploadToken(headerBucketName, fileName2, 3600, policy);
-        String uploadToken3 = auth.uploadToken(headerBucketName, fileName3, 3600, policy);
+//        String uploadToken2 = auth.uploadToken(headerBucketName, fileName2, 3600, policy);
+//        String uploadToken3 = auth.uploadToken(headerBucketName, fileName3, 3600, policy);
         model.addAttribute("uploadToken", uploadToken);
         model.addAttribute("fileName", fileName);
-        model.addAttribute("uploadToken2", uploadToken2);
-        model.addAttribute("fileName2", fileName2);
-        model.addAttribute("uploadToken3", uploadToken3);
-        model.addAttribute("fileName3", fileName3);
+//        model.addAttribute("uploadToken2", uploadToken2);
+//        model.addAttribute("fileName2", fileName2);
+//        model.addAttribute("uploadToken3", uploadToken3);
+//        model.addAttribute("fileName3", fileName3);
         return "/hh/inspector/webuploader.html";
+    }
+
+    @RequestMapping(path = "/tosample/{taskId}",method = RequestMethod.GET)
+    public String tosample(@PathVariable("taskId") String id, Model model){
+        int taskId = Integer.parseInt(id);
+        model.addAttribute("taskId",taskId);
+        Request r = requestService.getRequest(taskId);
+        Customer c = customerService.findCustomerById(r.getReqId());//申请人
+        int eId = r.getReqEid();
+        Enterprise e = enterpriseService.getEnterPriseById(eId);
+        model.addAttribute("enterpriseName",e.getEnterpriseName());
+        model.addAttribute("legalPerson",e.getLegalPerson());
+        model.addAttribute("contact",c.getName());
+        model.addAttribute("tel",r.getContact());
+        model.addAttribute("address",e.getProvince()+e.getCity()+e.getCounty());
+        model.addAttribute("commercialNumber",e.getCommercialNumber());
+        model.addAttribute("organCode",e.getOrganCode());
+        model.addAttribute("email",e.getEnterpriseEmail());
+        model.addAttribute("website",e.getWebsite());
+        model.addAttribute("jingji",e.getType());
+        Task task = taskService.findTaskByTaskId(taskId);
+        model.addAttribute("insDate",task.getStartTime());
+        Thirdqa thirdqa = thirdqaService.findThirdqaById(task.getQaEid());
+        model.addAttribute("insName",thirdqa.getThirdName());
+        model.addAttribute("insEmail",thirdqa.getThirdEmail());
+        model.addAttribute("insContact",thirdqa.getContactPerson());
+        model.addAttribute("insTel",thirdqa.getTel());
+        model.addAttribute("insAddress",thirdqa.getProvince()+thirdqa.getCity()+thirdqa.getAddress());
+        model.addAttribute("ins1",inspectorService.findInspectorById(task.getInspectorOne()).getName());
+        model.addAttribute("ins2",inspectorService.findInspectorById(task.getInspectorTwo()).getName());
+        return "/hh/inspector/sample.html";
+    }
+
+//    @RequestMapping(path = "/sample",method = RequestMethod.GET)
+//    public String sample(Model model){
+//        return "/hh/inspector/sample.html";
+//    }
+
+     @RequestMapping(path = "/process",method = RequestMethod.GET)
+    public String process(){
+        return "/hh/inspector/process.html";
+    }
+
+    @RequestMapping(path = "/findSample",method = RequestMethod.POST)
+    @ResponseBody
+    public String findSample(int taskId){
+        Sample sample = sampleService.findSampleByTaskId(taskId);
+        if (sample == null){
+            return CommunityUtil.getJSONString(0,"未发送");
+        }else{
+            return CommunityUtil.getJSONString(1,"正在等待确认中");
+        }
+    }
+
+    @RequestMapping(path = "/sendSample",method = RequestMethod.POST)
+    public String sendSample(int taskId, String level, int jishu, int shuliang,String ways,int bynumber,String byplace,String notes){
+        if (notes == null){
+            notes = "";
+        }
+        Sample sample = new Sample();
+        sample.setTaskId(taskId);
+        sample.setType(level);
+        sample.setBasicNumber(jishu);
+        sample.setSampleNumber(shuliang);
+        sample.setSampleMethod(ways);
+        sample.setSampleQuantity(bynumber);
+        sample.setPlace(byplace);
+        sample.setNotes(notes);
+        Task task = taskService.findTaskByTaskId(taskId);
+        sample.setSampleDate(task.getStartTime());
+        sampleService.addSample(sample);
+        return "redirect:/inspector/unInspectTask";
     }
 
 

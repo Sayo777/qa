@@ -5,6 +5,7 @@
  *
 */
 
+
 h1,
 h2,
 h3,
@@ -701,7 +702,7 @@ body.canvas-menu.mini-navbar nav.navbar-static-side {
 }
 
 .btn-info.btn-outline {
-    color: #23c6c8;
+    color: #1bb394;
 }
 
 .btn-warning.btn-outline {
@@ -803,8 +804,8 @@ fieldset[disabled] .btn-success.active {
 }
 
 .btn-info {
-    background-color: #23c6c8;
-    border-color: #23c6c8;
+    background-color: #1bb394;
+    border-color: #1bb394;
     color: #FFFFFF;
 }
 
@@ -2116,7 +2117,7 @@ table.dataTable thead .sorting:after {
 }
 
 .has-warning .form-control {
-    border-color: #f8ac59;
+    border-color: #e80002;
 }
 
 .has-error .form-control {
@@ -3765,7 +3766,7 @@ nav.page-tabs .page-tabs-content {
 .table > tfoot > tr > td {
     border-top: 1px solid #e7eaec;
     line-height: 1.42857;
-    padding: 8px;
+    padding: 5px;
     vertical-align: middle;
 }
 

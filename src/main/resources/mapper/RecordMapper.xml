@@ -1,0 +1,259 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.sayo.qa.dao.RecordMapper" >
+  <resultMap id="BaseResultMap" type="com.sayo.qa.entity.Record" >
+    <id column="task_id" property="taskId" jdbcType="INTEGER" />
+    <result column="notification" property="notification" jdbcType="VARCHAR" />
+    <result column="undertaking" property="undertaking" jdbcType="VARCHAR" />
+    <result column="inspectorsPhoto" property="inspectorsphoto" jdbcType="VARCHAR" />
+    <result column="environment1" property="environment1" jdbcType="VARCHAR" />
+    <result column="environment2" property="environment2" jdbcType="VARCHAR" />
+    <result column="license" property="license" jdbcType="VARCHAR" />
+    <result column="outlook" property="outlook" jdbcType="INTEGER" />
+    <result column="size" property="size" jdbcType="INTEGER" />
+    <result column="materia" property="materia" jdbcType="INTEGER" />
+    <result column="craft" property="craft" jdbcType="INTEGER" />
+    <result column="wash" property="wash" jdbcType="INTEGER" />
+    <result column="ztang" property="ztang" jdbcType="INTEGER" />
+    <result column="pack" property="pack" jdbcType="INTEGER" />
+    <result column="standard" property="standard" jdbcType="VARCHAR" />
+    <result column="keyMateria" property="keymateria" jdbcType="INTEGER" />
+    <result column="qualityGuarantee" property="qualityguarantee" jdbcType="INTEGER" />
+    <result column="hasReport" property="hasreport" jdbcType="INTEGER" />
+    <result column="isIllegal" property="isillegal" jdbcType="INTEGER" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    task_id, notification, undertaking, inspectorsPhoto, environment1, environment2, 
+    license, outlook, size, materia, craft, wash, ztang, pack, standard, keyMateria, 
+    qualityGuarantee, hasReport, isIllegal
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from record
+    where task_id = #{taskId,jdbcType=INTEGER} limit 1;
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from record
+    where task_id = #{taskId,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.sayo.qa.entity.Record" >
+    insert into record (task_id, notification, undertaking, 
+      inspectorsPhoto, environment1, environment2, 
+      license, outlook, size, 
+      materia, craft, wash, 
+      ztang, pack, standard, 
+      keyMateria, qualityGuarantee, hasReport, 
+      isIllegal)
+    values (#{taskId,jdbcType=INTEGER}, #{notification,jdbcType=VARCHAR}, #{undertaking,jdbcType=VARCHAR}, 
+      #{inspectorsphoto,jdbcType=VARCHAR}, #{environment1,jdbcType=VARCHAR}, #{environment2,jdbcType=VARCHAR}, 
+      #{license,jdbcType=VARCHAR}, #{outlook,jdbcType=INTEGER}, #{size,jdbcType=INTEGER}, 
+      #{materia,jdbcType=INTEGER}, #{craft,jdbcType=INTEGER}, #{wash,jdbcType=INTEGER}, 
+      #{ztang,jdbcType=INTEGER}, #{pack,jdbcType=INTEGER}, #{standard,jdbcType=VARCHAR}, 
+      #{keymateria,jdbcType=INTEGER}, #{qualityguarantee,jdbcType=INTEGER}, #{hasreport,jdbcType=INTEGER}, 
+      #{isillegal,jdbcType=INTEGER})
+  </insert>
+  <insert id="insertSelective" parameterType="com.sayo.qa.entity.Record" >
+    insert into record
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="taskId != null" >
+        task_id,
+      </if>
+      <if test="notification != null" >
+        notification,
+      </if>
+      <if test="undertaking != null" >
+        undertaking,
+      </if>
+      <if test="inspectorsphoto != null" >
+        inspectorsPhoto,
+      </if>
+      <if test="environment1 != null" >
+        environment1,
+      </if>
+      <if test="environment2 != null" >
+        environment2,
+      </if>
+      <if test="license != null" >
+        license,
+      </if>
+      <if test="outlook != null" >
+        outlook,
+      </if>
+      <if test="size != null" >
+        size,
+      </if>
+      <if test="materia != null" >
+        materia,
+      </if>
+      <if test="craft != null" >
+        craft,
+      </if>
+      <if test="wash != null" >
+        wash,
+      </if>
+      <if test="ztang != null" >
+        ztang,
+      </if>
+      <if test="pack != null" >
+        pack,
+      </if>
+      <if test="standard != null" >
+        standard,
+      </if>
+      <if test="keymateria != null" >
+        keyMateria,
+      </if>
+      <if test="qualityguarantee != null" >
+        qualityGuarantee,
+      </if>
+      <if test="hasreport != null" >
+        hasReport,
+      </if>
+      <if test="isillegal != null" >
+        isIllegal,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="taskId != null" >
+        #{taskId,jdbcType=INTEGER},
+      </if>
+      <if test="notification != null" >
+        #{notification,jdbcType=VARCHAR},
+      </if>
+      <if test="undertaking != null" >
+        #{undertaking,jdbcType=VARCHAR},
+      </if>
+      <if test="inspectorsphoto != null" >
+        #{inspectorsphoto,jdbcType=VARCHAR},
+      </if>
+      <if test="environment1 != null" >
+        #{environment1,jdbcType=VARCHAR},
+      </if>
+      <if test="environment2 != null" >
+        #{environment2,jdbcType=VARCHAR},
+      </if>
+      <if test="license != null" >
+        #{license,jdbcType=VARCHAR},
+      </if>
+      <if test="outlook != null" >
+        #{outlook,jdbcType=INTEGER},
+      </if>
+      <if test="size != null" >
+        #{size,jdbcType=INTEGER},
+      </if>
+      <if test="materia != null" >
+        #{materia,jdbcType=INTEGER},
+      </if>
+      <if test="craft != null" >
+        #{craft,jdbcType=INTEGER},
+      </if>
+      <if test="wash != null" >
+        #{wash,jdbcType=INTEGER},
+      </if>
+      <if test="ztang != null" >
+        #{ztang,jdbcType=INTEGER},
+      </if>
+      <if test="pack != null" >
+        #{pack,jdbcType=INTEGER},
+      </if>
+      <if test="standard != null" >
+        #{standard,jdbcType=VARCHAR},
+      </if>
+      <if test="keymateria != null" >
+        #{keymateria,jdbcType=INTEGER},
+      </if>
+      <if test="qualityguarantee != null" >
+        #{qualityguarantee,jdbcType=INTEGER},
+      </if>
+      <if test="hasreport != null" >
+        #{hasreport,jdbcType=INTEGER},
+      </if>
+      <if test="isillegal != null" >
+        #{isillegal,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.sayo.qa.entity.Record" >
+    update record
+    <set >
+      <if test="notification != null" >
+        notification = #{notification,jdbcType=VARCHAR},
+      </if>
+      <if test="undertaking != null" >
+        undertaking = #{undertaking,jdbcType=VARCHAR},
+      </if>
+      <if test="inspectorsphoto != null" >
+        inspectorsPhoto = #{inspectorsphoto,jdbcType=VARCHAR},
+      </if>
+      <if test="environment1 != null" >
+        environment1 = #{environment1,jdbcType=VARCHAR},
+      </if>
+      <if test="environment2 != null" >
+        environment2 = #{environment2,jdbcType=VARCHAR},
+      </if>
+      <if test="license != null" >
+        license = #{license,jdbcType=VARCHAR},
+      </if>
+      <if test="outlook != null" >
+        outlook = #{outlook,jdbcType=INTEGER},
+      </if>
+      <if test="size != null" >
+        size = #{size,jdbcType=INTEGER},
+      </if>
+      <if test="materia != null" >
+        materia = #{materia,jdbcType=INTEGER},
+      </if>
+      <if test="craft != null" >
+        craft = #{craft,jdbcType=INTEGER},
+      </if>
+      <if test="wash != null" >
+        wash = #{wash,jdbcType=INTEGER},
+      </if>
+      <if test="ztang != null" >
+        ztang = #{ztang,jdbcType=INTEGER},
+      </if>
+      <if test="pack != null" >
+        pack = #{pack,jdbcType=INTEGER},
+      </if>
+      <if test="standard != null" >
+        standard = #{standard,jdbcType=VARCHAR},
+      </if>
+      <if test="keymateria != null" >
+        keyMateria = #{keymateria,jdbcType=INTEGER},
+      </if>
+      <if test="qualityguarantee != null" >
+        qualityGuarantee = #{qualityguarantee,jdbcType=INTEGER},
+      </if>
+      <if test="hasreport != null" >
+        hasReport = #{hasreport,jdbcType=INTEGER},
+      </if>
+      <if test="isillegal != null" >
+        isIllegal = #{isillegal,jdbcType=INTEGER},
+      </if>
+    </set>
+    where task_id = #{taskId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.sayo.qa.entity.Record" >
+    update record
+    set notification = #{notification,jdbcType=VARCHAR},
+      undertaking = #{undertaking,jdbcType=VARCHAR},
+      inspectorsPhoto = #{inspectorsphoto,jdbcType=VARCHAR},
+      environment1 = #{environment1,jdbcType=VARCHAR},
+      environment2 = #{environment2,jdbcType=VARCHAR},
+      license = #{license,jdbcType=VARCHAR},
+      outlook = #{outlook,jdbcType=INTEGER},
+      size = #{size,jdbcType=INTEGER},
+      materia = #{materia,jdbcType=INTEGER},
+      craft = #{craft,jdbcType=INTEGER},
+      wash = #{wash,jdbcType=INTEGER},
+      ztang = #{ztang,jdbcType=INTEGER},
+      pack = #{pack,jdbcType=INTEGER},
+      standard = #{standard,jdbcType=VARCHAR},
+      keyMateria = #{keymateria,jdbcType=INTEGER},
+      qualityGuarantee = #{qualityguarantee,jdbcType=INTEGER},
+      hasReport = #{hasreport,jdbcType=INTEGER},
+      isIllegal = #{isillegal,jdbcType=INTEGER}
+    where task_id = #{taskId,jdbcType=INTEGER}
+  </update>
+</mapper>

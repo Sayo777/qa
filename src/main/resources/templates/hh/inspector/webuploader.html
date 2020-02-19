@@ -22,8 +22,13 @@
         #preview, preview1 {
             width: 180px;
             height: 180px;
-            border: 1px solid #000;
+            /*border: 1px solid #000;*/
             overflow: hidden;
+        }
+        #navigation{
+            position: fixed;/*固定位置*/
+            /*margin-bottom: 10px;*/
+            z-index:9999;/*设置优先级显示，保证不会被覆盖*/
         }
 
         #imghead {
@@ -35,31 +40,31 @@
 <body>
 
 <div class="aui-content-up">
-    <form name="form1" id="form1" class="form-horizontal">
+    <form name="form1" id="form1" class="form-horizontal" th:action="@{/record/add1}" method="post">
+
+
+
         <div class="aui-content-up-form">
             <h2>基本信息</h2>
         </div>
         <div class="aui-form-group clear" style="display: block;float: left">
-            <label class="aui-label-control">
-                企业告知书 <em>*</em>:
-            </label>
 
+            <label class="aui-label-control">企业告知书 <em>*</em>:</label>
             <div class="aui-form-input">
                 <div style="border:1px dashed #000;width: 200px">
-                    <input type="file" id="badicImg" onchange="previewImage(this)" style="margin-bottom: 5px"/>
+                    <input type="file" id="notification" onchange="previewImage(this)" style="margin-bottom: 5px" />
                     <div id="preview">
-                        <img id="imghead" border=0 th:src="@{/hh/img/imgbackgroud.png}" width="180" height="180"/>
+                        <img id="img_notification" border=0 th:src="@{/hh/img/imgbackgroud.png}" width="180" height="180"/>
                     </div>
                 </div>
             </div>
-            <label class="aui-label-control">
-                接受承诺书 <em>*</em>:
-            </label>
+
+            <label class="aui-label-control">接受承诺书 <em>*</em>:</label>
             <div class="aui-form-input">
                 <div style="border:1px dashed #000;width: 200px">
-                    <input type="file" id="badicImg22" onchange="previewImage(this)" style="margin-bottom: 5px"/>
-                    <div id="preview22">
-                        <img id="imghead22" border=0 th:src="@{/hh/img/imgbackgroud.png}" width="180" height="180"/>
+                    <input type="file" id="undertaking" onchange="previewImage2(this)" style="margin-bottom: 5px" />
+                    <div id="preview2">
+                        <img id="img_undertaking" border=0 th:src="@{/hh/img/imgbackgroud.png}" width="180" height="180"/>
                     </div>
 
 
@@ -73,9 +78,9 @@
 
             <div class="aui-form-input">
                 <div style="border:1px dashed #000;width: 200px">
-                    <input type="file" id="badicImg3" onchange="previewImage(this)" style="margin-bottom: 5px"/>
+                    <input type="file" id="inspectorsPhoto" onchange="previewImage3(this)" style="margin-bottom: 5px" />
                     <div id="preview3">
-                        <img id="imghead3" border=0 th:src="@{/hh/img/imgbackgroud.png}" width="180" height="180"/>
+                        <img id="img_inspectorsPhoto" border=0 th:src="@{/hh/img/imgbackgroud.png}" width="180" height="180"/>
                     </div>
 
 
@@ -83,6 +88,7 @@
             </div>
 
         </div>
+
         <div class="aui-content-up-form">
             <h2>企业信息</h2>
         </div>
@@ -93,9 +99,11 @@
 
             <div class="aui-form-input">
                 <div style="border:1px dashed #000;width: 200px">
-                    <input type="file" id="badicImg222" onchange="previewImage(this)" style="margin-bottom: 5px"/>
-                    <div id="preview222">
-                        <img id="imghead222" border=0 th:src="@{/hh/img/imgbackgroud.png}" width="180" height="180"/>
+                    <input  type="hidden" name="token" th:value="${uploadToken}">
+                    <input  type="hidden" name="key" th:value="${fileName}">
+                    <input type="file" id="environment1" onchange="previewImage4(this)" style="margin-bottom: 5px" />
+                    <div id="preview4">
+                        <img id="img_environment1" border=0 th:src="@{/hh/img/imgbackgroud.png}" width="180" height="180"/>
                     </div>
 
 
@@ -107,9 +115,9 @@
 
             <div class="aui-form-input">
                 <div style="border:1px dashed #000;width: 200px">
-                    <input type="file" id="badicImg22" onchange="previewImage(this)" style="margin-bottom: 5px"/>
-                    <div id="preview22">
-                        <img id="imghead22" border=0 th:src="@{/hh/img/imgbackgroud.png}" width="180" height="180"/>
+                    <input type="file" id="environment2" onchange="previewImage5(this)" style="margin-bottom: 5px" />
+                    <div id="preview5">
+                        <img id="img_environment2" border=0 th:src="@{/hh/img/imgbackgroud.png}" width="180" height="180"/>
                     </div>
 
 
@@ -124,12 +132,10 @@
 
             <div class="aui-form-input">
                 <div style="border:1px dashed #000;width: 200px">
-                    <input type="file" id="badicImg3" onchange="previewImage(this)" style="margin-bottom: 5px"/>
-                    <div id="preview3">
-                        <img id="imghead3" border=0 th:src="@{/hh/img/imgbackgroud.png}" width="180" height="180"/>
+                    <input type="file" id="license" onchange="previewImage6(this)" style="margin-bottom: 5px" />
+                    <div id="preview6">
+                        <img id="img_license" border=0 th:src="@{/hh/img/imgbackgroud.png}" width="180" height="180"/>
                     </div>
-
-
                 </div>
             </div>
 
@@ -141,175 +147,199 @@
         <div class="form-group">
             <label class="col-sm-3 control-label">外观：</label>
             <label>
-                <input type="radio" name="outlook" value="1"> 合格
+                <input type="radio" name="outlook" value="1" id="outlook1" checked=""> 合格
             </label>
             <label style="margin-left: 30px">
-                <input type="radio" name="outlook" value="0"> 不合格
+                <input type="radio" name="outlook" value="0" id="outlook2"> 不合格
             </label>
         </div>
         <div class="form-group">
             <label class="col-sm-3 control-label">尺寸规格：</label>
             <label>
-                <input type="radio" name="size" value="1" checked="checked"> 合格
+                <input type="radio" name="size" value="1" id="size1" checked=""> 合格
             </label>
             <label style="margin-left: 30px">
-                <input type="radio" name="size" value="0"> 不合格
+                <input type="radio" name="size" value="0" id="size2"> 不合格
             </label>
         </div>
         <div class="form-group">
             <label class="col-sm-3 control-label">面/辅料检验：</label>
             <label>
-                <input type="radio" name="materia" value="1" checked="checked"> 合格
+                <input type="radio" name="materia" value="1" id="materia1" checked=""> 合格
             </label>
             <label style="margin-left: 30px">
-                <input type="radio" name="materia" value="0"> 不合格
+                <input type="radio" name="materia" value="0" id="materia2"> 不合格
             </label>
         </div>
         <div class="form-group">
             <label class="col-sm-3 control-label">工艺：</label>
             <label>
-                <input type="radio" name="craft" value="1" checked="checked"> 合格
+                <input type="radio" name="craft" value="1" id="craft1" checked=""> 合格
             </label>
             <label style="margin-left: 30px">
-                <input type="radio" name="craft" value="0"> 不合格
+                <input type="radio" name="craft" value="0" id="craft2"> 不合格
             </label>
         </div>
         <div class="form-group">
             <label class="col-sm-3 control-label">印绣花/洗水：</label>
             <label>
-                <input type="radio" name="wash" value="1" checked="checked"> 合格
+                <input type="radio" name="wash" value="1" id="wash1" checked=""> 合格
             </label>
             <label style="margin-left: 30px">
-                <input type="radio" name="wash" value="0"> 不合格
+                <input type="radio" name="wash" value="0" id="wash2"> 不合格
             </label>
         </div>
         <div class="form-group">
             <label class="col-sm-3 control-label">整烫：</label>
             <label>
-                <input type="radio" name="ztang" value="1" checked="checked"> 合格
+                <input type="radio" name="ztang" value="1" id="ztang1" checked=""> 合格
             </label>
             <label style="margin-left: 30px">
-                <input type="radio" name="ztang" value="0"> 不合格
+                <input type="radio" name="ztang" value="0" id="ztang2"> 不合格
             </label>
         </div>
         <div class="form-group">
             <label class="col-sm-3 control-label">包装：</label>
             <label>
-                <input type="radio" name="pack" value="1" checked="checked"> 合格
+                <input type="radio" name="pack" value="1" id="pack1" checked=""> 合格
             </label>
             <label style="margin-left: 30px">
-                <input type="radio" name="pack" value="0"> 不合格
+                <input type="radio" name="pack" value="0" id="pack2"> 不合格
             </label>
         </div>
         <label>综合结果：</label>
         <div class="form-group">
             <label class="col-sm-4 control-label">产品执行标准情况：</label>
             <div class="col-sm-3">
-                <input type="text" class="form-control" id="reqName" required="">
+                <input type="text" class="form-control" id="standard" name="standard">
             </div>
         </div>
         <div class="form-group">
             <label class="col-sm-4 control-label">关键原材料和生产过程是否到位：</label>
             <label>
-                <input type="radio" name="keyMateria" value="1" checked="checked"> 是
+                <input type="radio" name="keyMateria" value="1" id="keyMateria1" checked=""> 是
             </label>
             <label style="margin-left: 30px">
-                <input type="radio" name="keyMateria" value="0"> 否
+                <input type="radio" name="keyMateria" value="0" id="keyMateria2"> 否
             </label>
         </div>
         <div class="form-group">
             <label class="col-sm-4 control-label">质量保证体系和管理制度是否完善：</label>
             <label>
-                <input type="radio" name="qualityGuarantee" value="1" checked="checked"> 是
+                <input type="radio" name="qualityGuarantee" value="1" id="qualityGuarantee1" checked=""> 是
             </label>
             <label style="margin-left: 30px">
-                <input type="radio" name="qualityGuarantee" value="0"> 否
+                <input type="radio" name="qualityGuarantee" value="0" id="qualityGuarantee2"> 否
             </label>
         </div>
         <div class="form-group">
             <label class="col-sm-4 control-label">是否有监督抽查、出厂检验的报告：</label>
             <label>
-                <input type="radio" name="hasReport" value="1" checked="checked"> 是
+                <input type="radio" name="hasReport" value="1" id="hasReport1" checked=""> 是
             </label>
             <label style="margin-left: 30px">
-                <input type="radio" name="hasReport" value="0"> 否
+                <input type="radio" name="hasReport" value="0" id="hasReport2"> 否
             </label>
         </div>
         <div class="form-group">
             <label class="col-sm-4 control-label">是否存在产品质量违法行为：</label>
             <label>
-                <input type="radio" name="isIllegal" value="1" checked="checked"> 是
+                <input type="radio" name="isIllegal" value="1" id="isIllegal1" checked=""> 是
             </label>
             <label style="margin-left: 30px">
-                <input type="radio" name="isIllegal" value="0"> 否
+                <input type="radio" name="isIllegal" value="0" id="isIllegal2"> 否
             </label>
         </div>
+        <button id="ensure" type="submit" style="margin-left: 635px" class="btn btn-primary">确 定</button>
+<!--        <button id="ensure" style="margin-left: 635px" class="btn btn-primary"  onclick="check()">确 定</button>-->
 
     </form>
 </div>
 
-<!-- mask end -->
 <script type="text/javascript" th:src="@{/hh/js/jquery.min.js}"></script>
 <script type="text/javascript" th:src="@{/hh/js/up.js}"></script>
-
+<script type="text/javascript" th:src="@{/hh/js/doImage.js}"></script>
+<script th:src="@{/hh/js/plugins/sweetalert/sweetalert.min.js}"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" crossorigin="anonymous"></script>
+<script type="text/javascript">
+    $(function(){
+        $('input:not([autocomplete]),textarea:not([autocomplete]),select:not([autocomplete])').attr('autocomplete', 'off');
+    });
+</script>
 <script type="text/javascript">
 
 
-    //图片上传预览    IE是用了滤镜。
-    function previewImage(file) {
-        var MAXWIDTH = 260;
-        var MAXHEIGHT = 180;
-        var div = document.getElementById('preview');
-        if (file.files && file.files[0]) {
-            div.innerHTML = '<img id=imghead>';
-            var img = document.getElementById('imghead');
-            img.onload = function () {
-                var rect = clacImgZoomParam(MAXWIDTH, MAXHEIGHT, img.offsetWidth, img.offsetHeight);
-                img.width = rect.width;
-                img.height = rect.height;
-//                 img.style.marginLeft = rect.left+'px';
-                img.style.marginTop = rect.top + 'px';
-            }
-            var reader = new FileReader();
-            reader.onload = function (evt) {
-                img.src = evt.target.result;
-            }
-            reader.readAsDataURL(file.files[0]);
-        }
-        // else //兼容IE
-        // {
-        //     var sFilter = 'filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(sizingMethod=scale,src="';
-        //     file.select();
-        //     var src = document.selection.createRange().text;
-        //     div.innerHTML = '<img id=imghead>';
-        //     var img = document.getElementById('imghead');
-        //     img.filters.item('DXImageTransform.Microsoft.AlphaImageLoader').src = src;
-        //     var rect = clacImgZoomParam(MAXWIDTH, MAXHEIGHT, img.offsetWidth, img.offsetHeight);
-        //     status = ('rect:' + rect.top + ',' + rect.left + ',' + rect.width + ',' + rect.height);
-        //     div.innerHTML = "<div id=divhead style='width:" + rect.width + "px;height:" + rect.height + "px;margin-top:" + rect.top + "px;" + sFilter + src + "\"'></div>";
+    function check(){
+        // if(!document.getElementById("outlook1").checked && !document.getElementById("outlook2").checked){
+        //     alert("请输入外观检测情况！")
         // }
-    }
-
-    function clacImgZoomParam(maxWidth, maxHeight, width, height) {
-        var param = {top: 0, left: 0, width: width, height: height};
-        if (width > maxWidth || height > maxHeight) {
-            rateWidth = width / maxWidth;
-            rateHeight = height / maxHeight;
-
-            if (rateWidth > rateHeight) {
-                param.width = maxWidth;
-                param.height = Math.round(height / rateWidth);
-            } else {
-                param.width = Math.round(width / rateHeight);
-                param.height = maxHeight;
-            }
+        // if(!document.getElementById("size1").checked && !document.getElementById("size2").checked){
+        //     alert("请输入尺寸规格检测情况！")
+        // }
+        // if(!document.getElementById("materia1").checked && !document.getElementById("materia2").checked){
+        //     alert("请输入面/辅料检测情况！")
+        //     // return false;
+        // }
+        // if(!document.getElementById("craft1").checked && !document.getElementById("craft2").checked){
+        //     alert("请输入工艺检测情况！")
+        //     // return false;
+        // }
+        // if(!document.getElementById("wash1").checked && !document.getElementById("wash2").checked){
+        //     alert("请输入印绣花/洗水检测情况！")
+        //     // return false;
+        // }
+        // if(!document.getElementById("ztang1").checked && !document.getElementById("ztang2").checked){
+        //     alert("请输入整烫检测情况！")
+        //     // return false;
+        // }
+        // if(!document.getElementById("pack1").checked && !document.getElementById("pack2").checked){
+        //     alert("请输入包装检测情况！")
+        //     // return false;
+        // }
+        // if(!document.getElementById("keyMateria1").checked && !document.getElementById("keyMateria2").checked){
+        //     alert("请输入关键原材料检测情况！")
+        //     // return false;
+        // }
+        // if(!document.getElementById("qualityGuarantee1").checked && !document.getElementById("qualityGuarantee2").checked){
+        //     alert("请输入质量保证检测情况！")
+        //     // return false;
+        // }
+        // if(!document.getElementById("hasReport1").checked && !document.getElementById("hasReport2").checked){
+        //     alert("请输入检验报告检测情况！")
+        //     // return false;
+        // }
+        // if(!document.getElementById("isIllegal1").checked && !document.getElementById("isIllegal2").checked){
+        //     alert("请输入违法行为检测情况！")
+        //     // return false;
+        // }
+        var outlook = $("input[name='outlook']:checked").val();
+        var size = $("input[name='size']:checked").val();
+        var materia = $("input[name='materia']:checked").val();
+        var craft = $("input[name='craft']:checked").val();
+        var wash = $("input[name='wash']:checked").val();
+        var ztang = $("input[name='ztang']:checked").val();
+        var pack = $("input[name='pack']:checked").val();
+        var standard = $("#standard").val();
+        var keyMateria = $("input[name='keyMateria']:checked").val();
+        var qualityGuarantee = $("input[name='qualityGuarantee']:checked").val();
+        var hasReport = $("input[name='hasReport']:checked").val();
+        var isIllegal = $("input[name='isIllegal']:checked").val();
+        var answer = confirm("确认所填信息吗？（确认后不可更改！！）");
+        if (answer){
+            $.post(
+                "/qa/record/add",
+                {"outlook":outlook,"size":size,"materia":materia,"craft":craft,"wash":wash,"ztang":ztang,
+                "pack":pack,"standard":standard,"keyMateria":keyMateria,"qualityGuarantee":qualityGuarantee,"hasReport":hasReport,
+                "isIllegal":isIllegal},
+                function (data) {
+                    data = $.parseJSON(data);
+                    window.location.href ='http://localhost:8080/qa/record/recordForm';
+                }
+            );
         }
-
-        param.left = Math.round((maxWidth - param.width) / 2);
-        param.top = Math.round((maxHeight - param.height) / 2);
-        return param;
     }
 </script>
+
 
 </body>
 </html>

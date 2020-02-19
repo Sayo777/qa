@@ -75,7 +75,7 @@ public class CustomerController {
 
     @RequestMapping(path = "/login",method = RequestMethod.GET)
     public String goLogin(Model model){
-        fileUtil.fileup(model);
+//        fileUtil.fileup(model);
         return "/hh/loginCustomer.html";
     }
 

@@ -19,10 +19,12 @@
     <result column="deadline" property="deadline" jdbcType="VARCHAR" />
     <result column="audit_date" property="auditDate" jdbcType="DATE" />
     <result column="notes" property="notes" jdbcType="VARCHAR" />
+    <result column="contact_person" property="contactPerson" jdbcType="VARCHAR" />
+    <result column="tel" property="tel" jdbcType="VARCHAR" />
   </resultMap>
   <sql id="Base_Column_List" >
     id, third_name, third_email, third_scope, legal_person, commercial_number, credit_code, 
-    type, address, province, city, scope, status, organ_code, deadline, audit_date, notes
+    type, address, province, city, scope, status, organ_code, deadline, audit_date, notes,contact_person,tel
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
     select 
@@ -51,13 +53,13 @@
       credit_code, type, address, 
       province, city, scope, 
       status, organ_code, deadline, 
-      audit_date, notes)
+      audit_date, notes,contact_person,tel)
     values (#{id,jdbcType=INTEGER}, #{thirdName,jdbcType=VARCHAR}, #{thirdEmail,jdbcType=VARCHAR}, 
       #{thirdScope,jdbcType=VARCHAR}, #{legalPerson,jdbcType=VARCHAR}, #{commercialNumber,jdbcType=INTEGER}, 
       #{creditCode,jdbcType=VARCHAR}, #{type,jdbcType=VARCHAR}, #{address,jdbcType=VARCHAR}, 
       #{province,jdbcType=VARCHAR}, #{city,jdbcType=VARCHAR}, #{scope,jdbcType=VARCHAR}, 
       #{status,jdbcType=VARCHAR}, #{organCode,jdbcType=VARCHAR}, #{deadline,jdbcType=VARCHAR}, 
-      #{auditDate,jdbcType=DATE}, #{notes,jdbcType=VARCHAR})
+      #{auditDate,jdbcType=DATE}, #{notes,jdbcType=VARCHAR},#{contactPerson},#{tel})
   </insert>
   <insert id="insertSelective" parameterType="com.sayo.qa.entity.Thirdqa" >
     insert into thirdqa
@@ -113,6 +115,12 @@
       <if test="notes != null" >
         notes,
       </if>
+      <if test="contactPerson != null" >
+        contact_person,
+      </if>
+      <if test="tel != null" >
+        tel,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="id != null" >
@@ -165,6 +173,12 @@
       </if>
       <if test="notes != null" >
         #{notes,jdbcType=VARCHAR},
+      </if>
+      <if test="contactPerson != null" >
+        #{contactPerson,jdbcType=VARCHAR},
+      </if>
+      <if test="tel != null" >
+        #{tel,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
@@ -219,6 +233,12 @@
       <if test="notes != null" >
         notes = #{notes,jdbcType=VARCHAR},
       </if>
+      <if test="contactPerson != null" >
+        contact_person = #{contactPerson,jdbcType=VARCHAR},
+      </if>
+      <if test="tel != null" >
+        tel = #{tel,jdbcType=VARCHAR},
+      </if>
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
@@ -239,7 +259,9 @@
       organ_code = #{organCode,jdbcType=VARCHAR},
       deadline = #{deadline,jdbcType=VARCHAR},
       audit_date = #{auditDate,jdbcType=DATE},
-      notes = #{notes,jdbcType=VARCHAR}
+      notes = #{notes,jdbcType=VARCHAR},
+      contact_person = #{contactPerson,jdbcType=VARCHAR},
+      tel = #{tel,jdbcType=VARCHAR}
     where id = #{id,jdbcType=INTEGER}
   </update>
 </mapper>

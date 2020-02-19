@@ -9,8 +9,9 @@ import cn.afterturn.easypoi.entity.ImageEntity;
  */
 public class TestDemo {
 
+
     public static void main(String[] args) {
-        HashMap<String, Object> map = new HashMap<>(4);
+        HashMap<String, Object> map = new HashMap<>();
 
         //模拟饼状图数据
 //        HashMap<String, Integer> datas = new HashMap<>(3);
@@ -59,6 +60,6 @@ public class TestDemo {
 //        list.add(temp);
 //        map.put("personlist",list);
         //word模板相对路径、word生成路径、word生成的文件名称、数据源
-        WordUtil.exportWord("D:/work/wordTemplate/resultTemplate.docx", "D:/work/wordTemplate", "demo1.docx", map);
+//        WordUtil.exportWord("D:/work/wordTemplate/resultTemplate.docx", "D:/work/wordTemplate", "demo1.docx", map);
     }
 }

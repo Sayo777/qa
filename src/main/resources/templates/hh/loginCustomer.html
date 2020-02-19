@@ -34,7 +34,7 @@
             </div>
             <h3>欢迎使用 质检平台</h3>
 
-            <form id="uploadForm" class="m-t" role="form" th:action="@{/customer/login}" style="border: red solid 1px" method="post">
+            <form id="uploadForm" class="m-t"  th:action="@{/customer/login}" style="border: red solid 1px" method="get">
                 <div style="float: left;margin-left: 30px">
                     <div class="form-group form-inline">
                         <label >姓 名：</label>
@@ -54,9 +54,9 @@
                     </div>
 
                     <div class="form-group">
-                        <input  type="hidden" name="token" th:value="${uploadToken}">
-                        <input  type="hidden" name="key" th:value="${fileName}">
-                        <input type="file"  multiple="multiple"  class="form-control" id="head-image" name="file" lang="es" required="" onchange="handleFile()">
+                        <input  type="hidden" name="token" th:value="${uploadToken1}">
+                        <input  type="hidden" name="key" th:value="${fileName1}">
+                        <input type="file"  multiple="multiple"  class="form-control" id="head-image" name="file" lang="es"  onchange="handleFile()">
                     </div>
 
                 </div>
@@ -79,15 +79,13 @@
     <script type="text/javascript">
         function handleFile() {
             $.ajax({
-                url: "http://upload-z2.qiniup.com",
+                url: "http://upload-z0.qiniup.com",
                 method: "post",
                 processData: false,
                 contentType: false,
                 data: new FormData($("#uploadForm")[0]),
                 success: function(data) {
                     if(data && data.code == 0) {
-                        console.log(data);
-                        alert(data)
                         alert("上传成功!");
                     } else {
                         alert("上传失败!");

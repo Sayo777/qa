@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+
+    <title>H+ 后台主题UI框架 - 基本表单</title>
+    <meta name="keywords" content="H+后台主题,后台bootstrap框架,会员中心主题,后台HTML,响应式后台">
+    <meta name="description" content="H+是一个完全响应式，基于Bootstrap3最新版本开发的扁平化主题，她采用了主流的左右两栏式布局，使用了Html5+CSS3等现代技术">
+
+    <link rel="shortcut icon" th:href="@{/hh/favicon.ico}">
+    <link th:href="@{/hh/css/bootstrap.min.css?v=3.3.6}" rel="stylesheet">
+    <link th:href="@{/hh/css/font-awesome.css?v=4.4.0}" rel="stylesheet">
+    <link th:href="@{/hh/css/plugins/iCheck/custom.css}" rel="stylesheet">
+    <link th:href="@{/hh/css/animate.css}" rel="stylesheet">
+    <link th:href="@{/hh/css/style.css?v=4.1.0}" rel="stylesheet">
+    <style>
+        /*给表格设置属性*/
+        .table {
+            width: 600px;
+            border-collapse: collapse;
+            table-layout: fixed;
+            margin: auto;
+        }
+
+        /*设置表格的td,th */
+        .table td, th {
+            border: 1px solid black;
+        }
+
+        .sj {
+            width: 70px;
+            text-align: center; /*字体居中*/
+        }
+
+        /*逗号选择器*/
+        .sw, .xw, .zw, .xx, .ws, .ws {
+            text-align: center;
+        }
+
+        table caption {
+            font-size: 20px;
+            color: #c00;
+            text-align: center;
+        }
+    </style>
+</head>
+
+<body class="gray-bg">
+
+
+<div class="ibox float-e-margins" style="background-color: #3dc7ab; margin: 0 auto;width: 700px">
+    <div class="ibox-content">
+        <form th:action="@{/record/download}" method="post">
+            <table class="table">
+                <caption>生产企业产品质量状况调查表</caption>
+                <tbody>
+                <tr>
+                    <th colspan="4" class="sj">一、企业基本信息</th>   <!-- 合并两列 -->
+                </tr>
+                <tr>
+                    <th colspan="2">企业名称</th>   <!-- 合并两列 -->
+                    <td colspan="2" th:text="${e.enterpriseName}">企业名称</td>   <!-- 合并两列 -->
+                </tr>
+                <tr>
+                    <th colspan="2">工商营业执照号</th>   <!-- 合并两列 -->
+                    <td colspan="2" th:text="${e.commercialNumber}">工商营业执照号</td>   <!-- 合并两列 -->
+                </tr>
+                <tr>
+                    <th colspan="2">地址</th>   <!-- 合并两列 -->
+                    <td colspan="2" th:text="${e.address}">地址</td>   <!-- 合并两列 -->
+                </tr>
+                <tr>
+                    <th>法人代表</th>   <!-- 合并两列 -->
+                    <td th:text="${e.legalPerson}">xxx</td>   <!-- 合并两列 -->
+                    <th>联系人</th>   <!-- 合并两列 -->
+                    <td th:text="${customer}">xxx</td>   <!-- 合并两列 -->
+                </tr>
+                <tr>
+                    <th colspan="4" class="sj">二、产品质量状况</th>   <!-- 合并两列 -->
+                </tr>
+                <tr>
+                    <th colspan="2">产品名称</th>   <!-- 合并两列 -->
+                    <td colspan="2">xxx</td>   <!-- 合并两列 -->
+                </tr>
+                <tr>
+                    <th colspan="2">型号规格</th>   <!-- 合并两列 -->
+                    <th colspan="2">xxx</th>   <!-- 合并两列 -->
+                </tr>
+                <tr>
+                    <th colspan="4" class="sj">外在质量情况（合格、不合格）</th>   <!-- 合并两列 -->
+                </tr>
+                <tr>
+                    <th>（1）外观</th>   <!-- 合并两列 -->
+                    <td th:text="${outlook}">xxx</td>   <!-- 合并两列 -->
+                    <th>（2）尺寸</th>   <!-- 合并两列 -->
+                    <td th:text="${size}">xxx</td>   <!-- 合并两列 -->
+                </tr>
+                <tr>
+                    <th>（3）面、辅料检验</th>   <!-- 合并两列 -->
+                    <td th:text="${materia}">xxx</td>   <!-- 合并两列 -->
+                    <th>（4）工艺</th>   <!-- 合并两列 -->
+                    <td th:text="${craft}">xxx</td>   <!-- 合并两列 -->
+                </tr>
+                <tr>
+                    <th>（5）印绣花、水洗</th>   <!-- 合并两列 -->
+                    <td th:text="${wash}">xxx</td>   <!-- 合并两列 -->
+                    <th>（6）整烫</th>   <!-- 合并两列 -->
+                    <td th:text="${ztang}">xxx</td>   <!-- 合并两列 -->
+                </tr>
+                <tr>
+                    <th colspan="2">（7）包装</th>   <!-- 合并两列 -->
+                    <td th:text="${pack}" colspan="2">xxx</td>   <!-- 合并两列 -->
+                </tr>
+                <tr>
+                    <th colspan="4" class="sj">综合结果</th>   <!-- 合并两列 -->
+                </tr>
+                <tr>
+                    <th colspan="2">关键原材料和生产过程控制是否到位</th>   <!-- 合并两列 -->
+                    <td th:text="${keyMateria}" colspan="2">xxx</td>   <!-- 合并两列 -->
+                </tr>
+                <tr>
+                    <th colspan="2">产品执行标准情况</th>   <!-- 合并两列 -->
+                    <td th:text="${standard}" colspan="2">xxx</td>   <!-- 合并两列 -->
+                </tr>
+                <tr>
+                    <th colspan="2">质量保证体系和管理制度是否完善</th>   <!-- 合并两列 -->
+                    <td th:text="${qualityGuarantee}" colspan="2">xxx</td>   <!-- 合并两列 -->
+                </tr>
+                <tr>
+                    <th colspan="2">是否有监督抽查、出厂检验的报告</th>   <!-- 合并两列 -->
+                    <td th:text="${hasReport}" colspan="2">xxx</td>   <!-- 合并两列 -->
+                </tr>
+                <tr>
+                    <th colspan="2">是否存在产品质量违法行为</th>   <!-- 合并两列 -->
+                    <td th:text="${isIllegal}" colspan="2">xxx</td>   <!-- 合并两列 -->
+                </tr>
+                </tbody>
+            </table>
+            <button class="btn btn-primary block m-b" id="download" type="submit">下载文档</button>
+
+
+        </form>
+        <form name="finishForm" id="finishForm" th:action="@{/record/finish}" method="post">
+            <p>上传结果文档：</p>
+            <div style="border:1px dashed #000;width: 200px">
+                <input  type="hidden" name="token" th:value="${uploadToken}">
+                <input  type="hidden" name="key" th:value="${fileName}">
+                <input type="file"  multiple="multiple"  class="form-control" id="head-image" name="file" lang="es" required="" onchange="pre(this)">
+                <div id="preview">
+                    <img id="img_all" border=0 th:src="@{/hh/img/imgbackgroud.png}" width="180" height="180"/>
+                </div>
+
+
+            </div>
+            <button class="btn btn-primary block m-b" id="finish" type="submit">完成任务</button>
+        </form>
+    </div>
+
+</div>
+
+
+<!-- 全局js -->
+<script th:src="@{/hh/js/jquery.min.js?v=2.1.4}"></script>
+<script th:src="@{/hh/js/bootstrap.min.js?v=3.3.6}"></script>
+
+
+<script>
+    $(function () {
+    });
+
+    function download() {
+        //发送异步请求
+        $.ajaxSettings.async = false;
+        $.post(
+            "/qa/record/download",
+            {},
+            function (data) {
+            }
+        );
+        $.ajaxSettings.async = true;
+
+    }
+    function pre(file) {
+        $.ajax({
+            url: "http://upload-z0.qiniup.com",
+            method: "post",
+            processData: false,
+            contentType: false,
+            data: new FormData($("#finishForm")[0]),
+            success: function(data) {
+                if(data && data.code == 0) {
+                    alert("上传成功!");
+                } else {
+                    alert("上传失败!");
+                }
+            }
+        });
+        var MAXWIDTH = 260;
+        var MAXHEIGHT = 180;
+        var div = document.getElementById('preview');
+        if (file.files && file.files[0]) {
+            var img = document.getElementById('img_all');
+            img.onload = function () {
+                var rect = clacImgZoomParam(MAXWIDTH, MAXHEIGHT, img.offsetWidth, img.offsetHeight);
+                img.width = rect.width;
+                img.height = rect.height;
+                img.style.marginTop = rect.top + 'px';
+            }
+            var reader = new FileReader();
+            reader.onload = function (evt) {
+                img.src = evt.target.result;
+            }
+            reader.readAsDataURL(file.files[0]);
+        }
+
+    }
+    function clacImgZoomParam(maxWidth, maxHeight, width, height) {
+        var param = {top: 0, left: 0, width: width, height: height};
+        if (width > maxWidth || height > maxHeight) {
+            rateWidth = width / maxWidth;
+            rateHeight = height / maxHeight;
+
+            if (rateWidth > rateHeight) {
+                param.width = maxWidth;
+                param.height = Math.round(height / rateWidth);
+            } else {
+                param.width = Math.round(width / rateHeight);
+                param.height = maxHeight;
+            }
+        }
+
+        param.left = Math.round((maxWidth - param.width) / 2);
+        param.top = Math.round((maxHeight - param.height) / 2);
+        return param;
+    }
+</script>
+
+
+</body>
+
+</html>

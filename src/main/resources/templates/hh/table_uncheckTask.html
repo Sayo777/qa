@@ -84,14 +84,16 @@
                                     <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
                                     <h4 class="modal-title">审核</h4>
                                 </div>
-                                <div class="modal-body">
-                                    <div>审核结果：</div>
+                                <div class="modal-body" style="padding: 20px 30px 2px 30px">
+                                    <div style="font-weight:bold;">审核结果：</div>
                                     <select class="input-sm form-control input-s-sm inline" id="result">
                                         <option value="通过" >通过</option>
                                         <option value="不通过" >不通过</option>
                                     </select>
-                                    <div style="margin-top: 15px">理由（不通过时请说明原因）：</div>
+                                    <div style="margin-top: 15px;font-weight: bold;">理由（不通过时请说明原因）：</div>
                                     <textarea class="form-control" rows="3" id="reason"></textarea>
+                                    <div style="margin-top:8px;padding:0px;font-size: smaller">温馨提示：</div>
+                                     <div style="padding:0px;font-size: smaller">审核通过时将自动发送《抽查告知书》</div>
                                 </div>
                                 <div class="modal-footer">
                                     <button type="button" class="btn btn-white" data-dismiss="modal">取消</button>

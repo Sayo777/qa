@@ -78,9 +78,10 @@
     <!-- 全局js -->
     <script th:src="@{/hh/js/jquery.min.js?v=2.1.4}"></script>
     <script th:src="@{/hh/js/bootstrap.min.js?v=3.3.6}"></script>
-
     <script type="text/javascript">
-
+        $(function(){
+            $('input:not([autocomplete]),textarea:not([autocomplete]),select:not([autocomplete])').attr('autocomplete', 'off');
+        });
     </script>
 </body>
 
