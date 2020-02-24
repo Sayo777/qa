@@ -16,6 +16,14 @@ public class ResultService {
         return resultMapper.selectResults();
     }
 
+    public int addSelectiveResult(Result result){
+        return resultMapper.insertSelective(result);
+    }
+
+    public Result findResultByTaskId(int taskId){
+        return resultMapper.selectResultByTaskId(taskId);
+    }
+
 
 
 

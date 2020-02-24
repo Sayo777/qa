@@ -47,9 +47,29 @@ public class RecordController {
     @Autowired
     private FileUtil fileUtil;
 
+    @Autowired
+    ResultService resultService;
+
+    /**
+     * 完成质检
+     * @param key 质检报告的filename
+     * @param request
+     * @return
+     */
     @RequestMapping(path = "/finish",method = RequestMethod.POST)
-    public String finish(){
-        return "/";
+    public String finish(String key,HttpServletRequest request){
+        String resultSrc = headerBucketUrl + "/" + key;
+        Result result = new Result();
+        int taskId = (int)request.getSession().getAttribute("taskId");
+        result.setTaskId(taskId);
+        result.setResultSrc(resultSrc);
+        resultService.addSelectiveResult(result);
+        //完成质检后将task表的endTime更新上去，表示当前任务已经完成
+        Task task = new Task();
+        task.setTaskId(taskId);
+        task.setEndTime(new Date());
+        taskService.updateTaskSelective(task);
+        return "redirect:/inspector/unInspectTask";
     }
 
 
@@ -80,11 +100,26 @@ public class RecordController {
     @RequestMapping(path = "/add1", method = RequestMethod.POST)
     public String add(int outlook, int size, int materia, int craft, int wash, int ztang, int pack, String standard,
                       int keyMateria, int qualityGuarantee, int hasReport, int isIllegal,
-                      HttpServletRequest request, HttpServletResponse response, Model model) {
+                      HttpServletRequest request,String key,String key2,String key3,String key4,String key5,String key6, Model model) {
         HttpSession session = request.getSession();
-        int taskId = (int) session.getAttribute("taskId");
+//        int taskId = (int) session.getAttribute("taskId");
+        int taskId = 10;
+
+        String urlheader = "http://q5zmtmsy3.bkt.clouddn.com/";
+        String notification_url = urlheader +key;
+        String undertaking_url = urlheader +key2;
+        String inspectorsPhoto_url = urlheader +key3;
+        String environment1_url = urlheader +key4;
+        String environment2_url = urlheader +key5;
+        String license_url = urlheader +key6;
         Record r = new Record();
         r.setTaskId(taskId);
+        r.setNotification(notification_url);
+        r.setUndertaking(undertaking_url);
+        r.setInspectorsphoto(inspectorsPhoto_url);
+        r.setEnvironment1(environment1_url);
+        r.setEnvironment2(environment2_url);
+        r.setLicense(license_url);
         r.setOutlook(outlook);
         r.setSize(size);
         r.setMateria(materia);
@@ -100,6 +135,8 @@ public class RecordController {
         int i = recordService.addRecord(r);
 
         Request request1 = requestService.getRequest(taskId);
+        Product product = productService.findProductById(request1.getProductId());
+        model.addAttribute("p",product);
         Customer customer = customerService.findCustomerById(request1.getReqId());
         Enterprise enterprise = enterpriseService.getEnterPriseById(request1.getReqEid());
         enterprise.setAddress(enterprise.getProvince() + enterprise.getCity() + enterprise.getCounty() + enterprise.getAddress());
@@ -174,7 +211,6 @@ public class RecordController {
             model.addAttribute("uploadToken", uploadToken);
             model.addAttribute("fileName", fileName);
 
-            String finish_url = headerBucketUrl + "/" + fileName;
 
 
 
@@ -186,6 +222,8 @@ public class RecordController {
     }
 
 
+    @Autowired
+    private ProductService productService;
 
     /**
      * 生成的《质量情况表》展示
@@ -194,8 +232,11 @@ public class RecordController {
      */
     @RequestMapping(path = "/recordForm", method = RequestMethod.GET)
     public String downloadInfo(Model model, HttpServletRequest req) {
-        int id = (int) req.getSession().getAttribute("taskId"); // taskId
+//        int id = (int) req.getSession().getAttribute("taskId"); // taskId
+        int id = 10;
         Request request = requestService.getRequest(id);
+        Product product = productService.findProductById(request.getProductId());
+        model.addAttribute("p",product);
         Customer customer = customerService.findCustomerById(request.getReqId());
         Enterprise enterprise = enterpriseService.getEnterPriseById(request.getReqEid());
         enterprise.setAddress(enterprise.getProvince() + enterprise.getCity() + enterprise.getCounty() + enterprise.getAddress());

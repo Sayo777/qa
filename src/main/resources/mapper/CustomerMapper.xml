@@ -36,9 +36,10 @@
   </select>
 
   <select id="selectEIdByCustomerId" parameterType="java.lang.Integer" resultType="java.lang.Integer">
-    select enterprise_id
-    from customer
-    where id = #{customerId}
+   select max(id)
+    from enterprise
+    where enterprise_name in
+		(select apply_ename from e_apply where applier_id = #{customerId})
   </select>
 
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">

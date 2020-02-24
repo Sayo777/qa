@@ -84,11 +84,11 @@
                 </tr>
                 <tr>
                     <th colspan="2">产品名称</th>   <!-- 合并两列 -->
-                    <td colspan="2">xxx</td>   <!-- 合并两列 -->
+                    <td colspan="2" th:text="${p.productName}">xxx</td>   <!-- 合并两列 -->
                 </tr>
                 <tr>
                     <th colspan="2">型号规格</th>   <!-- 合并两列 -->
-                    <th colspan="2">xxx</th>   <!-- 合并两列 -->
+                    <th colspan="2" th:text="${p.guige}">xxx</th>   <!-- 合并两列 -->
                 </tr>
                 <tr>
                     <th colspan="4" class="sj">外在质量情况（合格、不合格）</th>   <!-- 合并两列 -->
@@ -149,7 +149,7 @@
             <div style="border:1px dashed #000;width: 200px">
                 <input  type="hidden" name="token" th:value="${uploadToken}">
                 <input  type="hidden" name="key" th:value="${fileName}">
-                <input type="file"  multiple="multiple"  class="form-control" id="head-image" name="file" lang="es" required="" onchange="pre(this)">
+                <input type="file"   class="form-control" id="head-image" name="file" lang="es" required="" onchange="pre(this)">
                 <div id="preview">
                     <img id="img_all" border=0 th:src="@{/hh/img/imgbackgroud.png}" width="180" height="180"/>
                 </div>
@@ -193,9 +193,9 @@
             data: new FormData($("#finishForm")[0]),
             success: function(data) {
                 if(data && data.code == 0) {
-                    alert("上传成功!");
+                    console.log("上传成功")
                 } else {
-                    alert("上传失败!");
+                    console.log("上传失败")
                 }
             }
         });

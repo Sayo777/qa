@@ -75,6 +75,7 @@ public class TaskController {
             ReqArrange reqArrange = new ReqArrange();
             reqArrange.setRequestId(reqId);
             reqArrange.setIsArrange(0);
+            reqArrange.setGaozhiConfirm(0);//告知书未确认
             reqArrangeService.insertArrange(reqArrange);
         }
         return CommunityUtil.getJSONString(0,"审核成功！");
@@ -122,10 +123,7 @@ public class TaskController {
         return "/hh/unfinishArrange.html";
     }
 
-    @RequestMapping(path = "/hi",method = RequestMethod.GET)
-    public String test(){
-        return "/hh/html/form_wizard.html";
-    }
+
 
     /**
      * 安排政府质检任务,安排完后更新任务安排表req_arrange
@@ -160,10 +158,16 @@ public class TaskController {
         task.setQaEid(thirdqaService.findIdByName(qaName));
         task.setStartTime(DateUtil.stringToDate(arrangeTime));
         taskService.addTaskSelective(task);
+        ThirdTask thirdTask = new ThirdTask();
+        thirdTask.setTaskId(reqId);
+        thirdTask.setQaEid(thirdqaService.findIdByName(qaName));
+        thirdTaskService.addThirdTask(thirdTask);
         return CommunityUtil.getJSONString(0,"安排给"+qaName+"成功！");
     }
 
 
+    @Autowired
+    private ThirdTaskService thirdTaskService;
     /**
      * 安排给第三方并且指定质检员
      * @param reqId 请求编码
@@ -184,6 +188,13 @@ public class TaskController {
         task.setInspectorTwo(inspectorService.findInspectorByName(inspector2).getId());
         task.setStartTime(DateUtil.stringToDate(arrangeTime));
         taskService.addTaskSelective(task);
+        //给ThirdTask添加记录
+        ThirdTask thirdTask = new ThirdTask();
+        thirdTask.setTaskId(reqId);
+        thirdTask.setQaEid(thirdqaService.findIdByName(qaName));
+        thirdTask.setIns1(inspectorService.findInspectorByName(inspector1).getId());
+        thirdTask.setIns2(inspectorService.findInspectorByName(inspector1).getId());
+        thirdTaskService.addThirdTask(thirdTask);
         return CommunityUtil.getJSONString(0,"安排给"+qaName+"成功！"+inspector1+"---"+inspector2);
     }
 

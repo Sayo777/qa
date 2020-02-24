@@ -200,9 +200,10 @@ public class InspectorController {
     }
 
     @RequestMapping(path = "/login",method = RequestMethod.GET)
-    public String login(String name, String password,Model model){
+    public String login(String name, String password,Model model,HttpServletRequest request){
         Map<String,Object> map = inspectorService.login(name,password);
         if (map == null || map.size() ==0){
+            request.getSession().setAttribute("inspectorName",name);
             return "redirect:/inspector/indexInspector";
         }else{
             model.addAttribute("nameMsg",map.get("nameMsg"));
@@ -218,13 +219,13 @@ public class InspectorController {
 
     /**
      *
-     * @param model
-     * @param LoginInspector 登录的质检员，从hostholder中获取(暂时用id为2的质检员来代替)
+     * @param model 登录的质检员，从hostholder中获取(暂时用id为2的质检员来代替)
      * @return
      */
     @RequestMapping(path = "/unInspectTask",method = RequestMethod.GET)
-    public String getUnInspectTask(Model model,Inspector LoginInspector){
-        LoginInspector = inspectorService.findInspectorById(2);
+    public String getUnInspectTask(Model model,HttpServletRequest request){
+        Inspector  LoginInspector = inspectorService.findInspectorByName((String) request.getSession().getAttribute("inspectorName"));
+//        LoginInspector = inspectorService.findInspectorById(2);
         List<Task> tasks = taskService.findTaskByInsoector0(LoginInspector.getId());
         List<Map<String,Object>> VoList = new ArrayList<>();
         Map<String,Object> map = null;
@@ -244,13 +245,9 @@ public class InspectorController {
                 map.put("done",false);
                 map.put("status",false);
             }
-
             VoList.add(map);
         }
-
         model.addAttribute("VoList",VoList);
-//        model.addAttribute("done",false);
-
         return "/hh/inspector/unInspectTask.html";
     }
 
@@ -308,36 +305,11 @@ public class InspectorController {
     @Value("${qiniu.key.secret}")
     private String secretKey;
 
-    @Value("${qiniu.bucket.file.name}")
+
+
+
+    @Value("sayo-process")
     private String headerBucketName;
-
-    @Value("${quniu.bucket.file.url}")
-    private String headerBucketUrl;
-
-    @RequestMapping(path = "/myUpload",method = RequestMethod.GET)
-    public String getUpload(Model model){
-        //生成长传文件的名称
-        String fileName = CommunityUtil.generateUUID();
-//        String fileName2 = CommunityUtil.generateUUID();
-//        String fileName3 = CommunityUtil.generateUUID();
-        // 设置响应信息
-        StringMap policy = new StringMap();
-        policy.put("returnBody", CommunityUtil.getJSONString(0));
-        // 生成上传凭证
-        Auth auth = Auth.create(accessKey, secretKey);
-        String uploadToken = auth.uploadToken(headerBucketName, fileName, 3600, policy);
-//        String uploadToken2 = auth.uploadToken(headerBucketName, fileName2, 3600, policy);
-//        String uploadToken3 = auth.uploadToken(headerBucketName, fileName3, 3600, policy);
-
-        model.addAttribute("uploadToken", uploadToken);
-        model.addAttribute("fileName", fileName);
-//        model.addAttribute("uploadToken2", uploadToken2);
-//        model.addAttribute("fileName2", fileName2);
-//        model.addAttribute("uploadToken3", uploadToken3);
-//        model.addAttribute("fileName3", fileName3);
-        return "/hh/inspector/webuploader.html";
-    }
-
     /**
      * 根据taskId来记录检测的过程数据
      * @param taskId 任务编码
@@ -348,36 +320,49 @@ public class InspectorController {
     public String record(@PathVariable("taskId") String taskId, Model model, HttpServletRequest request){
         //创建session对象
         HttpSession session = request.getSession();
-//把用户数据保存在session域对象中
         session.setAttribute("taskId",Integer.parseInt(taskId));
-
-//        System.out.println(taskId);
-
-        String fileName = CommunityUtil.generateUUID();
-//        String fileName2 = CommunityUtil.generateUUID();
-//        String fileName3 = CommunityUtil.generateUUID();
-//        // 设置响应信息
+        String fileName1 = CommunityUtil.generateUUID();
+        String fileName2 = CommunityUtil.generateUUID();
+        String fileName3 = CommunityUtil.generateUUID();
+        String fileName4 = CommunityUtil.generateUUID();
+        String fileName5 = CommunityUtil.generateUUID();
+        String fileName6 = CommunityUtil.generateUUID();
+        // 设置响应信息
         StringMap policy = new StringMap();
         policy.put("returnBody", CommunityUtil.getJSONString(0));
         // 生成上传凭证
         Auth auth = Auth.create(accessKey, secretKey);
-        String uploadToken = auth.uploadToken(headerBucketName, fileName, 3600, policy);
-//        String uploadToken2 = auth.uploadToken(headerBucketName, fileName2, 3600, policy);
-//        String uploadToken3 = auth.uploadToken(headerBucketName, fileName3, 3600, policy);
-        model.addAttribute("uploadToken", uploadToken);
-        model.addAttribute("fileName", fileName);
-//        model.addAttribute("uploadToken2", uploadToken2);
-//        model.addAttribute("fileName2", fileName2);
-//        model.addAttribute("uploadToken3", uploadToken3);
-//        model.addAttribute("fileName3", fileName3);
+        String uploadToken1 = auth.uploadToken(headerBucketName, fileName1, 3600, policy);
+        String uploadToken2 = auth.uploadToken(headerBucketName, fileName2, 3600, policy);
+        String uploadToken3 = auth.uploadToken(headerBucketName, fileName3, 3600, policy);
+        String uploadToken4 = auth.uploadToken(headerBucketName, fileName4, 3600, policy);
+        String uploadToken5 = auth.uploadToken(headerBucketName, fileName5, 3600, policy);
+        String uploadToken6 = auth.uploadToken(headerBucketName, fileName6, 3600, policy);
+        model.addAttribute("uploadToken1", uploadToken1);
+        model.addAttribute("fileName1", fileName1);
+        model.addAttribute("uploadToken2", uploadToken2);
+        model.addAttribute("fileName2", fileName2);
+        model.addAttribute("uploadToken3", uploadToken3);
+        model.addAttribute("fileName3", fileName3);
+        model.addAttribute("uploadToken4", uploadToken4);
+        model.addAttribute("fileName4", fileName4);
+        model.addAttribute("uploadToken5", uploadToken5);
+        model.addAttribute("fileName5", fileName5);
+        model.addAttribute("uploadToken6", uploadToken6);
+        model.addAttribute("fileName6", fileName6);
         return "/hh/inspector/webuploader.html";
     }
 
+    @Autowired
+    private ProductService productService;
     @RequestMapping(path = "/tosample/{taskId}",method = RequestMethod.GET)
     public String tosample(@PathVariable("taskId") String id, Model model){
         int taskId = Integer.parseInt(id);
         model.addAttribute("taskId",taskId);
         Request r = requestService.getRequest(taskId);
+        Product product = productService.findProductById(r.getProductId());
+        model.addAttribute("p",product);
+        model.addAttribute("date",new Date());
         Customer c = customerService.findCustomerById(r.getReqId());//申请人
         int eId = r.getReqEid();
         Enterprise e = enterpriseService.getEnterPriseById(eId);
@@ -404,10 +389,6 @@ public class InspectorController {
         return "/hh/inspector/sample.html";
     }
 
-//    @RequestMapping(path = "/sample",method = RequestMethod.GET)
-//    public String sample(Model model){
-//        return "/hh/inspector/sample.html";
-//    }
 
      @RequestMapping(path = "/process",method = RequestMethod.GET)
     public String process(){
@@ -445,5 +426,91 @@ public class InspectorController {
         return "redirect:/inspector/unInspectTask";
     }
 
+
+
+    //已完成的任务列表
+    @RequestMapping(path = "/finishedTask",method = RequestMethod.GET)
+    public String finishedTask(HttpServletRequest request,Model model){
+        //用request.getSession()来获取当前登录的人员，先暂时用质检员id=2的来展示
+        String inspectorName = (String)request.getSession().getAttribute("inspectorName");
+        Inspector inspector = inspectorService.findInspectorByName(inspectorName);
+        List<Task> taskList = taskService.findFinishedTaskByInspector(inspector.getId());
+        List<Map<String,Object>> taskVoList = new ArrayList<>();
+        if (taskList!=null){
+            for (Task task:taskList) {
+                Map<String,Object> taskVo = new HashMap<>();
+                taskVo.put("task",task);
+                taskVo.put("startTime", DateUtil.dateToString(task.getStartTime().toString()));
+                taskVo.put("reqEnterprise",enterpriseService.getEnterPriseById(requestService.getRequest(task.getTaskId()).getReqEid()));
+                taskVo.put("inspector1",inspectorService.findInspectorById(task.getInspectorOne()));
+                taskVo.put("inspector2",inspectorService.findInspectorById(task.getInspectorTwo()));
+                taskVoList.add(taskVo);
+            }
+        }
+        model.addAttribute("tasks",taskVoList);
+        return "/hh/inspector/finishedTask.html";
+    }
+
+
+    @Autowired
+    private RecordService recordService;
+    @Autowired
+    private ResultService resultService;
+
+    /**
+     * 已完成的任务详情
+     * @param taskId 任务编码
+     * @param model
+     * @return
+     */
+    @RequestMapping(path = "/finishedDetail/{taskId}",method = RequestMethod.GET)
+    public String finishedDetail(@PathVariable("taskId") int taskId, Model model){
+
+//        int id = (int) req.getSession().getAttribute("taskId"); // taskId
+        Request request = requestService.getRequest(taskId);
+        Customer customer = customerService.findCustomerById(request.getReqId());
+        Enterprise enterprise = enterpriseService.getEnterPriseById(request.getReqEid());
+        Task task = taskService.findTaskByTaskId(taskId);
+        Inspector inspector1 = inspectorService.findInspectorById(task.getInspectorOne());
+        Inspector inspector2 = inspectorService.findInspectorById(task.getInspectorTwo());
+        enterprise.setAddress(enterprise.getProvince() + enterprise.getCity() + enterprise.getCounty() + enterprise.getAddress());
+        model.addAttribute("e", enterprise);
+        model.addAttribute("customer", customer);
+        model.addAttribute("ins1",inspector1.getName());
+        model.addAttribute("ins2",inspector2.getName());
+        model.addAttribute("insDate",task.getEndTime());
+        Record r = recordService.findRecordByTaskId(taskId);
+        model.addAttribute("r",r);
+        model.addAttribute("outlook",changehege(r.getOutlook()));
+        model.addAttribute("size",changehege(r.getSize()));
+        model.addAttribute("materia",changehege(r.getMateria()));
+        model.addAttribute("craft",changehege(r.getCraft()));
+        model.addAttribute("wash",changehege(r.getWash()));
+        model.addAttribute("ztang",changehege(r.getZtang()));
+        model.addAttribute("pack",changehege(r.getPack()));
+        model.addAttribute("keyMateria",change(r.getKeymateria()));
+        model.addAttribute("qualityGuarantee",change(r.getQualityguarantee()));
+        model.addAttribute("hasReport",change(r.getHasreport()));
+        model.addAttribute("isIllegal",change(r.getIsillegal()));
+        model.addAttribute("standard",r.getStandard());
+        Result result = resultService.findResultByTaskId(taskId);
+        model.addAttribute("resultSrc",result.getResultSrc());
+
+        return "/hh/inspector/taskDetail.html";
+    }
+    public String changehege(int i){
+        if(i == 0){
+            return "不合格";
+        }else{
+            return "合格";
+        }
+    }
+    public String change(int i){
+        if(i == 1){
+            return "是";
+        }else{
+            return "否";
+        }
+    }
 
 }

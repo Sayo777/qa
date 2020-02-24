@@ -18,4 +18,12 @@ public class ReqArrangeService {
         return reqArrangeMapper.updateByReqId(reqId);
     }
 
+    public ReqArrange findReqArrangeByReqId(int reqId){
+        return reqArrangeMapper.selectByPrimaryKey(reqId);
+    }
+
+    public int updateGaozhishu(int reqId){
+        return reqArrangeMapper.updateGaozhishuById(reqId);
+    }
+
 }

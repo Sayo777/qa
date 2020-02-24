@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+
+    <title>已完成的任务</title>
+    <style>
+        #agree {
+            visibility: hidden;
+        }
+
+        /*lable标签的大小、位置、背景颜色更改，在css选择时，“+”代表相邻元素，即当前元素的下一元素*/
+        #agree + label {
+            display: block;
+            width: 20px;
+            height: 20px;
+            cursor: pointer;
+            position: absolute;
+            top: 2px;
+            left: 15px;
+            background: rgba(240, 84, 77, 1);;
+        }
+
+        /*当input框为选中状态时，lable标签的样式，其中在css选择时，“：”表示当前input框的值，即checked；
+              该部分主要对显示的“对号”的大限居中方式，显示颜色进行了设置*/
+        #agree:checked + label::before {
+             display: block;
+             content: "\2714";
+             text-align: center;
+             font-size: 16px;
+             color: white;
+        }
+    </style>
+    <link rel="shortcut icon" th:href="@{/hh/favicon.ico}">
+    <link th:href="@{/hh/css/bootstrap.min.css?v=3.3.6}" rel="stylesheet">
+    <link th:href="@{/hh/css/font-awesome.css?v=4.4.0}" rel="stylesheet">
+    <link th:href="@{/hh/css/plugins/iCheck/custom.css}" rel="stylesheet">
+    <link th:href="@{/hh/css/animate.css}" rel="stylesheet">
+    <link th:href="@{/hh/css/style.css?v=4.1.0}" rel="stylesheet">
+
+</head>
+
+<body class="gray-bg">
+<div class="wrapper wrapper-content animated fadeInRight">
+    <div class="row">
+        <div class="col-sm-12" style="margin-top: 40px">
+            <div class="ibox float-e-margins">
+                <div class="ibox-title">
+                    <h5>产品质量监督抽查企业告知书</h5>
+                </div>
+                <div class="ibox-content">
+                    <p><i th:text="${reqEnterprise}" style="text-decoration: underline;color: red">xxcccc</i> (受检单位)：
+                    </p>
+                    <p>根据《中华人民共和国产品质量法》、《产品质量监督抽查管理办法》
+                        （国家质检总局第133 号令）等有关法律法规规定，质量技术监督局依法对贵单位
+                        进行产品质量监督抽查。现将贵单位在配合监督抽查工作中的权利与义务告知如下：</p>
+                    <p>
+                        1、 对贵单位的产品质量监督抽查，是根据《中华人民共和国产品质量法》第十五、十六条规定依法进行的，
+                        做好全程配合是受检单位必须履行的法律义务。对无故拒绝监督抽查的，将依照《中华人民共和国产品质量法》
+                        第五十六条规定，予以严肃处理。
+
+                    </p>
+                    <p>
+                        2、 贵单位应主动提供营业执照及相关证照，并指定人员配合和见证抽查过程中的现场取样、文书确认、摄像、
+                        封样等具体工作。
+                    </p>
+                    <p>
+                        3、 有下列情形之一的，贵单位可以拒绝接受监督抽查：
+                    </p>
+                    <p>
+                        (1) 抽样人员少于2人的；
+                    </p>
+                    <p>
+                        (2) 抽样人员无法出具监督抽查通知书、抽样资格证的；
+                    </p>
+                    <p>
+                        (3) 抽样人员姓名与监督抽查通知书不符的；
+                    </p>
+                    <p>
+                        (4) 要求支付检验费（定期检验除外）或者其他任何费用的。
+                    </p>
+                    <p>
+                        4、 监督抽查支付买样费用，贵单位应开具正式发票。如暂时无法提供正式发票，请将发票、银行帐号寄/送承检机构，承检机构将支付买样费用。
+                    </p>
+                    <p>
+                        5、
+                        本次监督抽查结果，将以《产品质量监督抽查检验结果通知单》告知。若有异议，贵单位应在收到《检验结果通知单》的15日内向福建省质量技术监督局提出书面意见及复检申请；逾期未提出异议的，视为承认检验结果。若无异议，贵单位在接到《检验结果通知单》的三个月后，可对封存在贵单位的样品自行解封。
+                    </p>
+                    <p>
+                        6、 任何单位或个人，均可对抽样工作人员在执行抽样工作中存在的以下违法违规行为予以举报：
+                    </p>
+                    <p>
+                        (1) 擅自向外透露受检单位商业秘密的；
+                    </p>
+                    <p>
+                        (2) 伪造或者指使受检单位伪造抽样相关记录；
+                    </p>
+                    <p>
+                        (3) 利用抽样之便，要求受检单位签订委托检验等有偿服务协议：
+                    </p>
+                    <p>
+                        (4) 接受受检单位的馈赠、宴请或娱乐、旅游等安排，在受检单位报销无关费用；
+                    </p>
+                    <p>
+                        (5) 利用抽查工作之便牟取其他不正当利益；
+                    </p>
+                    <p>
+                        (6) 其它违反法律、法规规定和有关纪律要求的行为。
+                    </p>
+
+                    <label style="color: #149f5b">
+                        <input type="checkbox"  name="agree"> 我已阅读并同意以上条款
+                    </label>
+                    <div style="margin-top: 5px">
+
+                        <button type="button" class="btn btn-primary"  onclick="agree()">确定</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<!-- 全局js -->
+<script th:src="@{/hh/js/jquery.min.js?v=2.1.4}"></script>
+<script th:src="@{/hh/js/bootstrap.min.js?v=3.3.6}"></script>
+<script>
+    $(document).ready(function () {
+    });
+    function agree() {
+        if ($(":checkbox[name=agree]:checked").size() == 0) {
+            alert("请勾选同意，尽快完成质检！");
+        }else{
+            alert("确认了");
+        }
+    }
+</script>
+
+
+</body>
+
+</html>

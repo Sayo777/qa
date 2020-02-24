@@ -1,9 +1,9 @@
 package com.sayo.qa.controller;
 
+import com.sayo.qa.CommonUtil.CommunityUtil;
 import com.sayo.qa.CommonUtil.DateUtil;
 import com.sayo.qa.dao.TaskMapper;
-import com.sayo.qa.entity.Task;
-import com.sayo.qa.entity.ThirdUser;
+import com.sayo.qa.entity.*;
 import com.sayo.qa.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.AutoConfigurationPackage;
@@ -11,6 +11,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -33,6 +34,111 @@ public class ThirdUserController {
 
     @Autowired
     private InspectorService inspectorService;
+    @Autowired
+    private ThirdTaskService thirdTaskService;
+
+
+
+    @RequestMapping(path = "/myArrange",method = RequestMethod.POST)
+    @ResponseBody
+    public String myArrange(int taskId){
+        int i = thirdTaskService.updateThirdTaskStatus(taskId);
+        if (i<0){
+            return CommunityUtil.getJSONString(1,"安排任务出错啦！");
+        }else{
+            return CommunityUtil.getJSONString(0,"安排成功！");
+        }
+    }
+
+
+    @RequestMapping(path = "/sendIns",method = RequestMethod.POST)
+    @ResponseBody
+    public String sendIns(int taskId,String ins1,String ins2){
+        Inspector inspector1 = inspectorService.findInspectorByName(ins1);
+        Inspector inspector2 = inspectorService.findInspectorByName(ins2);
+        int i = thirdTaskService.updateThirdTaskIns(taskId,inspector1.getId(),inspector2.getId());
+        if (i<0){
+            return CommunityUtil.getJSONString(1,"安排任务出错啦！");
+        }else{
+            return CommunityUtil.getJSONString(0,"已安排！待政府审核。。");
+        }
+    }
+
+    @RequestMapping(path = "/hasAssign",method = RequestMethod.GET)
+    public String getUnfinishTask(Model model){
+        //假设当前登录的人员为“芈月”，id为1
+        Inspector inspector = inspectorService.findInspectorById(1);
+        List<Task> task = taskService.findhasAssignTaskByEid(inspector.getEnterpriseId());
+        List<Map<String,Object>> VoList = new ArrayList<>();
+        Map<String,Object> map = null;
+        for (Task t: task) {
+            map = new HashMap<>();
+            map.put("VoTask",getVoTaskByTask(t)); // 任务编号、受检企业、申请人、联系电话、受检服装类型、受检时间、地址
+            map.put("inspector1",inspectorService.findInspectorById(t.getInspectorOne()));
+            map.put("inspector2",inspectorService.findInspectorById(t.getInspectorTwo()));
+            VoList.add(map);
+        }
+        model.addAttribute("VoList",VoList);
+        return "/hh/third/hasAssign.html";
+    }
+
+    @RequestMapping(path = "/finishAssign",method = RequestMethod.GET)
+    public String getfinishTask(Model model){
+        //假设当前登录的人员为“芈月”，id为1
+        Inspector inspector = inspectorService.findInspectorById(1);
+        //找出政府审核通过的task（status=3）
+        List<Task> task = taskService.findfinishAssignTaskByEidAndStatus(inspector.getEnterpriseId(),3);
+        List<Map<String,Object>> VoList = new ArrayList<>();
+        Map<String,Object> map = null;
+        for (Task t: task) {
+            map = new HashMap<>();
+            map.put("VoTask",getVoTaskByTask(t)); // 任务编号、受检企业、申请人、联系电话、受检服装类型、受检时间、地址
+            map.put("inspector1",inspectorService.findInspectorById(t.getInspectorOne()));
+            map.put("inspector2",inspectorService.findInspectorById(t.getInspectorTwo()));
+            VoList.add(map);
+        }
+        model.addAttribute("VoList",VoList);
+        return "/hh/third/hasAssign.html";
+    }
+
+    @RequestMapping(path = "/waitingAssign",method = RequestMethod.GET)
+    public String towaitingAssign(Model model){
+        //假设当前登录的人员为“芈月”，id为1
+        Inspector inspector = inspectorService.findInspectorById(1);
+        List<Task> task = taskService.findwaitingAssignTaskByEid(inspector.getEnterpriseId());
+        List<Map<String,Object>> VoList = new ArrayList<>();
+        Map<String,Object> map = null;
+        for (Task t: task) {
+            map = new HashMap<>();
+            map.put("VoTask",getVoTaskByTask(t)); // 任务编号、受检企业、申请人、联系电话、受检服装类型、受检时间、地址
+            VoList.add(map);
+        }
+        model.addAttribute("VoList",VoList);
+        return "/hh/third/waitingAssign.html";
+    }
+
+
+
+    @Autowired
+    private CustomerService customerService;
+    @Autowired
+    private ClothesTypeService clothesTypeService;
+    public VoTask getVoTaskByTask(Task task){
+        Request request = requestService.getRequest(task.getTaskId());
+        Enterprise enterprise = enterpriseService.getEnterPriseById(task.getQaEid());
+        Customer customer = customerService.findCustomerById(request.getReqId());
+        VoTask voTask = new VoTask();
+        String address = enterprise.getProvince()+enterprise.getCity()+enterprise.getCounty()+enterprise.getAddress();
+        voTask.setTaskId(task.getTaskId());
+        voTask.setQaEnterprise(enterprise);
+        voTask.setQaCustomer(customer);
+        voTask.setContact(request.getContact());
+        voTask.setClothType(clothesTypeService.getClothesType(request.getReqType()));
+        voTask.setStartTime(task.getStartTime());
+        voTask.setAddress(address);
+        return voTask;
+    }
+
 
     @RequestMapping(path = "/login",method = RequestMethod.GET)
     public String login3User(String name, String password, String role, Model model){

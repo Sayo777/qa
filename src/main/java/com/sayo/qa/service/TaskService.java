@@ -9,6 +9,7 @@ import com.sayo.qa.entity.TaskCheck;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
 import java.util.List;
 
 @Service
@@ -22,6 +23,14 @@ public class TaskService {
 
     public List<Task> findTaskByQaTypeAndEid(String type,int EId){
         return taskMapper.selectTaskByQaTypeAndEid(type, EId);
+    }
+
+    public List<Task> findFinishedTaskByInspector(int inspectorId){
+        return taskMapper.findFinishedTaskByInspector(inspectorId);
+    }
+
+    public List<Task> findTaskforCheckIns(){
+        return taskMapper.findTaskforCheckIns();
     }
 
     public Task findTaskByTaskId(int taskId){
@@ -52,5 +61,24 @@ public class TaskService {
     public List<Task> findTaskByInsoector0(int inspectorId){
         return taskMapper.selectTaskByInspectorId0(inspectorId);
     }
+
+    public List<Task> findhasAssignTaskByEid(int eId){
+
+        return taskMapper.findhasAssignTaskByEid(eId);
+    }
+    public List<Task> findfinishAssignTaskByEidAndStatus(int eId,int status){
+
+        return taskMapper.findfinishAssignTaskByEidAndStatus(eId,status);
+    }
+    public List<Task> findwaitingAssignTaskByEid(int eId){
+
+        return taskMapper.findwaitingAssignTaskByEid(eId);
+    }
+
+    public int updateTaskSelective(Task task){
+        return taskMapper.updateByPrimaryKeySelective(task);
+    }
+
+
 
 }

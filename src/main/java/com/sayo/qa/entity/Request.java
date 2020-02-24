@@ -20,4 +20,6 @@ public class Request {
     private String status;
 
     private String reason;
+
+    private Integer productId;
 }

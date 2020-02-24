@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+
+    <title>记录详情</title>
+    <link rel="shortcut icon" th:href="@{/hh/img/aa.png}">
+    <link th:href="@{/hh/css/bootstrap.min.css?v=3.3.6}" rel="stylesheet">
+    <link th:href="@{/hh/css/font-awesome.css?v=4.4.0}" rel="stylesheet">
+    <link th:href="@{/hh/css/plugins/iCheck/custom.css}" rel="stylesheet">
+    <link th:href="@{/hh/css/animate.css}" rel="stylesheet">
+    <link th:href="@{/hh/css/style.css?v=4.1.0}" rel="stylesheet">
+    <style>
+        .myblue {
+            color: #188621;
+        }
+
+        #preview, preview1 {
+            width: 180px;
+            height: 180px;
+            /*border: 1px solid #000;*/
+            overflow: hidden;
+        }
+    </style>
+</head>
+
+<body class="gray-bg">
+<div class="wrapper wrapper-content animated fadeInRight">
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="ibox float-e-margins">
+
+                <div class="ibox-title">
+                    <button onclick="javascript:history.back(-1);"  class="btn btn-primary" >
+                        返回
+                    </button>
+                </div>
+                <div class="ibox-content">
+                    <div class="row">
+
+                    </div>
+                    <div class="tabs-container">
+                        <ul class="nav nav-tabs">
+                            <li class="active"><a data-toggle="tab" href="#tab-1" aria-expanded="true"> 基本信息</a>
+                            </li>
+                            <li class=""><a data-toggle="tab" href="#tab-2" aria-expanded="false">质检记录</a>
+                            </li>
+                        </ul>
+                        <div class="tab-content">
+                            <div id="tab-1" class="tab-pane active">
+                                <div class="panel-body form-horizontal">
+                                    <div class="hr-line-dashed"></div>
+                                    <p style="font-size: larger;font-weight: bold"><i class="fa fa-navicon"></i> 申请企业信息：
+                                    </p>
+
+                                    <p>企业名称：<i class="myblue" th:text="${e.enterpriseName}">http</i></p>
+                                    <p> 地址：<i class="myblue" th:text="${e.address}">zheng-zihan</i></p>
+                                    <p>法人代表：<i class="myblue" th:text="${e.legalPerson}">zheng</i></p>
+                                    <p>联系人：<i class="myblue" th:text="${customer.name}">zheng</i></p>
+                                    <p>联系电话：<i class="myblue" th:text="${customer.phone}">zheng</i></p>
+                                    <p>工商注册号：<i class="myblue" th:text="${e.commercialNumber}">http</i></p>
+                                    <p>信用代码：<i class="myblue" th:text="${e.creditCode}">http</i></p>
+                                    <p>组织机构代码：<i class="myblue" th:text="${e.organCode}">http</i></p>
+                                    <div class="hr-line-dashed"></div>
+                                    <p style="font-size: larger;font-weight: bold"><i class="fa fa-navicon"></i> 质检信息：
+                                    </p>
+
+                                    <p>1号质检员：<i class="myblue" th:text="${ins1}">http</i></p>
+                                    <p>2号质检员：<i class="myblue" th:text="${ins2}">http</i></p>
+                                    <p>质检时间：<i class="myblue" th:text="${#dates.format(insDate,'yyyy-MM-dd')}">http</i>
+                                    </p>
+                                    <div class="hr-line-dashed"></div>
+                                    <p style="font-size: larger;font-weight: bold"><i class="fa fa-navicon"></i> 结果信息：
+                                    </p>
+
+                                    <p>外在质量情况：</p>
+                                    <p>（1）外观：<i class="myblue" th:text="${outlook}">http</i></p>
+                                    <p>（2）尺寸：<i class="myblue" th:text="${size}">http</i></p>
+                                    <p>（3）面、辅料检验：<i class="myblue" th:text="${materia}">http</i></p>
+                                    <p>（4）工艺：<i class="myblue" th:text="${craft}">http</i></p>
+                                    <p>（5）印绣花、水洗：<i class="myblue" th:text="${wash}">http</i></p>
+                                    <p>（6）整烫：<i class="myblue" th:text="${ztang}">http</i></p>
+                                    <p>综合结果：</p>
+                                    <p>关键原材料和生产过程控制是否到位：<i class="myblue" th:text="${keyMateria}">http</i></p>
+                                    <p>产品执行标准情况：<i class="myblue" th:text="${standard}">http</i></p>
+                                    <p>质量保证体系和管理制度是否完善：<i class="myblue" th:text="${qualityGuarantee}">http</i></p>
+                                    <p>是否有监督抽查、出厂检验的报告：<i class="myblue" th:text="${hasReport}">http</i></p>
+                                    <p>是否存在产品质量违法行为：<i class="myblue" th:text="${isIllegal}">http</i></p>
+                                </div>
+                            </div>
+                            <div id="tab-2" class="tab-pane">
+                                <div class="panel-body form-horizontal">
+                                    <div class="aui-content-up-form">
+                                        <h2>基本文档</h2>
+                                    </div>
+                                    <div class="aui-form-group" style="display: block">
+                                        <div class="aui-form-input" style="display: inline;float: left">
+                                            <label class="aui-label-control">企业告知书  :</label>
+                                            <div style="border:1px dashed #000;width: 280px;height: 280px;">
+                                                <img id="img_notification" border=0 th:src="${r.notification}"
+                                                     width="270" height="270"/>
+                                            </div>
+                                        </div>
+                                        <div class="aui-form-input"
+                                             style="display: inline;float: left;margin-left: 30px">
+                                            <label class="aui-label-control">接受承诺书  :</label>
+                                            <div style="border:1px dashed #000;width: 280px;height: 280px;">
+                                                <img border=0 th:src="${r.undertaking}" width="270" height="270"/>
+                                            </div>
+                                        </div>
+                                        <div class="aui-form-input"
+                                             style="display: block;float: left;margin-left: 30px">
+                                            <label class="aui-label-control">指定质检员照片  :</label>
+                                            <div style="border:1px solid #000;width: 280px;height: 280px;">
+                                                <img border=0 th:src="${r.inspectorsphoto}" width="270" height="270"/>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="hr-line-dashed" style="clear:both;margin-top: 344px"></div>
+                                    <div class="aui-content-up-form" style="display: block">
+                                        <h2>企业信息</h2>
+                                    </div>
+                                    <div class="aui-form-group" style="display: block">
+                                        <div class="aui-form-input" style="display: inline;float: left">
+                                            <label class="aui-label-control">企业环境1  :</label>
+                                            <div style="border:1px dashed #000;width: 280px;height: 280px;">
+                                                <img border=0 th:src="${r.environment1}" width="270" height="270"/>
+                                            </div>
+                                        </div>
+                                        <div class="aui-form-input"
+                                             style="display: inline;float: left;margin-left: 30px">
+                                            <label class="aui-label-control">企业环境2  :</label>
+                                            <div style="border:1px dashed #000;width: 280px;height: 280px;">
+                                                <img border=0 th:src="${r.environment2}" width="270" height="270"/>
+                                            </div>
+                                        </div>
+                                        <div class="aui-form-input"
+                                             style="display: block;float: left;margin-left: 30px">
+                                            <label class="aui-label-control">企业营业执照  :</label>
+                                            <div style="border:1px solid #000;width: 280px;height: 280px;">
+                                                <img border=0 th:src="${r.license}" width="270" height="270"/>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="hr-line-dashed" style="clear:both;margin-top: 344px"></div>
+                                    <div class="aui-content-up-form" style="display: block">
+                                        <h2>结果信息</h2>
+                                    </div>
+                                    <div class="aui-form-group" style="display: block">
+                                        <div class="aui-form-input" style="display: inline;float: left">
+                                            <label class="aui-label-control">最终文档  :</label>
+                                            <div style="border:1px dashed #000;width: 280px;height: 280px;">
+                                                <img border=0 th:src="${resultSrc}" width="270" height="270"/>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+
+
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<!-- 全局js -->
+<script th:src="@{/hh/js/jquery.min.js?v=2.1.4}"></script>
+<script th:src="@{/hh/js/bootstrap.min.js?v=3.3.6}"></script>
+
+
+<!-- Peity -->
+<script th:src="@{/hh/js/plugins/peity/jquery.peity.min.js}"></script>
+
+<!-- 自定义js -->
+<script th:src="@{/hh/js/content.js?v=1.0.0}"></script>
+
+
+<!-- iCheck -->
+<script th:src="@{/hh/js/plugins/iCheck/icheck.min.js}"></script>
+
+<!-- Peity -->
+<script th:src="@{/hh/js/demo/peity-demo.js}"></script>
+
+<script>
+    $(document).ready(function () {
+        $('.i-checks').iCheck({
+            checkboxClass: 'icheckbox_square-green',
+            radioClass: 'iradio_square-green',
+        });
+    });
+</script>
+
+
+</body>
+
+</html>

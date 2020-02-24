@@ -63,6 +63,11 @@ public class ManagerController {
         return "/hh/html/form_basic.html";
     }
 
+    @RequestMapping(path = "/index",method = RequestMethod.GET)
+    public String toIndex(){
+        return "/hh/third/index_3User.html";
+    }
+
     //第三方登录
     @RequestMapping(path = "/login3User",method = RequestMethod.POST)
     public String login3User(String name, String password, String role, Model model){
@@ -70,7 +75,7 @@ public class ManagerController {
         if (map.isEmpty() || map==null){
             if ("管理员".equals(role)){//跳转第三方管理员
                 System.out.println("进入的的第三方管理员首页");
-                return "/index.html";
+                return "/hh/third/index_3User.html";
             }else{
                 return "/hh/indexInspector.html";
             }

@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.AutoConfigurationPackage;
 import org.springframework.stereotype.Service;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.*;
 
 @Service
@@ -31,6 +32,10 @@ public class CustomerService {
     private HostHolderCustomer hostHolderCustomer;
     @Autowired
     private LoginTicketMapper loginTicketMapper;
+
+    public Customer findCustomerByName(String name){
+        return customerMapper.selectCustomerByName(name);
+    }
 
     public Map<String, Object> registerCustomer(String name, String password, String email) {
         Map<String, Object> map = new HashMap<>();
@@ -101,7 +106,7 @@ public class CustomerService {
     }
 
     //企业信息认证申请
-    public Map<String, Object> apply(Enterprise enterprise) {
+    public Map<String, Object> apply(Enterprise enterprise, HttpServletRequest request) {
         //申请企业认证
         Map<String, Object> map = new HashMap<>();
         Enterprise e = enterpriseMapper.selectByEname(enterprise.getEnterpriseName());
@@ -117,12 +122,13 @@ public class CustomerService {
 //            return map;
 //        }
         //第一次申请认证的
-
+        String customerName = (String) request.getSession().getAttribute("customerName");
+        Customer c =  customerMapper.selectCustomerByName(customerName);
         EApply eApply = new EApply();
         /**
          * 申请人的编码，这里要修改成登录人的编码！！！！！！！！！！！！！
          */
-        eApply.setApplierId(1);
+        eApply.setApplierId(c.getId());
         eApply.setApplyEname(enterprise.getEnterpriseName());
         eApply.setApplyTime(new Date());
         eApplyMapper.insertSelective(eApply);
@@ -141,12 +147,15 @@ public class CustomerService {
             //申请编号、申请时间、审核时间、审核结果、
             map.put("eApply", eA);
             String result = "通过";
-            if (eA.getCheckResult() == 0) {
-                result = "未通过";
+            if(eA.getCheckResult()!=null){
+                if (eA.getCheckResult() == 0) {
+                    result = "未通过";
+                }
+                if (eA.getCheckResult() == -1) {
+                    result = "未审核";
+                }
             }
-            if (eA.getCheckResult() == -1) {
-                result = "未审核";
-            }
+
             map.put("checkResult", result);
             //申请人
             map.put("applier", customerMapper.selectByPrimaryKey(eA.getApplierId()).getName());
@@ -156,7 +165,7 @@ public class CustomerService {
     }
 
     //质检申请
-    public Map<String, Object> qaReq(String eName, int reqType, String reqName, String contact) {
+    public Map<String, Object> qaReq(String eName, int reqType, String reqName, String contact,int productId) {
         Map<String, Object> map = new HashMap<>();
         Customer c = customerMapper.selectCustomerByName(reqName);
         if (c == null) {
@@ -174,10 +183,13 @@ public class CustomerService {
         r.setContact(contact);
         r.setReqType(reqType);
         r.setReqTime(new Date());
+        r.setProductId(productId);
         requestMapper.insertSelective(r);
         return map;
     }
 
+    @Autowired
+    private ReqArrangeService reqArrangeService;
     //抽检申请记录表
     public List<Map<String, Object>> getRequest() {
         Customer customer = hostHolderCustomer.getCustomer();
@@ -196,6 +208,8 @@ public class CustomerService {
             ClothesType clothesType = clothesTypeMapper.selectByPrimaryKey(r.getReqType());
             map.put("clothType", clothesType.getTypeName());
             map.put("reqEName", enterpriseMapper.selectByPrimaryKey(r.getReqEid()).getEnterpriseName());
+            ReqArrange arrange = reqArrangeService.findReqArrangeByReqId(r.getId());
+            map.put("arrange",arrange);
             reqList.add(map);
         }
         return reqList;

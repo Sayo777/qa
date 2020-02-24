@@ -9,7 +9,8 @@ function publish() {
      var legalPerson = $("#legalPerson").val();
      var commercialNumber = $("#commercialNumber").val();
      var creditCode = $("#creditCode").val();
-     var type = $("#type").val();
+     // var type = $("#type").val();
+    var type = $("input[name=type]:checked").val();
      var scope = $("#scope").val();
      var status = $("#status").val();
      var organCode = $("#organCode").val();
@@ -21,6 +22,7 @@ function publish() {
     var province = myForm.s_province.value;
     var city = myForm.s_city.value;
     var county = myForm.s_county.value;
+    var license ="http://q5qcypm7u.bkt.clouddn.com/"+$("#key").val();
     //发送异步请求
     $.post(
         "/qa/customer/eApply",
@@ -28,7 +30,7 @@ function publish() {
             "legalPerson":legalPerson,"commercialNumber":commercialNumber,
         "creditCode":creditCode,"type":type,"scope":scope,"status":status,
             "organCode":organCode,"enterpriseEmail":enterpriseEmail,
-        "website":website,"address":address},
+        "website":website,"address":address,"license":license},
         function (data) {
             data = $.parseJSON(data);
             alert(data.msg);

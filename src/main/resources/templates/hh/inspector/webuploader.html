@@ -25,15 +25,6 @@
             /*border: 1px solid #000;*/
             overflow: hidden;
         }
-        #navigation{
-            position: fixed;/*固定位置*/
-            /*margin-bottom: 10px;*/
-            z-index:9999;/*设置优先级显示，保证不会被覆盖*/
-        }
-
-        #imghead {
-            filter: progid:DXImageTransform.Microsoft.AlphaImageLoader(sizingMethod=image);
-        }
     </style>
 
 </head>
@@ -42,104 +33,119 @@
 <div class="aui-content-up">
     <form name="form1" id="form1" class="form-horizontal" th:action="@{/record/add1}" method="post">
 
-
-
-        <div class="aui-content-up-form">
-            <h2>基本信息</h2>
-        </div>
-        <div class="aui-form-group clear" style="display: block;float: left">
-
+    <div class="aui-content-up-form">
+        <h2>基本信息</h2>
+    </div>
+    <div class="aui-form-group clear" style="display: block;float: left">
             <label class="aui-label-control">企业告知书 <em>*</em>:</label>
             <div class="aui-form-input">
                 <div style="border:1px dashed #000;width: 200px">
-                    <input type="file" id="notification" onchange="previewImage(this)" style="margin-bottom: 5px" />
+                    <input type="hidden" name="token" th:value="${uploadToken1}">
+                    <input type="hidden" name="key" th:value="${fileName1}">
+                    <input type="file" name="file" id="notification" onchange="previewImage(this)"
+                           style="margin-bottom: 5px"/>
                     <div id="preview">
-                        <img id="img_notification" border=0 th:src="@{/hh/img/imgbackgroud.png}" width="180" height="180"/>
+                        <img id="img_notification" border=0 th:src="@{/hh/img/imgbackgroud.png}" width="180"
+                             height="180"/>
                     </div>
                 </div>
             </div>
+
 
             <label class="aui-label-control">接受承诺书 <em>*</em>:</label>
             <div class="aui-form-input">
                 <div style="border:1px dashed #000;width: 200px">
-                    <input type="file" id="undertaking" onchange="previewImage2(this)" style="margin-bottom: 5px" />
+                    <input type="hidden" name="token2" id="token2" th:value="${uploadToken2}">
+                    <input type="hidden" name="key2" id="key2" th:value="${fileName2}">
+                    <input type="file" name="file2" id="undertaking" onchange="previewImage2(this)"
+                           style="margin-bottom: 5px"/>
                     <div id="preview2">
-                        <img id="img_undertaking" border=0 th:src="@{/hh/img/imgbackgroud.png}" width="180" height="180"/>
-                    </div>
-
-
-                </div>
-            </div>
-        </div>
-        <div class="aui-form-group clear" style="display: block;">
-            <label class="aui-label-control">
-                指定质检员照片 <em>*</em>:
-            </label>
-
-            <div class="aui-form-input">
-                <div style="border:1px dashed #000;width: 200px">
-                    <input type="file" id="inspectorsPhoto" onchange="previewImage3(this)" style="margin-bottom: 5px" />
-                    <div id="preview3">
-                        <img id="img_inspectorsPhoto" border=0 th:src="@{/hh/img/imgbackgroud.png}" width="180" height="180"/>
+                        <img id="img_undertaking" border=0 th:src="@{/hh/img/imgbackgroud.png}" width="180"
+                             height="180"/>
                     </div>
 
 
                 </div>
             </div>
 
+    </div>
+    <div class="aui-form-group clear" style="display: block;">
+        <label class="aui-label-control">
+            指定质检员照片 <em>*</em>:
+        </label>
+
+        <div class="aui-form-input">
+            <div style="border:1px dashed #000;width: 200px">
+                <input type="hidden" name="token3" id="token3" th:value="${uploadToken3}">
+                <input type="hidden" name="key3" id="key3" th:value="${fileName3}">
+                <input type="file" name="file3" id="inspectorsPhoto" onchange="previewImage3(this)" style="margin-bottom: 5px"/>
+                <div id="preview3">
+                    <img id="img_inspectorsPhoto" border=0 th:src="@{/hh/img/imgbackgroud.png}" width="180"
+                         height="180"/>
+                </div>
+
+
+            </div>
         </div>
 
-        <div class="aui-content-up-form">
-            <h2>企业信息</h2>
+    </div>
+
+    <div class="aui-content-up-form">
+        <h2>企业信息</h2>
+    </div>
+    <div class="aui-form-group clear" style="display: block;float: left">
+        <label class="aui-label-control">
+            企业环境1 <em>*</em>:
+        </label>
+
+        <div class="aui-form-input">
+            <div style="border:1px dashed #000;width: 200px">
+                <input type="hidden" name="token4" id="token4" th:value="${uploadToken4}">
+                <input type="hidden" name="key4" id="key4" th:value="${fileName4}">
+                <input type="file" name="file4" id="environment1" onchange="previewImage4(this)" style="margin-bottom: 5px"/>
+                <div id="preview4">
+                    <img id="img_environment1" border=0 th:src="@{/hh/img/imgbackgroud.png}" width="180" height="180"/>
+                </div>
+
+
+            </div>
         </div>
-        <div class="aui-form-group clear" style="display: block;float: left">
-            <label class="aui-label-control">
-                企业环境1 <em>*</em>:
-            </label>
+        <label class="aui-label-control">
+            企业环境2 <em>*</em>:
+        </label>
 
-            <div class="aui-form-input">
-                <div style="border:1px dashed #000;width: 200px">
-                    <input  type="hidden" name="token" th:value="${uploadToken}">
-                    <input  type="hidden" name="key" th:value="${fileName}">
-                    <input type="file" id="environment1" onchange="previewImage4(this)" style="margin-bottom: 5px" />
-                    <div id="preview4">
-                        <img id="img_environment1" border=0 th:src="@{/hh/img/imgbackgroud.png}" width="180" height="180"/>
-                    </div>
+        <div class="aui-form-input">
+            <div style="border:1px dashed #000;width: 200px">
+                <input type="hidden" name="token5" id="token5" th:value="${uploadToken5}">
+                <input type="hidden" name="key5" id="key5" th:value="${fileName5}">
+                <input type="file" name="file5" id="environment2" onchange="previewImage5(this)" style="margin-bottom: 5px"/>
+                <div id="preview5">
+                    <img id="img_environment2" border=0 th:src="@{/hh/img/imgbackgroud.png}" width="180" height="180"/>
+                </div>
 
 
+            </div>
+        </div>
+
+    </div>
+    <div class="aui-form-group clear" style="display: block;">
+        <label class="aui-label-control">
+            企业营业执照 <em>*</em>:
+        </label>
+
+        <div class="aui-form-input">
+            <div style="border:1px dashed #000;width: 200px">
+                <input type="hidden" id="token6" name="token6" th:value="${uploadToken6}">
+                <input type="hidden" id="key6" name="key6" th:value="${fileName6}">
+                <input type="file" name="file6" id="license" onchange="previewImage6(this)" style="margin-bottom: 5px"/>
+                <div id="preview6">
+                    <img id="img_license" border=0 th:src="@{/hh/img/imgbackgroud.png}" width="180" height="180"/>
                 </div>
             </div>
-            <label class="aui-label-control">
-                企业环境2 <em>*</em>:
-            </label>
-
-            <div class="aui-form-input">
-                <div style="border:1px dashed #000;width: 200px">
-                    <input type="file" id="environment2" onchange="previewImage5(this)" style="margin-bottom: 5px" />
-                    <div id="preview5">
-                        <img id="img_environment2" border=0 th:src="@{/hh/img/imgbackgroud.png}" width="180" height="180"/>
-                    </div>
-
-
-                </div>
-            </div>
-
         </div>
-        <div class="aui-form-group clear" style="display: block;">
-            <label class="aui-label-control">
-                企业营业执照 <em>*</em>:
-            </label>
 
-            <div class="aui-form-input">
-                <div style="border:1px dashed #000;width: 200px">
-                    <input type="file" id="license" onchange="previewImage6(this)" style="margin-bottom: 5px" />
-                    <div id="preview6">
-                        <img id="img_license" border=0 th:src="@{/hh/img/imgbackgroud.png}" width="180" height="180"/>
-                    </div>
-                </div>
-            </div>
+    </div>
 
-        </div>
         <div class="aui-content-up-form">
             <h2>商品信息</h2>
         </div>
@@ -147,7 +153,7 @@
         <div class="form-group">
             <label class="col-sm-3 control-label">外观：</label>
             <label>
-                <input type="radio" name="outlook" value="1" id="outlook1" checked=""> 合格
+                <input type="radio" name="outlook" value="1" id="outlook1" > 合格
             </label>
             <label style="margin-left: 30px">
                 <input type="radio" name="outlook" value="0" id="outlook2"> 不合格
@@ -156,7 +162,7 @@
         <div class="form-group">
             <label class="col-sm-3 control-label">尺寸规格：</label>
             <label>
-                <input type="radio" name="size" value="1" id="size1" checked=""> 合格
+                <input type="radio" name="size" value="1" id="size1" > 合格
             </label>
             <label style="margin-left: 30px">
                 <input type="radio" name="size" value="0" id="size2"> 不合格
@@ -165,7 +171,7 @@
         <div class="form-group">
             <label class="col-sm-3 control-label">面/辅料检验：</label>
             <label>
-                <input type="radio" name="materia" value="1" id="materia1" checked=""> 合格
+                <input type="radio" name="materia" value="1" id="materia1" > 合格
             </label>
             <label style="margin-left: 30px">
                 <input type="radio" name="materia" value="0" id="materia2"> 不合格
@@ -174,7 +180,7 @@
         <div class="form-group">
             <label class="col-sm-3 control-label">工艺：</label>
             <label>
-                <input type="radio" name="craft" value="1" id="craft1" checked=""> 合格
+                <input type="radio" name="craft" value="1" id="craft1" > 合格
             </label>
             <label style="margin-left: 30px">
                 <input type="radio" name="craft" value="0" id="craft2"> 不合格
@@ -183,7 +189,7 @@
         <div class="form-group">
             <label class="col-sm-3 control-label">印绣花/洗水：</label>
             <label>
-                <input type="radio" name="wash" value="1" id="wash1" checked=""> 合格
+                <input type="radio" name="wash" value="1" id="wash1" > 合格
             </label>
             <label style="margin-left: 30px">
                 <input type="radio" name="wash" value="0" id="wash2"> 不合格
@@ -192,7 +198,7 @@
         <div class="form-group">
             <label class="col-sm-3 control-label">整烫：</label>
             <label>
-                <input type="radio" name="ztang" value="1" id="ztang1" checked=""> 合格
+                <input type="radio" name="ztang" value="1" id="ztang1"> 合格
             </label>
             <label style="margin-left: 30px">
                 <input type="radio" name="ztang" value="0" id="ztang2"> 不合格
@@ -201,7 +207,7 @@
         <div class="form-group">
             <label class="col-sm-3 control-label">包装：</label>
             <label>
-                <input type="radio" name="pack" value="1" id="pack1" checked=""> 合格
+                <input type="radio" name="pack" value="1" id="pack1" > 合格
             </label>
             <label style="margin-left: 30px">
                 <input type="radio" name="pack" value="0" id="pack2"> 不合格
@@ -217,7 +223,7 @@
         <div class="form-group">
             <label class="col-sm-4 control-label">关键原材料和生产过程是否到位：</label>
             <label>
-                <input type="radio" name="keyMateria" value="1" id="keyMateria1" checked=""> 是
+                <input type="radio" name="keyMateria" value="1" id="keyMateria1" > 是
             </label>
             <label style="margin-left: 30px">
                 <input type="radio" name="keyMateria" value="0" id="keyMateria2"> 否
@@ -226,7 +232,7 @@
         <div class="form-group">
             <label class="col-sm-4 control-label">质量保证体系和管理制度是否完善：</label>
             <label>
-                <input type="radio" name="qualityGuarantee" value="1" id="qualityGuarantee1" checked=""> 是
+                <input type="radio" name="qualityGuarantee" value="1" id="qualityGuarantee1" > 是
             </label>
             <label style="margin-left: 30px">
                 <input type="radio" name="qualityGuarantee" value="0" id="qualityGuarantee2"> 否
@@ -235,7 +241,7 @@
         <div class="form-group">
             <label class="col-sm-4 control-label">是否有监督抽查、出厂检验的报告：</label>
             <label>
-                <input type="radio" name="hasReport" value="1" id="hasReport1" checked=""> 是
+                <input type="radio" name="hasReport" value="1" id="hasReport1" > 是
             </label>
             <label style="margin-left: 30px">
                 <input type="radio" name="hasReport" value="0" id="hasReport2"> 否
@@ -244,14 +250,14 @@
         <div class="form-group">
             <label class="col-sm-4 control-label">是否存在产品质量违法行为：</label>
             <label>
-                <input type="radio" name="isIllegal" value="1" id="isIllegal1" checked=""> 是
+                <input type="radio" name="isIllegal" value="1" id="isIllegal1" > 是
             </label>
             <label style="margin-left: 30px">
                 <input type="radio" name="isIllegal" value="0" id="isIllegal2"> 否
             </label>
         </div>
         <button id="ensure" type="submit" style="margin-left: 635px" class="btn btn-primary">确 定</button>
-<!--        <button id="ensure" style="margin-left: 635px" class="btn btn-primary"  onclick="check()">确 定</button>-->
+        <!--        <button id="ensure" style="margin-left: 635px" class="btn btn-primary"  onclick="check()">确 定</button>-->
 
     </form>
 </div>
@@ -262,14 +268,14 @@
 <script th:src="@{/hh/js/plugins/sweetalert/sweetalert.min.js}"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" crossorigin="anonymous"></script>
 <script type="text/javascript">
-    $(function(){
+    $(function () {
         $('input:not([autocomplete]),textarea:not([autocomplete]),select:not([autocomplete])').attr('autocomplete', 'off');
     });
 </script>
 <script type="text/javascript">
 
 
-    function check(){
+    function check() {
         // if(!document.getElementById("outlook1").checked && !document.getElementById("outlook2").checked){
         //     alert("请输入外观检测情况！")
         // }
@@ -325,15 +331,26 @@
         var hasReport = $("input[name='hasReport']:checked").val();
         var isIllegal = $("input[name='isIllegal']:checked").val();
         var answer = confirm("确认所填信息吗？（确认后不可更改！！）");
-        if (answer){
+        if (answer) {
             $.post(
                 "/qa/record/add",
-                {"outlook":outlook,"size":size,"materia":materia,"craft":craft,"wash":wash,"ztang":ztang,
-                "pack":pack,"standard":standard,"keyMateria":keyMateria,"qualityGuarantee":qualityGuarantee,"hasReport":hasReport,
-                "isIllegal":isIllegal},
+                {
+                    "outlook": outlook,
+                    "size": size,
+                    "materia": materia,
+                    "craft": craft,
+                    "wash": wash,
+                    "ztang": ztang,
+                    "pack": pack,
+                    "standard": standard,
+                    "keyMateria": keyMateria,
+                    "qualityGuarantee": qualityGuarantee,
+                    "hasReport": hasReport,
+                    "isIllegal": isIllegal
+                },
                 function (data) {
                     data = $.parseJSON(data);
-                    window.location.href ='http://localhost:8080/qa/record/recordForm';
+                    window.location.href = 'http://localhost:8080/qa/record/recordForm';
                 }
             );
         }

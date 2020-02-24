@@ -31,7 +31,7 @@
     select
     <include refid="Base_Column_List" />
     from task
-    where inspector_one = #{inspectorId} or inspector_two = #{inspectorId} and end_time = null
+    where (inspector_one = #{inspectorId} or inspector_two = #{inspectorId}) and end_time is null
   </select>
 
   <select id="selectTaskByQaTypeAndEid" resultMap="BaseResultMap" >
@@ -39,6 +39,38 @@
     <include refid="Base_Column_List" />
     from task
     where qa_type = #{type} and qa_eid = #{EId}
+  </select>
+  <select id="findFinishedTaskByInspector" resultMap="BaseResultMap" >
+    select
+    <include refid="Base_Column_List" />
+    from task
+    where (inspector_one = #{inspectorId} or inspector_two = #{inspectorId}) and end_time is not null
+  </select>
+  <select id="findhasAssignTaskByEid" resultMap="BaseResultMap" >
+    select
+    <include refid="Base_Column_List" />
+    from task
+    where qa_eid = #{eId} and inspector_one is not null and end_time is null and task_id in
+    (select task_id from thirdtask where status = 0 and ins1 is not null)
+  </select>
+  <select id="findwaitingAssignTaskByEid" resultMap="BaseResultMap" >
+    select
+    <include refid="Base_Column_List" />
+    from task
+    where qa_eid = #{eId} and inspector_one is null
+  </select>
+  <select id="findTaskforCheckIns" resultMap="BaseResultMap" >
+    select
+    <include refid="Base_Column_List" />
+    from task
+    where inspector_one is null and qa_eid in (select qa_eid from thirdtask)
+  </select>
+
+  <select id="findfinishAssignTaskByEidAndStatus" resultMap="BaseResultMap" >
+    select
+    <include refid="Base_Column_List" />
+    from task
+    where  task_id in (select task_id from thirdtask where qa_eid = #{eId} and status = #{status})
   </select>
 
   <select id="selectTaskByTaskId" resultMap="BaseResultMap" >
@@ -141,6 +173,11 @@
       inspector_two = #{inspectorTwo,jdbcType=INTEGER},
       start_time = #{startTime,jdbcType=TIMESTAMP},
       end_time = #{endTime,jdbcType=TIMESTAMP}
+    where task_id = #{taskId,jdbcType=INTEGER}
+  </update>
+  <update id="updateEndtimeById" parameterType="Date" >
+    update task
+    set end_time = #{date}
     where task_id = #{taskId,jdbcType=INTEGER}
   </update>
 </mapper>

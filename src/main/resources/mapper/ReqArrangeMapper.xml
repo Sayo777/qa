@@ -4,9 +4,11 @@
   <resultMap id="BaseResultMap" type="com.sayo.qa.entity.ReqArrange" >
     <id column="request_id" property="requestId" jdbcType="INTEGER" />
     <result column="is_arrange" property="isArrange" jdbcType="INTEGER" />
+    <result column="gaozhi_confirm" property="gaozhiConfirm" jdbcType="INTEGER" />
+    <result column="third_arrange" property="thirdArrange" jdbcType="INTEGER" />
   </resultMap>
   <sql id="Base_Column_List" >
-    request_id, is_arrange
+    request_id, is_arrange,gaozhi_confirm,third_arrange
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
     select 
@@ -25,8 +27,8 @@
     where request_id = #{requestId,jdbcType=INTEGER}
   </delete>
   <insert id="insert" parameterType="com.sayo.qa.entity.ReqArrange" >
-    insert into req_arrange (request_id, is_arrange)
-    values (#{requestId,jdbcType=INTEGER}, #{isArrange,jdbcType=INTEGER})
+    insert into req_arrange (request_id, is_arrange,gaozhi_confirm,third_arrange)
+    values (#{requestId,jdbcType=INTEGER}, #{isArrange,jdbcType=INTEGER},#{gaozhiConfirm,jdbcType=INTEGER},#{thirdArrange,jdbcType=INTEGER})
   </insert>
   <insert id="insertSelective" parameterType="com.sayo.qa.entity.ReqArrange" >
     insert into req_arrange
@@ -37,6 +39,12 @@
       <if test="isArrange != null" >
         is_arrange,
       </if>
+      <if test="gaozhiConfirm != null" >
+        gaozhi_confirm,
+      </if>
+      <if test="thirdArrange != null" >
+        third_arrange,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="requestId != null" >
@@ -44,6 +52,12 @@
       </if>
       <if test="isArrange != null" >
         #{isArrange,jdbcType=INTEGER},
+      </if>
+      <if test="gaozhiConfirm != null" >
+        #{gaozhiConfirm,jdbcType=INTEGER},
+      </if>
+      <if test="thirdArrange != null" >
+        #{thirdArrange,jdbcType=INTEGER},
       </if>
     </trim>
   </insert>
@@ -58,6 +72,9 @@
   </update>
   <update id="updateByReqId">
     update req_arrange set is_arrange = 1 where request_id = #{requestId,jdbcType=INTEGER}
+  </update>
+  <update id="updateGaozhishuById">
+    update req_arrange set gaozhi_confirm = 1 where request_id = #{reqId,jdbcType=INTEGER}
   </update>
 
   <update id="updateByPrimaryKey" parameterType="com.sayo.qa.entity.ReqArrange" >

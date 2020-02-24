@@ -15,15 +15,14 @@
     <meta http-equiv="refresh" content="0;ie.html" />
     <![endif]-->
 
-    <link rel="shortcut icon" th:href="@{/houtai/favicon.ico}">
     <link th:href="@{/houtai/css/bootstrap.min.css?v=3.3.6}" rel="stylesheet">
     <link th:href="@{/houtai/css/font-awesome.min.css?v=4.4.0}" rel="stylesheet">
     <link th:href="@{/houtai/css/animate.css}" rel="stylesheet">
-    <link th:href="@{/houtai/css/style.css?v=4.1.0}" rel="stylesheet">
+    <link th:href="@{/hh/css/style.css?v=4.1.0}" rel="stylesheet">
 </head>
 
 <body class="fixed-sidebar full-height-layout gray-bg" style="overflow:hidden">
-    <div id="wrapper">
+    <div id="wrapper" style="height: 126%">
         <!--左侧导航开始-->
         <nav class="navbar-default navbar-static-side" role="navigation">
             <div class="nav-close"><i class="fa fa-times-circle"></i>
@@ -36,7 +35,7 @@
                             <a data-toggle="dropdown" class="dropdown-toggle" href="#">
                                 <span class="clear">
                                <span class="block m-t-xs"><strong class="font-bold">Beaut-zihan</strong></span>
-                                <span class="text-muted text-xs block">企业用户<b class="caret"></b></span>
+                                <span class="text-muted text-xs block" th:text="${customerName}">企业用户<b class="caret"></b></span>
                                 </span>
                             </a>
                             <ul class="dropdown-menu animated fadeInRight m-t-xs">
@@ -69,11 +68,17 @@
                         </ul>
                     </li>
                     <li>
-                        <a href="#"><i class="fa fa-edit"></i> <span class="nav-label">抽检申请</span><span class="fa arrow"></span></a>
+                        <a href="#"><i class="fa fa-user"></i> <span class="nav-label">产品设置</span><span class="fa arrow"></span></a>
+                        <ul class="nav nav-second-level">
+                            <li><a class="J_menuItem" th:href="@{/customer/addProduct}">产品添加</a></li>
+                        </ul>
+                    </li>
+                    <li class="active">
+                        <a><i class="fa fa-edit"></i> <span class="nav-label">抽检申请</span><span class="fa arrow"></span></a>
                             <ul class="nav nav-second-level">
                             <li><a class="J_menuItem" th:href="@{/customer/qaReq}">申请抽检</a></li>
-                            <li>
-                                <a class="J_menuItem" th:href="@{/3User/tasks}">抽检历史<span class="fa arrow"></span></a>
+                            <li class="active">
+                                <a class="J_menuItem" >抽检历史<span class="fa arrow"></span></a>
                                 <ul class="nav nav-third-level">
                                     <li><a class="J_menuItem" th:href="@{/customer/hi}">申请记录</a>
                                     </li>
@@ -83,6 +88,10 @@
                             </li>
                         </ul>
                     </li>
+                    <li>
+                        <a href="mailbox.html"><i class="fa fa-envelope"></i> <span class="nav-label">通知 </span>
+                            <span th:if="${hasSample!=null}" class="label label-warning pull-right">1</span></a>
+                    </li>
 
 
                 </ul>
@@ -90,13 +99,13 @@
         </nav>
         <!--左侧导航结束-->
         <!--右侧部分开始-->
-        <div id="page-wrapper" class="gray-bg dashbard-1" style="height:800px">
+        <div id="page-wrapper" class="gray-bg dashbard-1" >
 <!--            <div class="row content-tabs">-->
 <!--                <button class="roll-nav roll-left J_tabLeft"><i class="fa fa-backward"></i>-->
 <!--                </button>-->
 <!--            </div>-->
             <div class="row J_mainContent" id="content-main">
-                <iframe class="J_iframe" name="iframe0" width="100%" height="100%" th:src="@{/3User/tasks}" frameborder="0" data-id="index_v1.html" seamless></iframe>
+                <iframe class="J_iframe" name="iframe0" width="100%" height="100%" th:src="@{/customer/hi}" frameborder="0" data-id="index_v1.html" seamless></iframe>
             </div>
 
         </div>

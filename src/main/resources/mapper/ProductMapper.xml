@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.sayo.qa.dao.ProductMapper" >
+  <resultMap id="BaseResultMap" type="com.sayo.qa.entity.Product" >
+    <id column="product_id" property="productId" jdbcType="INTEGER" />
+    <result column="product_name" property="productName" jdbcType="VARCHAR" />
+    <result column="guige" property="guige" jdbcType="VARCHAR" />
+    <result column="standard" property="standard" jdbcType="VARCHAR" />
+    <result column="shichang" property="shichang" jdbcType="VARCHAR" />
+    <result column="manufacture" property="manufacture" jdbcType="VARCHAR" />
+    <result column="eId" property="eid" jdbcType="INTEGER" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    product_id, product_name, guige, standard, shichang, manufacture, eId
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from product
+    where product_id = #{productId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from product
+    where product_id = #{productId,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.sayo.qa.entity.Product" >
+    insert into product (product_id, product_name, guige, 
+      standard, shichang, manufacture, 
+      eId)
+    values (#{productId,jdbcType=INTEGER}, #{productName,jdbcType=VARCHAR}, #{guige,jdbcType=VARCHAR}, 
+      #{standard,jdbcType=VARCHAR}, #{shichang,jdbcType=VARCHAR}, #{manufacture,jdbcType=VARCHAR}, 
+      #{eid,jdbcType=INTEGER})
+  </insert>
+  <select id="findSameProductByEid" resultMap="BaseResultMap" >
+    select
+    <include refid="Base_Column_List" />
+    from product
+    where eId = #{eId,jdbcType=INTEGER} and product_name = #{productName} and guige = #{guige}
+  </select>
+  <insert id="insertSelective" parameterType="com.sayo.qa.entity.Product" >
+    insert into product
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="productId != null" >
+        product_id,
+      </if>
+      <if test="productName != null" >
+        product_name,
+      </if>
+      <if test="guige != null" >
+        guige,
+      </if>
+      <if test="standard != null" >
+        standard,
+      </if>
+      <if test="shichang != null" >
+        shichang,
+      </if>
+      <if test="manufacture != null" >
+        manufacture,
+      </if>
+      <if test="eid != null" >
+        eId,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="productId != null" >
+        #{productId,jdbcType=INTEGER},
+      </if>
+      <if test="productName != null" >
+        #{productName,jdbcType=VARCHAR},
+      </if>
+      <if test="guige != null" >
+        #{guige,jdbcType=VARCHAR},
+      </if>
+      <if test="standard != null" >
+        #{standard,jdbcType=VARCHAR},
+      </if>
+      <if test="shichang != null" >
+        #{shichang,jdbcType=VARCHAR},
+      </if>
+      <if test="manufacture != null" >
+        #{manufacture,jdbcType=VARCHAR},
+      </if>
+      <if test="eid != null" >
+        #{eid,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.sayo.qa.entity.Product" >
+    update product
+    <set >
+      <if test="productName != null" >
+        product_name = #{productName,jdbcType=VARCHAR},
+      </if>
+      <if test="guige != null" >
+        guige = #{guige,jdbcType=VARCHAR},
+      </if>
+      <if test="standard != null" >
+        standard = #{standard,jdbcType=VARCHAR},
+      </if>
+      <if test="shichang != null" >
+        shichang = #{shichang,jdbcType=VARCHAR},
+      </if>
+      <if test="manufacture != null" >
+        manufacture = #{manufacture,jdbcType=VARCHAR},
+      </if>
+      <if test="eid != null" >
+        eId = #{eid,jdbcType=INTEGER},
+      </if>
+    </set>
+    where product_id = #{productId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.sayo.qa.entity.Product" >
+    update product
+    set product_name = #{productName,jdbcType=VARCHAR},
+      guige = #{guige,jdbcType=VARCHAR},
+      standard = #{standard,jdbcType=VARCHAR},
+      shichang = #{shichang,jdbcType=VARCHAR},
+      manufacture = #{manufacture,jdbcType=VARCHAR},
+      eId = #{eid,jdbcType=INTEGER}
+    where product_id = #{productId,jdbcType=INTEGER}
+  </update>
+</mapper>

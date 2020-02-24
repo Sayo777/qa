@@ -84,10 +84,11 @@
                                         th:text="${list.done?'已确认':'点击确认'}"  th:id="${list.VoTask.taskId}+'.'" >未确认</button>
 
                             </td>
-                                <!--                                <td ><a th:href="@{|/inspector/TaskArrange/${list.req.id}|}"><i class="fa fa-check text-navy">操作</i></a></td>-->
                                 <td>
                                 <input type="hidden"  th:value="${list.VoTask.taskId}"/>
-                                <button th:id="${list.VoTask.taskId}" onclick='test(this)' type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal6">
+                                <button th:id="${list.VoTask.taskId}" onclick='test(this)' type="button"
+                                        th:class="|btn ${list.done?'btn-primary':'btn-secondary'}|"
+                                        data-toggle="modal"  th:data-target="${list.done?'#myModal6':'#'}">
                                 开始质检
                                 </button>
                             </tr>
@@ -148,20 +149,9 @@
 <!-- 全局js -->
 <script th:src="@{/hh/js/jquery.min.js?v=2.1.4}"></script>
 <script th:src="@{/hh/js/bootstrap.min.js?v=3.3.6}"></script>
-
-
-
-<!-- Peity -->
 <script th:src="@{/hh/js/plugins/peity/jquery.peity.min.js}"></script>
-
-<!-- 自定义js -->
 <script th:src="@{/hh/js/content.js?v=1.0.0}"></script>
-
-
-<!-- iCheck -->
 <script th:src="@{/hh/js/plugins/iCheck/icheck.min.js}"></script>
-
-<!-- Peity -->
 <script th:src="@{/hh/js/demo/peity-demo.js}"></script>
 
 <script>
@@ -223,8 +213,16 @@
 </script>
 <script>
     function test(obj) {
-        alert(obj.id);
+        // alert(obj.id);
+        var id = obj.id;
+        var target = $("#"+id).data('target');
+        if (target == '#'){
+            alert("抽样单还在确认中。。")
+        }
+
+
         document.getElementById("myTaskId").value=obj.id;
+        return false;
     }
 
 

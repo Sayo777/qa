@@ -18,6 +18,6 @@ public interface ReqArrangeMapper {
 
     int updateByPrimaryKeySelective(ReqArrange record);
     int updateByReqId(int requestId);
-
     int updateByPrimaryKey(ReqArrange record);
+    int updateGaozhishuById(int reqId);
 }

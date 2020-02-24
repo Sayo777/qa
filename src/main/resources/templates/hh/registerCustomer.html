@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 
 <head>
 
@@ -7,94 +7,150 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 
-    <title>H+ 后台主题UI框架 - 注册</title>
-    <meta name="keywords" content="H+后台主题,后台bootstrap框架,会员中心主题,后台HTML,响应式后台">
-    <meta name="description" content="H+是一个完全响应式，基于Bootstrap3最新版本开发的扁平化主题，她采用了主流的左右两栏式布局，使用了Html5+CSS3等现代技术">
+    <title>第三方平台</title>
+    <!--    <style>-->
+    <!--        * {-->
+    <!--            padding: 0;-->
+    <!--            margin: 0;-->
+    <!--        }-->
 
+    <!--        html,-->
+    <!--        body {-->
+    <!--            width: 100%;-->
+    <!--            height: 100%;-->
+    <!--        }-->
+
+    <!--        .cms_login {-->
+    <!--            width: 100%;-->
+    <!--            height: 100%;-->
+    <!--            display: flex;-->
+    <!--            justify-content: center;-->
+    <!--            background-repeat: no-repeat;-->
+    <!--            background-image: url('../hh/img/a9.jpg');-->
+    <!--            background-size: 100% 100%;-->
+    <!--        }-->
+
+    <!--        .cms_login_container {-->
+    <!--            width: 600px;-->
+    <!--            height: 360px;-->
+    <!--            border-radius: 10px;-->
+    <!--            border: 1px solid #ccc;-->
+    <!--            box-shadow: 0px 0px 10px #ccc;-->
+    <!--            background-color: #fff;-->
+    <!--            margin: auto;-->
+    <!--            opacity: 0.8;-->
+    <!--        }-->
+
+    <!--        .cms_login_text {-->
+    <!--            height: 100px;-->
+    <!--            width: 100%;-->
+    <!--            line-height: 80px;-->
+    <!--            text-align: center;-->
+    <!--            font-size: 30px;-->
+    <!--        }-->
+
+    <!--        .cms_login_table {-->
+    <!--            font-size: 18px;-->
+    <!--        }-->
+
+    <!--        /* 统一盒子样式 */-->
+    <!--        .divBox {-->
+    <!--            height: 50px;-->
+    <!--            width: 100%;-->
+    <!--            line-height: 50px;-->
+    <!--            text-align: center;-->
+    <!--        }-->
+
+    <!--        .cms_login_ipt {-->
+    <!--            height: 30px;-->
+    <!--            width: 290px;-->
+    <!--            padding-left: 5px;-->
+    <!--            border-radius: 5px;-->
+    <!--            outline: none;-->
+    <!--        }-->
+
+    <!--        input:focus {-->
+    <!--            border-radius: 5px;-->
+    <!--            outline: none;-->
+    <!--            border: 2px solid #66afe9;-->
+    <!--            box-shadow: inset 0 2px 2px rgba(0, 0, 0, .075), 0 0 8px rgba(102, 175, 233, 0.6);-->
+    <!--        }-->
+
+    <!--        .margin_right10 {-->
+    <!--            margin-right: 10px;-->
+    <!--        }-->
+
+    <!--        .margin_top60 {-->
+    <!--            margin-top: 60px;-->
+    <!--        }-->
+
+    <!--        .login_btn {-->
+    <!--            width: 360px;-->
+    <!--            height: 100%;-->
+    <!--            background-color: #1360a7;-->
+    <!--            border-radius: 10px;-->
+    <!--            outline: none;-->
+    <!--            font-size: 24px;-->
+    <!--            color: white;-->
+    <!--            letter-spacing: 24px;-->
+    <!--        }-->
+
+    <!--        .login_btn:hover {-->
+    <!--            background-color: #1e5d5d;-->
+    <!--        }-->
+    <!--    </style>-->
     <link rel="shortcut icon" th:href="@{/hh/favicon.ico}">
     <link th:href="@{/hh/css/bootstrap.min.css?v=3.3.6}" rel="stylesheet">
     <link th:href="@{/hh/css/font-awesome.css?v=4.4.0}" rel="stylesheet">
-    <link th:href="@{/hh/css/plugins/iCheck/custom.css}" rel="stylesheet">
+
     <link th:href="@{/hh/css/animate.css}" rel="stylesheet">
     <link th:href="@{/hh/css/style.css?v=4.1.0}" rel="stylesheet">
+    <link th:href="@{/hh/css/purple.css}" rel="stylesheet" type="text/css" media="all" />
     <script>if(window.top !== window.self){ window.top.location = window.location;}</script>
-
 </head>
 
 <body class="gray-bg">
 
-    <div class="middle-box text-center loginscreen   animated fadeInDown">
-        <div>
-
-            <h3>欢迎 受检企业用户注册</h3>
-            <form class="m-t" role="form" th:action="@{/customer/register}" method="post" >
-                <div class="form-group" >
-                    <input id="name" name="name" type="text" th:class="form-control" placeholder="请输入用户名"
-                           required="">
-                    <div style="float: left" th:utext="${nameMsg}">fanfa</div>
-                </div>
-                <div class="form-group" >
-                    <input id="password" name="password" type="password" class="form-control" placeholder="请输入密码" required="" >
-                    <div style="float: left" th:utext="${passwordMsg}">fanfa</div>
-                </div>
-                <div class="form-group" >
-                    <input id="repassword" name="passwordConfirm" type="password" class="form-control" placeholder="请再次输入密码" required="">
-                </div>
-                <div class="form-group" >
-                    <input id="email" name="email" type="email" class="form-control" placeholder="请输入邮箱" required="">
-                    <div style="float: left" th:utext="${emailMsg}">fanfa</div>
-                </div>
-                <div class="form-group text-left">
-                    <div class="checkbox i-checks">
-                        <label class="no-padding">
-                            <input type="checkbox" id="agree"><i></i> 我同意注册协议</label>
-                    </div>
-                </div>
-                <button type="submit" class="btn btn-primary block full-width m-b" onclick="return check()">注 册</button>
-
-                <p class="text-muted text-center"><small>已经有账户了？</small><a th:href="@{/customer/login}">点此登录</a>
-                </p>
-
+<div class="main-w3layouts wrapper">
+    <div class="main-agileinfo">
+        <div class="agileits-top">
+            <form th:action="@{/customer/register}" method="post">
+                <input class="text" style="margin: 0.5em 0 0" type="text" name="name" th:value="${name}" placeholder="用户名" required="">
+                <p style="color: red;float: left" th:text="${nameMsg}">sss</p>
+                <input class="text" style="margin: 0.5em 0 0" type="password" name="password" id="password" placeholder="密码" required="">
+                <p style="color: red;float: left" th:text="${passwordMsg}">sss</p>
+                <input class="text" style="margin: 0.5em 0 0" type="password" name="passwordConfirm" id="repassword" placeholder="再次确认密码" required="">
+                <input class="text" style="margin: 0.5em 0 0" type="email" name="email" id="email" placeholder="邮箱" required="">
+                <p style="color: red;float: left" th:text="${emailMsg}">sss</p>
+                <input type="submit" onclick="return check()" value="注册">
             </form>
+            <p>已有账号？ <a th:href="@{/customer/login}"> 点击登录!</a></p>
         </div>
     </div>
+    <!-- copyright -->
+    <div class="w3copyright-agile">
+        <p>© 第三方机构端 </p>
+    </div>
+</div>
 
-    <!-- 全局js -->
-    <script th:src="@{/hh/js/jquery.min.js?v=2.1.4}"></script>
-    <script th:src="@{/hh/js/bootstrap.min.js?v=3.3.6}"></script>
-    <!-- iCheck -->
-    <script th:src="@{/hh/js/plugins/iCheck/icheck.min.js}"></script>
-    <script>
-        $(document).ready(function () {
-            $('.i-checks').iCheck({
-                checkboxClass: 'icheckbox_square-green',
-                radioClass: 'iradio_square-green',
-            });
-        });
-        function check() {
-            var name = $("#name").val();
-            var pwd = $("#password").val();
-            var repwd = $("#repassword").val();
-            var email = $("#email").val();
-            var enterpriseId = $("#enterpriseId").val();
-            var type = $("#type").val();
-            if (pwd !=repwd){
-                alert("密码前后不一致")
-                return false;
-            }
-            if($("#agree").is(":checked")) {
-                console.log("这是return true的选择")
-                return true;
-            }else{
-                console.log("这是return false的选择")
-                alert("请勾选协议")
-                return false;
-            }
+<!-- 全局js -->
+<script th:src="@{/hh/js/jquery.min.js?v=2.1.4}"></script>
+<script th:src="@{/hh/js/bootstrap.min.js?v=3.3.6}"></script>
+<script type="text/javascript">
+    $(function(){
+        $('input:not([autocomplete]),textarea:not([autocomplete]),select:not([autocomplete])').attr('autocomplete', 'off');
+    });
+</script>
+<script>
+    function check() {
+        var pwd = $("#password").val();
+        var repwd = $("#repassword").val();
+        if (pwd !=repwd){
+            alert("密码前后不一致")
+            return false;
         }
-    </script>
-
-
-
+    }
+</script>
 </body>
 
 </html>

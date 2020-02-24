@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.sayo.qa.dao.ThirdTaskMapper" >
+  <resultMap id="BaseResultMap" type="com.sayo.qa.entity.ThirdTask" >
+    <result column="task_id" property="taskId" jdbcType="INTEGER" />
+    <result column="qa_eid" property="qaEid" jdbcType="INTEGER" />
+    <result column="ins1" property="ins1" jdbcType="INTEGER" />
+    <result column="ins2" property="ins2" jdbcType="INTEGER" />
+    <result column="status" property="status" jdbcType="INTEGER" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    task_id, qa_eid, ins1, ins2, status
+  </sql>
+  <insert id="insert" parameterType="com.sayo.qa.entity.ThirdTask" >
+    insert into thirdtask (task_id, qa_eid, ins1, 
+      ins2, status)
+    values (#{taskId,jdbcType=INTEGER}, #{qaEid,jdbcType=INTEGER}, #{ins1,jdbcType=INTEGER}, 
+      #{ins2,jdbcType=INTEGER}, #{status,jdbcType=INTEGER})
+  </insert>
+  <update id="updateThirdTaskStatus" parameterType="int">
+    update thirdtask set status = 1 where task_id = #{taskId}
+  </update>
+  <update id="updateStatusByTaskIdAndCode" parameterType="int">
+    update thirdtask set status = #{statusCode} where task_id = #{taskId}
+  </update>
+  <update id="updateThirdTaskIns" parameterType="int">
+    update thirdtask set ins1 = #{ins1},ins2 = #{ins2} where task_id = #{taskId}
+  </update>
+  <select id="findThirdTaskById" resultMap="BaseResultMap" >
+    select
+    <include refid="Base_Column_List" />
+    from thirdtask
+    where task_id = #{taskId}
+  </select>
+
+  <insert id="insertSelective" parameterType="com.sayo.qa.entity.ThirdTask" >
+    insert into thirdtask
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="taskId != null" >
+        task_id,
+      </if>
+      <if test="qaEid != null" >
+        qa_eid,
+      </if>
+      <if test="ins1 != null" >
+        ins1,
+      </if>
+      <if test="ins2 != null" >
+        ins2,
+      </if>
+      <if test="status != null" >
+        status,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="taskId != null" >
+        #{taskId,jdbcType=INTEGER},
+      </if>
+      <if test="qaEid != null" >
+        #{qaEid,jdbcType=INTEGER},
+      </if>
+      <if test="ins1 != null" >
+        #{ins1,jdbcType=INTEGER},
+      </if>
+      <if test="ins2 != null" >
+        #{ins2,jdbcType=INTEGER},
+      </if>
+      <if test="status != null" >
+        #{status,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+</mapper>

@@ -6,8 +6,9 @@ import lombok.Data;
 public class Result {
     private Integer taskId;
 
-    private String resultId;
+    private String resultSrc;
 
     private String qaProcess;
+
 
 }

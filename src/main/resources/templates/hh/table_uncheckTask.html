@@ -30,14 +30,6 @@
                 </div>
                 <div class="ibox-content">
                     <div class="row">
-                        <div class="col-sm-5 m-b-xs" style="width: 200px;">
-                            <select class="input-sm form-control input-s-sm inline" >
-                                <option value="1" >选项1</option>
-                                <option value="1" >选项1</option>
-                                <option value="1" >选项1</option>
-                                <option value="1" >选项1</option>
-                            </select>
-                        </div>
 
                         <div class="col-sm-3">
                             <div class="input-group" >
@@ -70,7 +62,7 @@
 <!--                                <td ><a th:href="@{|/inspector/TaskArrange/${list.req.id}|}"><i class="fa fa-check text-navy">操作</i></a></td>-->
                                 <td>
                                     <input type="hidden"  th:value="${list.req.id}"/>
-                                    <button th:id="checkBtn" type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal6">
+                                    <button th:onclick="'javascript:setValue('+${list.req.id}+')' " type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal6">
                                    点击审核
                                 </button></td>
                             </tr>
@@ -85,8 +77,9 @@
                                     <h4 class="modal-title">审核</h4>
                                 </div>
                                 <div class="modal-body" style="padding: 20px 30px 2px 30px">
+                                    <input type="hidden" id="myId" name="myId" value="">
                                     <div style="font-weight:bold;">审核结果：</div>
-                                    <select class="input-sm form-control input-s-sm inline" id="result">
+                                    <select class="input-sm form-control input-s-sm inline" id="result" style="height: 32px">
                                         <option value="通过" >通过</option>
                                         <option value="不通过" >不通过</option>
                                     </select>
@@ -130,6 +123,9 @@
 <script th:src="@{/hh/js/demo/peity-demo.js}"></script>
 
 <script>
+    function setValue(id) {
+        $("#myId").val(id);
+    }
     $(document).ready(function () {
         $(function(){
             $("#check").click(check);
@@ -137,7 +133,8 @@
 
         function check() {
             // $("#publishModal").modal("hide");
-            var reqId = $("#checkBtn").prev().val()
+            var reqId = $("#myId").val()
+            alert(reqId)
             var status = result.value;
             var reason = $("#reason").val();
             if (status == "不通过" && reason ==''){

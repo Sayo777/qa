@@ -82,10 +82,10 @@
                         <div style="writing-mode: tb-rl;padding: 23px">受检产品信息</div>
                     </th>
                     <th>受检产品</th>
-                    <td>xxx
+                    <td th:text="${p.productName}">xxx
                     </td>
                     <th>型号/规格</th>
-                    <td>xxx</td>
+                    <td th:text="${p.guige}">xxx</td>
                 </tr>
                 <tr>
                     <th class="zj">抽样基数</th>
@@ -103,7 +103,7 @@
                 </tr>
                 <tr>
                     <th>执行标准</th>
-                    <td>xxx</td>
+                    <td th:text="${p.standard}">xxx</td>
                     <th>抽样日期</th>
                     <td th:text="${#dates.format(insDate,'yyyy-MM-dd')}">xxx</td>
                 </tr>
@@ -248,14 +248,14 @@
                 <tr style="height: 140px;">
                     <th colspan="3" style="vertical-align: top">受检单位对上述内容无异议<br>受检单位代表签字:
                         <p style="margin-top: 39px;margin-left: 197px">受检单位（盖章）</p>
-                        <p style="margin-top: 10px;margin-left: 200px">2020年1月23日</p>
+                        <p style="margin-top: 10px;margin-left: 200px" th:text="${#dates.format(date,'yyyy-MM-dd')}">2020年1月23日</p>
                     </th>
                     <th colspan="2" style="vertical-align: top">抽样人员签名（至少两人）：
                         <p th:text="${ins1}" style="display: inline;font-family: 楷体;color: black">xx</p>,
                         <p th:text="${ins2}" style="display: inline;font-family: 楷体;color: black">xx</p>
                         <img th:src="@{/hh/img/yinzhang.png}" style="width: 120px;height: 120px;float: right" >
                         <p style="margin-left: 140px;margin-top: 55px;">抽样单位（盖章）</p>
-                        <p style="margin-top: 10px;margin-left: 154px">2020年1月23日</p>
+                        <p style="margin-top: 10px;margin-left: 154px" th:text="${#dates.format(date,'yyyy-MM-dd')}">2020年1月23日</p>
                     </th>
                 </tr>
                 </tbody>

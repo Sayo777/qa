@@ -22,49 +22,56 @@
 
 <body class="gray-bg">
 <div class="wrapper wrapper-content animated fadeInRight" >
-    <div class="row" style="height: 600px;background-color: #3dc7ab">
+    <div class="row" >
         <div class="col-sm-12" >
-            <div class="ibox float-e-margins" style="height: 600px;background-color: #3dc7ab">
+            <div class="ibox float-e-margins" >
                 <div class="ibox-title">
                     <h5>申请质检</h5>
 
                 </div>
                 <div class="ibox-content" >
-                    <form class="form-horizontal" name="myForm">
+                    <form class="form-horizontal"  th:action="@{/customer/qaReq}" method="post">
                         <div class="form-group">
                             <label class="col-sm-3 control-label">申请企业名称：</label>
                             <div class="col-sm-3">
-                                <input type="text"  class="form-control" id="eName" required="">
+                                <input type="text" th:value="${eName}"  class="form-control" id="eName" name="eName" required="">
                             </div>
                         </div>
                         <div class="form-group">
                             <label class="col-sm-3 control-label">申请质检服装类型：</label>
                             <div class="col-sm-3">
-                                <select class="input-sm form-control input-s-sm inline" id="reqType">
+                                <select class="input-sm form-control input-s-sm inline" name="reqType" style="height: 32px" id="reqType">
                                     <option value="1" >羽绒服类</option>
                                     <option value="2" >皮衣类</option>
                                     <option value="3" >家居类</option>
                                     <option value="4" >户外运动类</option>
                                 </select>
-<!--                                <input type="text"  class="form-control" id="reqType" required="">-->
                             </div>
                         </div>
                         <div class="form-group">
                             <label class="col-sm-3 control-label">申请人：</label>
                             <div class="col-sm-3">
-                                <input type="text"  class="form-control" id="reqName" required="">
+                                <input type="text"  class="form-control" id="reqName" name="reqName" required="">
                             </div>
                         </div>
                         <div class="form-group">
                             <label class="col-sm-3 control-label">联系电话：</label>
                             <div class="col-sm-3">
-                                <input type="text"  class="form-control" id="contact" required="">
+                                <input type="text"  class="form-control" id="contact" name="contact" required="">
                             </div>
                         </div>
+                        <div class="hr-line-dashed"></div>
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label">产品批号：</label>
+                            <div class="col-sm-3">
+                                <input type="text"  class="form-control" id="productId" name="productId" required="">
+                            </div>
 
+                        </div>
                         <div class="form-group">
                             <div class="col-sm-offset-3 col-sm-8">
-                                <button class="btn btn-sm btn-white" type="button" id="qaReqBtn">提交申请</button>
+                                <button class="btn btn-primary" type="submit" id="qaReqBtn">提交申请</button>
+                                <button class="btn btn-primary" type="reset" >重置</button>
                             </div>
                         </div>
 
@@ -108,6 +115,14 @@
         });
     });
 </script>
+<script type="text/javascript">
+    $(function(){
+
+        $('input:not([autocomplete]),textarea:not([autocomplete]),select:not([autocomplete])').attr('autocomplete', 'off');
+
+    });
+</script>
+
 <script type="text/javascript">
     //提交质检申请js开始
     $(function(){

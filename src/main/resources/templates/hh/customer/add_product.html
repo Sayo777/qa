@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+
+    <title>申请质检</title>
+    <meta name="keywords" content="H+后台主题,后台bootstrap框架,会员中心主题,后台HTML,响应式后台">
+    <meta name="description" content="H+是一个完全响应式，基于Bootstrap3最新版本开发的扁平化主题，她采用了主流的左右两栏式布局，使用了Html5+CSS3等现代技术">
+
+    <link rel="shortcut icon" th:href="@{/hh/favicon.ico}">
+    <link th:href="@{/hh/css/bootstrap.min.css?v=3.3.6}" rel="stylesheet">
+    <link th:href="@{/hh/css/font-awesome.css?v=4.4.0}" rel="stylesheet">
+    <link th:href="@{/hh/css/plugins/iCheck/custom.css}" rel="stylesheet">
+    <link th:href="@{/hh/css/animate.css}" rel="stylesheet">
+    <link th:href="@{/hh/css/style.css?v=4.1.0}" rel="stylesheet">
+
+</head>
+
+<body class="gray-bg">
+<div class="wrapper wrapper-content animated fadeInRight" >
+    <div class="row" >
+        <div class="col-sm-12" >
+            <div class="ibox float-e-margins" >
+                <div class="ibox-title">
+                    <h5>产品添加</h5>
+
+                </div>
+                <div class="ibox-content" >
+                    <form class="form-horizontal"  th:action="@{/customer/addProduct}" method="post">
+                        <p th:text="${msg}">xxx</p>
+                        <div class="hr-line-dashed"></div>
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label">产品名称：</label>
+                            <div class="col-sm-3">
+                                <input type="text"  class="form-control" id="productName" name="productName" required="">
+                            </div>
+                            <label class="col-sm-2 control-label">规格型号：</label>
+                            <div class="col-sm-3">
+                                <input type="text"  class="form-control" id="guige" name="guige" required="">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label">执行标准：</label>
+                            <div class="col-sm-3">
+                                <input type="text"  class="form-control" id="standard" name="standard" required="">
+                            </div>
+                            <label class="col-sm-2 control-label">市场准入情况：</label>
+                            <div class="col-sm-3">
+                                <select class="input-sm form-control input-s-sm inline" style="height: 32px;" name="shichang">
+                                    <option value="工业产品生产许可" >工业产品生产许可</option>
+                                    <option value="CCC认证" >CCC认证</option>
+                                    <option value="其他" >其他</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label">生产方式：</label>
+                            <div class="col-sm-3">
+                                <select class="input-sm form-control input-s-sm inline" style="height: 32px;" name="manufacture">
+                                    <option value="自行生产" >自行生产</option>
+                                    <option value="委托加工" >委托加工</option>
+                                    <option value="贴牌" >贴牌</option>
+                                    <option value="分装" >分装</option>
+                                    <option value="其他" >其他</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-sm-offset-3 col-sm-8">
+                                <button class="btn btn-primary" type="submit" >提交申请</button>
+                                <button class="btn btn-primary" type="reset" >重置</button>
+                            </div>
+                        </div>
+
+                    </form>
+                </div>
+                <div class="modal fade" id="hintModal" tabindex="-1" role="dialog" aria-labelledby="hintModalLabel" aria-hidden="true">
+                    <div class="modal-dialog modal-lg" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="hintModalLabel">提示</h5>
+                            </div>
+                            <div class="modal-body" id="hintBody">
+                                发布完毕!
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+</div>
+
+
+<!-- 全局js -->
+<script th:src="@{/hh/js/jquery.min.js?v=2.1.4}"></script>
+<script th:src="@{/hh/js/bootstrap.min.js?v=3.3.6}"></script>
+
+<!-- 自定义js -->
+<script th:src="@{/hh/js/content.js?v=1.0.0}"></script>
+<script th:src="@{/hh/js/enterpriseCheck.js}"></script>
+
+<!-- iCheck -->
+<script th:src="@{/hh/js/plugins/iCheck/icheck.min.js}"></script>
+<script>
+    $(document).ready(function () {
+        $('.i-checks').iCheck({
+            checkboxClass: 'icheckbox_square-green',
+            radioClass: 'iradio_square-green',
+        });
+    });
+</script>
+<script type="text/javascript">
+    //提交质检申请js开始
+    $(function(){
+        $("#qaReqBtn").click(publish);
+    });
+    function publish() {
+        // $("#publishModal").modal("hide");
+        //获取标题和内容，异步请求
+        var eName = $("#eName").val();
+        var reqName = $("#reqName").val();
+        var contact = $("#contact").val();
+        var reqType = myForm.reqType.value;
+        //发送异步请求
+        $.post(
+            "/qa/customer/qaReq",
+            {"eName":eName,"reqName":reqName,"contact":contact,"reqType":reqType},
+            function (data) {
+                data = $.parseJSON(data);
+                if (data.code == -1){
+                    alert(data.msg);
+                    return;
+                }else{
+                    $("#hintBody").text(data.msg);
+                    // 提示框显示
+                    $("#hintModal").modal("show");
+                    //2s后自动隐藏提示框
+                    setTimeout(function(){
+                        $("#hintModal").modal("hide");
+                        //刷新页面
+                        window.location.reload();
+                    }, 2000);
+                }
+
+
+            }
+        );
+    }
+</script>
+
+
+
+
+
+
+
+</body>
+
+</html>

@@ -7,12 +7,13 @@
     <result column="req_eid" property="reqEid" jdbcType="INTEGER" />
     <result column="contact" property="contact" jdbcType="VARCHAR" />
     <result column="req_type" property="reqType" jdbcType="INTEGER" />
+    <result column="product_id" property="productId" jdbcType="INTEGER" />
     <result column="req_time" property="reqTime" jdbcType="TIMESTAMP" />
     <result column="status" property="status" jdbcType="VARCHAR" />
     <result column="reason" property="reason" jdbcType="VARCHAR" />
   </resultMap>
   <sql id="Base_Column_List" >
-    id, req_id, req_eid, contact, req_type, req_time, status,reason
+    id, req_id, req_eid, contact, req_type,product_id, req_time, status,reason
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
     select 
@@ -52,10 +53,10 @@
   </delete>
   <insert id="insert" parameterType="com.sayo.qa.entity.Request" >
     insert into request (id, req_id, req_eid, 
-      contact, req_type, req_time, 
+      contact, req_type,product_id, req_time,
       status,reason)
     values (#{id,jdbcType=INTEGER}, #{reqId,jdbcType=INTEGER}, #{reqEid,jdbcType=INTEGER}, 
-      #{contact,jdbcType=VARCHAR}, #{reqType,jdbcType=INTEGER}, #{reqTime,jdbcType=TIMESTAMP}, 
+      #{contact,jdbcType=VARCHAR}, #{reqType,jdbcType=INTEGER}, #{productId,jdbcType=INTEGER}, #{reqTime,jdbcType=TIMESTAMP},
       #{status,jdbcType=VARCHAR},#{reason})
   </insert>
   <insert id="insertSelective" parameterType="com.sayo.qa.entity.Request" >
@@ -75,6 +76,9 @@
       </if>
       <if test="reqType != null" >
         req_type,
+      </if>
+      <if test="productId != null" >
+        product_id,
       </if>
       <if test="reqTime != null" >
         req_time,
@@ -102,6 +106,9 @@
       <if test="reqType != null" >
         #{reqType,jdbcType=INTEGER},
       </if>
+        <if test="productId != null" >
+        #{productId,jdbcType=INTEGER},
+      </if>
       <if test="reqTime != null" >
         #{reqTime,jdbcType=TIMESTAMP},
       </if>
@@ -128,6 +135,9 @@
       <if test="reqType != null" >
         req_type = #{reqType,jdbcType=INTEGER},
       </if>
+      <if test="productId != null" >
+        product_id = #{productId,jdbcType=INTEGER},
+      </if>
       <if test="reqTime != null" >
         req_time = #{reqTime,jdbcType=TIMESTAMP},
       </if>
@@ -146,6 +156,7 @@
       req_eid = #{reqEid,jdbcType=INTEGER},
       contact = #{contact,jdbcType=VARCHAR},
       req_type = #{reqType,jdbcType=INTEGER},
+      product_id = #{productId,jdbcType=INTEGER},
       req_time = #{reqTime,jdbcType=TIMESTAMP},
       status = #{status,jdbcType=VARCHAR},
       reason = #{reason,jdbcType=VARCHAR}

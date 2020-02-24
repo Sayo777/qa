@@ -20,11 +20,12 @@
     <link rel="stylesheet" type="text/css" th:href="@{/hh/css/tree.css}"/>
 
     <style type="text/css">
-        *{
+        * {
             margin: 0;
             padding: 0;
         }
-        .dv{
+
+        .dv {
             width: 161px;
             background-color: rgb(255, 250, 232);
         }
@@ -70,7 +71,7 @@
                                 <th>申请时间</th>
                                 <th>审核时间</th>
                                 <th>详细信息</th>
-                                <th>安排质检</th>
+                                <th>操作</th>
                             </tr>
                             </thead>
                             <tbody>
@@ -81,13 +82,18 @@
                                 <td th:text="${list.reqType}">申请质检类型</td>
                                 <td th:text="${#dates.format(list.reqTime,'yyyy-MM-dd HH:mm:ss')}">申请时间</td>
                                 <td th:text="${#dates.format(list.taskCheck,'yyyy-MM-dd HH:mm:ss')}">审核时间</td>
-                                <td><input type="hidden"  th:value="${list.req.requestId}"/>
-                                    <button th:id="${list.req.requestId}" type="button" onclick='test(this)' class="btn btn-primary" data-toggle="modal"
-                                            >查看
+                                <td><input type="hidden" th:value="${list.req.requestId}"/>
+                                    <button  type="button" onclick='test(this)'
+                                            class="btn btn-primary" data-toggle="modal"
+                                    >查看
                                     </button>
                                 </td>
                                 <td>
-                                    <button th:id="${list.req.requestId}" type="button" onclick='arrange(this)' class="btn btn-primary" data-toggle="modal" data-target="#arrange">
+                                    <button type="button" th:onclick="'javascript:setArrangeId('+${list.req.requestId}+')' "
+                                            th:text="${list.req.gaozhiConfirm==1?'安排质检':'告知书待确认'}"
+                                            th:class="|btn ${list.req.gaozhiConfirm==0?'disabled':'btn-primary'} |"
+                                            data-toggle="modal"
+                                            th:data-target="${list.req.gaozhiConfirm==1?'#arrange':'#'}">
                                         立即安排
                                     </button>
                                 </td>
@@ -117,7 +123,8 @@
                     <!--查看详情页面结束-->
 
                     <div class="modal inmodal fade" id="arrange" tabindex="-1" role="dialog" aria-hidden="true">
-                        <div class="modal-dialog modal-sm" style="margin:10px auto;width: 800px;background-color: antiquewhite">
+                        <div class="modal-dialog modal-sm"
+                             style="margin:10px auto;width: 800px;background-color: antiquewhite">
                             <div class="modal-content" style="padding: 10px;">
 
                                 <div class="modal-header" style="height: 20px;margin-top: 10px">
@@ -126,34 +133,42 @@
                                     <strong>请选择执行单位</strong>
                                 </div>
                                 <div class="modal-body">
+                                    <input type="hidden" id="arrangeId" name="arrangeId" value="">
                                     <div class="form-group">
                                         <select class="form-control m-b" name="account" id="select">
-                                            <option value="1">本单位</option>
+                                            <option value="1">本监督单位</option>
                                             <option value="2">第三方质检机构</option>
                                         </select>
                                     </div>
-<!--                                    本单位-->
+                                    <!--                                    本单位-->
                                     <div id="box1" class="form-horizontal" style="margin-left: 10px">
                                         <div class="form-group">
                                             <label class="col-sm-3 control-label">质检员1 :</label>
                                             <div class="col-sm-3">
-                                                                                                        <select data-placeholder="选择省份..." class="chosen-select" style="width:350px;" tabindex="2" id="inspector1">
-                                                <!--                                                            <option value="110000" hassubinfo="true" th:each="lists:${inspectorsList}" th:text="${lists.name}">北京</option>-->
-                                                                                                            <optgroup  th:each="wailist:${Volist}"  th:label="${wailist.type}">
-                                                                                                                <option th:each="newlist:${wailist.list1}" th:text="${newlist.name}" th:value="${newlist.name}">列表数据</option>
-                                                                                                            </optgroup>
+                                                <select data-placeholder="选择省份..." class="chosen-select"
+                                                        style="width:350px;" tabindex="2" id="inspector1">
+                                                    <optgroup th:each="wailist:${Volist}" th:label="${wailist.type}">
+                                                        <option th:each="newlist:${wailist.list1}"
+                                                                th:text="${newlist.name}" th:value="${newlist.name}">
+                                                            列表数据
+                                                        </option>
+                                                    </optgroup>
 
 
-                                                                                                        </select>
+                                                </select>
                                             </div>
 
                                         </div>
                                         <div class="form-group">
                                             <label class="col-sm-3 control-label">质检员2 :</label>
                                             <div class="col-sm-3">
-                                                <select data-placeholder="选择省份..." class="chosen-select" style="width:350px;" tabindex="2" id="inspector2">
-                                                    <optgroup  th:each="wailist:${Volist}"  th:label="${wailist.type}">
-                                                        <option th:each="newlist:${wailist.list1}" th:text="${newlist.name}" th:value="${newlist.name}">列表数据</option>
+                                                <select data-placeholder="选择省份..." class="chosen-select"
+                                                        style="width:350px;" tabindex="2" id="inspector2">
+                                                    <optgroup th:each="wailist:${Volist}" th:label="${wailist.type}">
+                                                        <option th:each="newlist:${wailist.list1}"
+                                                                th:text="${newlist.name}" th:value="${newlist.name}">
+                                                            列表数据
+                                                        </option>
                                                     </optgroup>
 
 
@@ -162,27 +177,32 @@
                                         </div>
 
                                     </div>
-                                    <div id="box2" style="display: none;margin-left: 10px" class="form-horizontal" >
+                                    <div id="box2" style="display: none;margin-left: 10px" class="form-horizontal">
                                         <div class="form-group">
-                                                <div class="form-group">
-                                                    <label class="col-sm-3 control-label">质检机构 :</label>
-                                                    <div class="col-sm-3">
-                                                        <select data-placeholder="选择质检机构" class="chosen-select" style="width:350px;" tabindex="2"
-                                                                id="aa" th:onchange="myChange(this.options[this.options.selectedIndex].text)">
+                                            <div class="form-group">
+                                                <label class="col-sm-3 control-label">质检机构 :</label>
+                                                <div class="col-sm-3">
+                                                    <select data-placeholder="选择质检机构" class="chosen-select"
+                                                            style="width:350px;" tabindex="2"
+                                                            id="aa"
+                                                            th:onchange="myChange(this.options[this.options.selectedIndex].text)">
 
 
-                                                            <option th:each="thirdQaList:${thirdQa}" th:text="${thirdQaList.thirdName}">列表数据</option>
+                                                        <option th:each="thirdQaList:${thirdQa}"
+                                                                th:text="${thirdQaList.thirdName}">列表数据
+                                                        </option>
                                                     </select></div>
-                                                </div>
+                                            </div>
                                         </div>
                                         <div id="demo" class="form-group">
                                             <label class="col-sm-3 control-label">指定质检员 :</label>
                                             <div class="col-sm-3">
-                                                <label >
-                                                    <input type="radio" name="is_assign" id="manager" value="1" > 是
+                                                <label>
+                                                    <input type="radio" name="is_assign" id="manager" value="1"> 是
                                                 </label>
-                                                <label style="margin-left: 30px" >
-                                                    <input type="radio" name="is_assign" id="inspector" value="0" checked="checked"> 否
+                                                <label style="margin-left: 30px">
+                                                    <input type="radio" name="is_assign" id="inspector" value="0"
+                                                           checked="checked"> 否
                                                 </label>
                                             </div>
                                         </div>
@@ -191,19 +211,21 @@
                                                 <label class="col-sm-3 control-label">质检员1 :</label>
                                                 <div class="col-sm-3">
                                                     <div class="input-group">
-                                                        <select id="subclass1" style="width:350px;"  >
+                                                        <select id="subclass1" style="width:350px;">
                                                         </select>
-                                                    </div></div>
+                                                    </div>
+                                                </div>
                                             </div>
                                             <div class="form-group">
                                                 <label class="col-sm-3 control-label">质检员2 :</label>
                                                 <div class="col-sm-3">
                                                     <div class="input-group">
-                                                        <select  class="chosen-select"
-                                                                id="subclass2" style="width:350px;" tabindex="2" >
+                                                        <select class="chosen-select"
+                                                                id="subclass2" style="width:350px;" tabindex="2">
 
                                                         </select>
-                                                    </div></div>
+                                                    </div>
+                                                </div>
                                             </div>
                                         </div>
 
@@ -211,7 +233,9 @@
                                     <div class="form-group">
                                         <label class="control-label" style="margin-left: 105px;">质检时间 :</label>
 
-                                            <input id="hello" class="laydate-icon layer-date" style="width:162px;height:25px;margin-left: 26px" required="" autocomplete="off">
+                                        <input id="hello" class="laydate-icon layer-date"
+                                               style="width:162px;height:25px;margin-left: 26px" required=""
+                                               autocomplete="off">
 
                                     </div>
 
@@ -220,7 +244,7 @@
 
                                 <div class="modal-footer" style="margin-bottom: 10px;text-align: center">
                                     <button type="button" class="btn btn-white" data-dismiss="modal">取消</button>
-                                    <button type="button" class="btn btn-primary" id="arrangeTask">确定</button>
+                                    <button type="button" class="btn btn-primary" id="arrangeTask" onclick="arrange()">确定</button>
                                 </div>
                             </div>
                         </div>
@@ -259,108 +283,123 @@
     });
 
 
-
 </script>
 <script>
-    function test(obj){alert(obj.id)}
-    function arrange(obj){
-        clickId = obj.id;
+    function test(obj) {
+        alert(obj.id)
     }
+    function setArrangeId(id){
+        $("#arrangeId").val(id);
+    }
+    function arrange() {
+        // var reqId = clickId;
+        var reqId = $("#arrangeId").val();
+        alert(reqId);
+        var qaType = $("#select").val();
+        var arrangeTime = $("#hello").val();
+        if(arrangeTime == ''){
+            alert("请选择时间");
+            return false;
+        }
+        if (qaType == 1) {
+            console.log("执行添加到政府任务,质检员是：" + inspector1 + "&" + inspector2 + "，质检时间" + arrangeTime);
+            inspector1 = $("#inspector1").val();
+            inspector2 = $("#inspector2").val();
+            $.post(
+                "/qa/task/taskToGov",
+                {"reqId": reqId, "arrangeTime": arrangeTime, "inspector1": inspector1, "inspector2": inspector2},
+                function (data) {
+                    data = $.parseJSON(data);
+                    alert(data.msg);
+                    setTimeout(function () {
+                        if (data.code == 0) {
+                            window.location.reload();
+                        }
+                    }, 2000);
+                }
+            );
+        } else {
+            var qaName = $("#aa").val();
+            if (val == 0) {
+                alert("不指定质检员的三方机构:" + qaName);
+                $.post(
+                    "/qa/task/taskTo3un",
+                    {"reqId": reqId, "arrangeTime": arrangeTime, "qaName": qaName},
+                    function (data) {
+                        data = $.parseJSON(data);
+                        alert(data.msg);
+                        setTimeout(function () {
+                            if (data.code == 0) {
+                                window.location.reload();
+                            }
+                        }, 2000);
+                    }
+                );
+            } else {
+                inspector1 = $("#subclass1").val();
+                inspector2 = $("#subclass2").val();
+                $.post(
+                    "/qa/task/taskTo3",
+                    {
+                        "reqId": reqId,
+                        "arrangeTime": arrangeTime,
+                        "qaName": qaName,
+                        "inspector1": inspector1,
+                        "inspector2": inspector2
+                    },
+                    function (data) {
+                        data = $.parseJSON(data);
+                        alert(data.msg);
+                        setTimeout(function () {
+                            if (data.code == 0) {
+                                window.location.reload();
+                            }
+                        }, 2000);
+                    }
+                );
 
+
+                alert("指定质检员的三方机构" + qaName + "，质检员是：" + inspector1 + "&" + inspector2 + "，质检时间" + arrangeTime);
+            }
+        }
+
+
+    }
     $(document).ready(function () {
         $('#aa').trigger('change');
         val = 0;
         $("#demo :radio").on('click', function () {
-            val= $(this).val();
-            if(val==1){ //指定质检员
+            val = $(this).val();
+            if (val == 1) { //指定质检员
                 $("#isAssignbox").show();
-            } else{
+            } else {
                 $("#isAssignbox").hide();
             }
         })
-        $("#select").change(function(){
-            var selectedValue=$(this).val();
-            if(selectedValue==1){
+        $("#select").change(function () {
+            var selectedValue = $(this).val();
+            if (selectedValue == 1) {
                 $("#box1").show();
                 $("#box2").hide();
             }
-            if(selectedValue==2){
+            if (selectedValue == 2) {
                 $("#box2").show();
                 $("#box1").hide();
             }
         });
         $(function () {
             $("#check").click(check);
-            $("#arrangeTask").click(arrange);
+            // $("#arrangeTask").click(arrange);
             $("#searchBtn").click(search);
         });
+
         function search() {
             var aa = $("#searchBtn").prev().val();
             alert(aa);
         }
 
-        function arrange() {
-            var reqId = clickId;
-            var qaType = $("#select").val();
-            var arrangeTime = $("#hello").val();
-            if (qaType == 1){
-                console.log("执行添加到政府任务,质检员是："+inspector1+"&"+inspector2+"，质检时间"+arrangeTime);
-                 inspector1 = $("#inspector1").val();
-                 inspector2 = $("#inspector2").val();
-                $.post(
-                    "/qa/task/taskToGov",
-                    {"reqId":reqId,"arrangeTime":arrangeTime,"inspector1":inspector1,"inspector2":inspector2},
-                    function (data) {
-                        data = $.parseJSON(data);
-                        alert(data.msg);
-                        setTimeout(function(){
-                            if (data.code == 0){
-                                window.location.reload();
-                            }
-                        }, 2000);
-                    }
-                );
-            }else{
-                var qaName = $("#aa").val();
-                if(val == 0){
-                    alert("不指定质检员的三方机构:"+qaName);
-                    $.post(
-                        "/qa/task/taskTo3un",
-                        {"reqId":reqId,"arrangeTime":arrangeTime,"qaName":qaName},
-                        function (data) {
-                            data = $.parseJSON(data);
-                            alert(data.msg);
-                            setTimeout(function(){
-                                if (data.code == 0){
-                                    window.location.reload();
-                                }
-                            }, 2000);
-                        }
-                    );
-                }else{
-                    inspector1 = $("#subclass1").val();
-                    inspector2 = $("#subclass2").val();
-                    $.post(
-                        "/qa/task/taskTo3",
-                        {"reqId":reqId,"arrangeTime":arrangeTime,"qaName":qaName,"inspector1":inspector1,"inspector2":inspector2},
-                        function (data) {
-                            data = $.parseJSON(data);
-                            alert(data.msg);
-                            setTimeout(function(){
-                                if (data.code == 0){
-                                    window.location.reload();
-                                }
-                            }, 2000);
-                        }
-                    );
 
 
-                    alert("指定质检员的三方机构"+qaName+"，质检员是："+inspector1+"&"+inspector2+"，质检时间"+arrangeTime);
-                }
-            }
-
-
-        }
 
         function check() {
             // $("#publishModal").modal("hide");
@@ -405,11 +444,11 @@
         console.log(tx);//tx就是所选择的text
         $.post(
             "/qa/task/test",
-            {"enterpriseName":tx},
+            {"enterpriseName": tx},
             function (data) {
                 // data = $.parseJSON(data);
                 var contain = "<option>请选择</option>"
-                for (var i = 0;i<data.length;i++){
+                for (var i = 0; i < data.length; i++) {
                     contain += "<option id = ";
                     contain += data[i].id;
                     contain += ">";

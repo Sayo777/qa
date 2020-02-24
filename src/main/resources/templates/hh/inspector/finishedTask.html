@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+
+    <title>已完成的任务</title>
+    <link rel="shortcut icon" th:href="@{/hh/favicon.ico}">
+    <link th:href="@{/hh/css/bootstrap.min.css?v=3.3.6}" rel="stylesheet">
+    <link th:href="@{/hh/css/font-awesome.css?v=4.4.0}" rel="stylesheet">
+    <link th:href="@{/hh/css/plugins/iCheck/custom.css}" rel="stylesheet">
+    <link th:href="@{/hh/css/animate.css}" rel="stylesheet">
+    <link th:href="@{/hh/css/style.css?v=4.1.0}" rel="stylesheet">
+
+</head>
+
+<body class="gray-bg">
+<div class="wrapper wrapper-content animated fadeInRight">
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="ibox float-e-margins">
+                <div class="ibox-title">
+                    <h5>质检员列表</h5>
+                </div>
+                <div class="ibox-content">
+                    <div class="row">
+                        <div class="col-sm-5 m-b-xs" style="width: 200px;">
+                            <select class="input-sm form-control input-s-sm inline" >
+                                <option value="1" >选项1</option>
+                                <option value="1" >选项1</option>
+                                <option value="1" >选项1</option>
+                                <option value="1" >选项1</option>
+                            </select>
+                        </div>
+
+                        <div class="col-sm-3">
+                            <div class="input-group" >
+                                <input type="text" placeholder="请输入关键词" class="input-sm form-control"> <span class="input-group-btn">
+                                        <button type="button" class="btn btn-sm btn-primary"> 搜索</button> </span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="table-responsive">
+                        <table class="table table-striped">
+                            <thead>
+                            <tr>
+                                <th>任务编号</th>
+                                <th>1号质检员</th>
+                                <th>2号质检员</th>
+                                <th>受检企业</th>
+                                <th>受检开始时间</th>
+                                <th>受检结束时间</th>
+                                <th>详情</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr th:each="tasks:${tasks}">
+                                <td th:text="${tasks.task.taskId}">任务编号</td>
+                                <td th:text="${tasks.inspector1.name}">1号质检员</td>
+                                <td th:text="${tasks.inspector2.name}">2号质检员</td>
+                                <td th:text="${tasks.reqEnterprise.enterpriseName}">受检企业</td>
+                                <td th:text="${#dates.format(tasks.task.startTime,'yyyy-MM-dd HH:mm:ss')}">受检开始时间</td>
+                                <td th:text="${#dates.format(tasks.task.endTime,'yyyy-MM-dd HH:mm:ss')}">受检结束时间</td>
+                                <td ><a th:href="@{|/inspector/finishedDetail/${tasks.task.taskId}|}"><i class="fa fa-check text-navy">详情</i></a></td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<!-- 全局js -->
+<script th:src="@{/hh/js/jquery.min.js?v=2.1.4}"></script>
+<script th:src="@{/hh/js/bootstrap.min.js?v=3.3.6}"></script>
+
+
+
+<!-- Peity -->
+<script th:src="@{/hh/js/plugins/peity/jquery.peity.min.js}"></script>
+
+<!-- 自定义js -->
+<script th:src="@{/hh/js/content.js?v=1.0.0}"></script>
+
+
+<!-- iCheck -->
+<script th:src="@{/hh/js/plugins/iCheck/icheck.min.js}"></script>
+
+<!-- Peity -->
+<script th:src="@{/hh/js/demo/peity-demo.js}"></script>
+
+<script>
+    $(document).ready(function () {
+        $('.i-checks').iCheck({
+            checkboxClass: 'icheckbox_square-green',
+            radioClass: 'iradio_square-green',
+        });
+    });
+</script>
+
+
+</body>
+
+</html>
