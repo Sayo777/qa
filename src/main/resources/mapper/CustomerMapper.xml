@@ -151,4 +151,9 @@
       type = #{type,jdbcType=INTEGER}
     where id = #{id,jdbcType=INTEGER}
   </update>
+  <update id="updateCustomerEId" parameterType="int">
+    update customer
+    set enterprise_id = #{eId}
+    where id = #{customerId}
+  </update>
 </mapper>

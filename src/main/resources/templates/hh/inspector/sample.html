@@ -57,11 +57,14 @@
     </style>
 </head>
 
-<body class="gray-bg">
+<body class="gray-bg" style="height: 145%;">
 
 
-<div class="ibox float-e-margins" style="background-color: #3dc7ab; margin: 0 auto;width: 900px">
+<div class="ibox float-e-margins" style="margin: 0 auto;width: 1029px">
     <div class="ibox-content">
+        <button onclick="javascript:history.back(-1);"  class="btn btn-primary" >
+            返回
+        </button>
         <form th:action="@{/inspector/sendSample}" method="post">
             <table class="table">
                 <caption>产品质量监督抽查/复查抽样单</caption>
@@ -260,27 +263,14 @@
                 </tr>
                 </tbody>
             </table>
-            <div style="margin-top: 8px;padding: 0px 30px">
+            <div style="margin-top: 8px;padding: 0px 107px">
                 <button class="btn btn-primary  m-b" id="send" type="submit" style="display: inline">发送</button>
                 <button class="btn btn-primary  m-b" id="cancel" type="reset" style="margin-left: 20px">重置</button>
             </div>
 
 
         </form>
-        <!--        <form name="finishForm" id="finishForm" th:action="@{/record/finish}" method="post">-->
-        <!--            <p>上传结果文档：</p>-->
-        <!--            <div style="border:1px dashed #000;width: 200px">-->
-        <!--                <input  type="hidden" name="token" th:value="${uploadToken}">-->
-        <!--                <input  type="hidden" name="key" th:value="${fileName}">-->
-        <!--                <input type="file"  multiple="multiple"  class="form-control" id="head-image" name="file" lang="es" required="" onchange="pre(this)">-->
-        <!--                <div id="preview">-->
-        <!--                    <img id="img_all" border=0 th:src="@{/hh/img/imgbackgroud.png}" width="180" height="180"/>-->
-        <!--                </div>-->
 
-
-        <!--            </div>-->
-        <!--            <button class="btn btn-primary block m-b" id="finish" type="submit">完成任务</button>-->
-        <!--        </form>-->
     </div>
 
 </div>

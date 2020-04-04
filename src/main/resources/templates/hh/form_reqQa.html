@@ -51,20 +51,24 @@
                         <div class="form-group">
                             <label class="col-sm-3 control-label">申请人：</label>
                             <div class="col-sm-3">
-                                <input type="text"  class="form-control" id="reqName" name="reqName" required="">
+                                <input type="text"  class="form-control" id="reqName" name="reqName" required="" th:value="王伟">
                             </div>
                         </div>
                         <div class="form-group">
                             <label class="col-sm-3 control-label">联系电话：</label>
                             <div class="col-sm-3">
-                                <input type="text"  class="form-control" id="contact" name="contact" required="">
+                                <input type="text"  class="form-control" id="contact" name="contact" required="" th:value="15990089283">
                             </div>
                         </div>
                         <div class="hr-line-dashed"></div>
                         <div class="form-group">
                             <label class="col-sm-3 control-label">产品批号：</label>
                             <div class="col-sm-3">
-                                <input type="text"  class="form-control" id="productId" name="productId" required="">
+                                <select class="input-sm form-control input-s-sm inline" style="height: 36px"
+                                name="productId">
+                                    <option th:text="${list.productName}" th:value="${list.productId}" th:each="list:${productList}">选项1</option>
+                                </select>
+<!--                                <input type="text"  class="form-control" id="productId" name="productId" required="">-->
                             </div>
 
                         </div>

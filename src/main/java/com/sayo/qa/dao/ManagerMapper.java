@@ -13,6 +13,7 @@ public interface ManagerMapper {
 
     Manager selectByManagerId(Integer id);
     Manager selectByManagerName(String name,String type);
+    Manager findManagerByName(String name);
     Manager selectByManagerEmail(String email);
 
     int updateByManagerId(Manager record);

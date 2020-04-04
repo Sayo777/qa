@@ -12,8 +12,11 @@ public class ResultService {
     @Autowired
     private ResultMapper resultMapper;
 
-    public List<Result> findResults(){
-        return resultMapper.selectResults();
+    public List<Result> findResults(int offset,int limit){
+        return resultMapper.selectResults(offset,limit);
+    }
+    public int findResultsRows(){
+        return resultMapper.selectResultsRows();
     }
 
     public int addSelectiveResult(Result result){

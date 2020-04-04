@@ -31,6 +31,12 @@
     select
     <include refid="Base_Column_List" />
     from task
+    where (inspector_one = #{inspectorId} or inspector_two = #{inspectorId}) and end_time is null limit #{offset},#{limit}
+  </select>
+  <select id="selectTaskByInspectorId0Rows" resultType="int" parameterType="java.lang.Integer" >
+    select
+   count(*)
+    from task
     where (inspector_one = #{inspectorId} or inspector_two = #{inspectorId}) and end_time is null
   </select>
 
@@ -45,6 +51,36 @@
     <include refid="Base_Column_List" />
     from task
     where (inspector_one = #{inspectorId} or inspector_two = #{inspectorId}) and end_time is not null
+  </select>
+  <select id="findFinishTaskAll" resultMap="BaseResultMap" >
+    select
+    <include refid="Base_Column_List" />
+    from task
+    where end_time is not null limit #{offset},#{limit}
+  </select>
+  <select id="findFinishTaskAllRows" resultType="int" >
+    select
+  count(*)
+    from task
+    where end_time is not null
+  </select>
+  <select id="findFinishedTaskByEid" resultMap="BaseResultMap" parameterType="int">
+    select
+    <include refid="Base_Column_List" />
+    from task
+    where end_time is not null and task_id in (select id from request where req_eid = #{eId}) limit #{offset},#{limit}
+  </select>
+  <select id="findFinishedTaskByEidRows" resultType="int" parameterType="int">
+    select
+    count(*)
+    from task
+    where end_time is not null and task_id in (select id from request where req_eid = #{eId})
+  </select>
+  <select id="findFinishedTaskByQaEid" resultMap="BaseResultMap" parameterType="int">
+    select
+    <include refid="Base_Column_List" />
+    from task
+    where end_time is not null and qa_eid = #{qaeId}
   </select>
   <select id="findhasAssignTaskByEid" resultMap="BaseResultMap" >
     select

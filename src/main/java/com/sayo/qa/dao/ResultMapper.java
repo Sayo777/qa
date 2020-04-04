@@ -10,7 +10,8 @@ public interface ResultMapper {
 
     int insertSelective(Result record);
 
-    List<Result> selectResults();
+    List<Result> selectResults(int offset,int limit);
+    int selectResultsRows();
 
     Result selectResultByTaskId(int taskId);
 

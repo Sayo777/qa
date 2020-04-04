@@ -19,6 +19,14 @@ public class ManagerService {
     @Autowired
     InspectorMapper inspectorMapper;
 
+    public Manager findManagerByName(String name){
+        return managerMapper.findManagerByName(name);
+    }
+
+    public Manager findManagerById(int id){
+        return managerMapper.selectByManagerId(id);
+    }
+
     public Map<String, Object> register3User(String name,String password,String email,int enterpriseId,String role) {
         Map<String, Object> map = new HashMap<>();
 
@@ -71,6 +79,41 @@ public class ManagerService {
     }
 
     public Map<String,Object> loginThirdUser(String name,String password,String role,String govOr3){
+        Map<String,Object> map = new HashMap<>();
+        if (StringUtils.isBlank(name)){
+            map.put("nameMsg","姓名不能为空");
+            return map;
+        }
+        if (StringUtils.isBlank(password)){
+            map.put("passwordMsg","密码不能为空");
+            return map;
+        }
+        //判断该User存在与否
+        if ("管理员".equals(role)){
+            Manager manager= managerMapper.selectByManagerName(name,govOr3);
+            if (manager == null){
+                map.put("nameMsg","该用户不存在");
+                return map;
+            }
+            if (!password.equals(manager.getPassword())){
+                map.put("passwordMsg","密码不正确");
+                return map;
+            }
+        }else{
+            Inspector inspector = inspectorMapper.selectInspectorByName(name,govOr3);
+            if (inspector == null){
+                map.put("nameMsg","该用户不存在");
+                return map;
+            }
+            if (!password.equals(inspector.getPassword())){
+                map.put("passwordMsg","密码不正确");
+                return map;
+            }
+        }
+
+        return map;
+    }
+    public Map<String,Object> loginGov(String name,String password,String role,String govOr3){
         Map<String,Object> map = new HashMap<>();
         if (StringUtils.isBlank(name)){
             map.put("nameMsg","姓名不能为空");

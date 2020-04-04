@@ -19,6 +19,24 @@
     from product
     where product_id = #{productId,jdbcType=INTEGER}
   </select>
+  <select id="findProductByEid" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select
+    <include refid="Base_Column_List" />
+    from product
+    where eId = #{Eid,jdbcType=INTEGER} limit #{offset},#{limit}
+  </select>
+  <select id="findProductByEid1" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select
+    <include refid="Base_Column_List" />
+    from product
+    where eId = #{Eid,jdbcType=INTEGER}
+  </select>
+  <select id="findProductRows" resultType="int" parameterType="int">
+    select
+    count(*)
+    from product
+    where eId = #{Eid,jdbcType=INTEGER}
+  </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
     delete from product
     where product_id = #{productId,jdbcType=INTEGER}

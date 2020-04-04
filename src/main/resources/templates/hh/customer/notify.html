@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+
+    <title>消息列表</title>
+    <style>
+        .btn-second {
+            color: #333;
+            background-color: #fff;
+            border-color: #ccc;
+            disabled:true;
+        }
+    </style>
+    <meta name="keywords" content="抽检申请记录">
+    <meta name="description" content="抽检申请记录">
+
+    <link rel="shortcut icon" th:href="@{/hh/favicon.ico}">
+    <link th:href="@{/hh/css/bootstrap.min.css?v=3.3.6}" rel="stylesheet">
+    <link th:href="@{/hh/css/font-awesome.css?v=4.4.0}" rel="stylesheet">
+    <link th:href="@{/hh/css/plugins/iCheck/custom.css}" rel="stylesheet">
+    <link th:href="@{/hh/css/animate.css}" rel="stylesheet">
+    <link th:href="@{/hh/css/style.css?v=4.1.0}" rel="stylesheet">
+
+</head>
+
+<body class="gray-bg">
+<div class="wrapper wrapper-content animated fadeInRight">
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="ibox float-e-margins">
+                <div class="ibox-title">
+                    <h5>消息列表</h5>
+                </div>
+                <div class="ibox-content">
+                    <ul class="list-unstyled" >
+                        <li class="media pb-3 pt-3 mb-3 border-bottom position-relative">
+                            <div class="media-body ">
+
+                                <strong th:text="${type}">通知单确认</strong>
+
+                                <br>
+                                <small class="text-muted" th:text="${content}">您好,xxxx</small>
+                                <a th:href="${aa}">点击跳转</a>
+                            </div>
+                        </li>
+                    </ul>
+
+
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<!-- 全局js -->
+<script th:src="@{/hh/js/jquery.min.js?v=2.1.4}"></script>
+<script th:src="@{/hh/js/bootstrap.min.js?v=3.3.6}"></script>
+
+</body>
+
+</html>

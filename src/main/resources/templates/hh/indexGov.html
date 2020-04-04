@@ -18,7 +18,7 @@
 </head>
 
 <body class="fixed-sidebar full-height-layout gray-bg" style="overflow:hidden">
-    <div id="wrapper">
+    <div id="wrapper" style="height: 126%">
         <!--左侧导航开始-->
         <nav class="navbar-default navbar-static-side" role="navigation">
             <div class="nav-close"><i class="fa fa-times-circle"></i>
@@ -66,14 +66,14 @@
                                 <a href="#"> <span class="nav-label">已审核</span><span class="fa arrow"></span></a>
                                 <ul class="nav nav-third-level">
                                     <li><a class="J_menuItem" th:href="@{/task/unfinishTask}">待处理任务</a></li>
-                                    <li><a class="J_menuItem" th:href="@{/task/finishedTask}">已完成任务</a></li>
-                                    <li><a class="J_menuItem" th:href="@{/customer/getReqrecord}">已拒绝</a></li>
+                                    <li><a class="J_menuItem" th:href="@{/gov/finishedTask}">已完成任务</a></li>
+                                    <li><a class="J_menuItem" th:href="@{/gov/refuseTask}">已拒绝</a></li>
                                 </ul>
                             </li>
                         </ul>
                     </li>
                     <li>
-                        <a href="#"><i class="fa fa-user"></i> <span class="nav-label">第三方检测机构管理</span><span class="fa arrow"></span></a>
+                        <a href="#"><i class="fa fa-users"></i> <span class="nav-label">第三方检测机构管理</span><span class="fa arrow"></span></a>
                         <ul class="nav nav-second-level">
                             <li><a class="J_menuItem" th:href="@{/customer/eApply}">机构信息审核</a></li>
                             <li><a class="J_menuItem" th:href="@{/gov/checkIns}">任务质检员审核</a></li>
@@ -86,7 +86,7 @@
         <!--右侧部分开始-->
         <div id="page-wrapper" class="gray-bg dashbard-1" style="height:800px">
             <div class="row J_mainContent" id="content-main">
-                <iframe class="J_iframe" name="iframe0" width="100%" height="100%" th:src="@{/3User/tasks}" frameborder="0" data-id="index_v1.html" seamless></iframe>
+                <iframe class="J_iframe" name="iframe0" width="100%" height="100%" th:src="@{/task/uncheckedReq}" frameborder="0" data-id="index_v1.html" seamless></iframe>
             </div>
         </div>
 

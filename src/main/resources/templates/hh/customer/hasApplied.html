@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+
+    <title>已完成的任务</title>
+    <link rel="shortcut icon" th:href="@{/hh/favicon.ico}">
+    <link th:href="@{/hh/css/bootstrap.min.css?v=3.3.6}" rel="stylesheet">
+    <link th:href="@{/hh/css/font-awesome.css?v=4.4.0}" rel="stylesheet">
+    <link th:href="@{/hh/css/plugins/iCheck/custom.css}" rel="stylesheet">
+    <link th:href="@{/hh/css/animate.css}" rel="stylesheet">
+    <link th:href="@{/hh/css/style.css?v=4.1.0}" rel="stylesheet">
+
+</head>
+
+<body class="gray-bg">
+<div class="wrapper wrapper-content animated fadeInRight">
+    <div class="row">
+        <div class="col-sm-12" style="margin-top: 40px">
+            <div class="ibox float-e-margins">
+                <div class="ibox-title">
+                    <h5>温馨提示：</h5>
+                </div>
+                <div class="ibox-content">
+                    <p>您的企业已经申请通过了！</p>
+                    <p>请注意查看<a th:href="@{/customer/searchApplies}"><i class="fa fa-check text-navy">《已申请的企业信息》</i></a></p>
+
+
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<!-- 全局js -->
+<script th:src="@{/hh/js/jquery.min.js?v=2.1.4}"></script>
+<script th:src="@{/hh/js/bootstrap.min.js?v=3.3.6}"></script>
+<script>
+    $(document).ready(function () {
+    });
+</script>
+
+
+</body>
+
+</html>

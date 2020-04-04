@@ -17,4 +17,8 @@ public class SampleService {
     public int addSample(Sample sample){
         return sampleMapper.insertSelective(sample);
     }
+
+    public int updateStatusById(int id) {
+        return sampleMapper.updateStatusByid(id);
+    }
 }

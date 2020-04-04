@@ -16,4 +16,8 @@ public interface SampleMapper {
     int updateByPrimaryKeySelective(Sample record);
 
     int updateByPrimaryKey(Sample record);
+
+    int updateStatusByid(int id);
+
+
 }

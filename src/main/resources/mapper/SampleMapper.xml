@@ -150,4 +150,9 @@
       status = #{status,jdbcType=INTEGER}
     where task_id = #{taskId,jdbcType=INTEGER}
   </update>
+  <update id="updateStatusByid" parameterType="int">
+    update sample
+    set  status = 1
+    where task_id = #{id,jdbcType=INTEGER}
+  </update>
 </mapper>

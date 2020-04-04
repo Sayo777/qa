@@ -42,24 +42,6 @@
                     <h5>待完成任务列表</h5>
                 </div>
                 <div class="ibox-content">
-                    <div class="row">
-                        <div class="col-sm-5 m-b-xs" style="width: 200px;">
-                            <select class="input-sm form-control input-s-sm inline">
-                                <option value="1">选项1</option>
-                                <option value="1">选项1</option>
-                                <option value="1">选项1</option>
-                                <option value="1">选项1</option>
-                            </select>
-                        </div>
-
-                        <div class="col-sm-3">
-                            <div class="input-group">
-                                <input type="text" placeholder="请输入关键词" class="input-sm form-control"> <span
-                                    class="input-group-btn">
-                                        <button type="button" class="btn btn-sm btn-primary"> 搜索</button> </span>
-                            </div>
-                        </div>
-                    </div>
                     <div class="table-responsive">
                         <table class="table table-striped">
                             <thead>
@@ -101,6 +83,25 @@
                             </tbody>
                         </table>
                     </div>
+                    <nav class="mt-5" th:if="${page.rows>0}" th:fragment="pagination">
+                        <ul class="pagination justify-content-center">
+                            <li class="page-item">
+                                <a class="page-link" th:href="@{${page.path}(current=1)}">首页</a>
+                            </li>
+                            <li th:class="|page-item ${page.current==1?'disabled':''}|">
+                                <a class="page-link" th:href="@{${page.path}(current=${page.current-1})}">上一页</a></li>
+                            <li th:class="|page-item ${i==page.current?'active':''}|" th:each="i:${#numbers.sequence(page.from,page.to)}">
+                                <a class="page-link" th:href="@{${page.path}(current=${i})}" th:text="${i}">1</a>
+                            </li>
+                            <li th:class="|page-item ${page.current==page.total?'disabled':''}|">
+                                <a class="page-link" th:href="@{${page.path}(current=${page.current+1})}">下一页</a>
+                            </li>
+                            <li class="page-item">
+                                <a class="page-link" th:href="@{${page.path}(current=${page.total})}">末页</a>
+                            </li>
+                        </ul>
+                    </nav>
+
                     <!--查看详情页面开始-->
                     <div class="modal inmodal fade" id="myModal6" tabindex="-1" role="dialog" aria-hidden="true">
                         <div class="modal-dialog modal-sm" style="margin:50px auto;width: 600px">

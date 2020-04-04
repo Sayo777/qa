@@ -22,6 +22,11 @@ public interface TaskMapper {
     List<Task> findwaitingAssignTaskByEid(int eId);
     List<Task> findTaskforCheckIns();
     List<Task> findfinishAssignTaskByEidAndStatus(int eId,int status);
+    List<Task> findFinishTaskAll(int offset,int limit);
+    int findFinishTaskAllRows();
+    List<Task> findFinishedTaskByEid(int eId,int offset,int limit);
+    int findFinishedTaskByEidRows(int eId);
+    List<Task> findFinishedTaskByQaEid(int qaeId);
     Task selectTaskByTaskId(int taskId);
 
     int updateByPrimaryKeySelective(Task record);
@@ -30,5 +35,6 @@ public interface TaskMapper {
 
     int updateByPrimaryKey(Task record);
 
-    List<Task> selectTaskByInspectorId0(int inspectorId);
+    List<Task> selectTaskByInspectorId0(int inspectorId,int offset,int limit);
+    int selectTaskByInspectorId0Rows(int inspectorId);
 }

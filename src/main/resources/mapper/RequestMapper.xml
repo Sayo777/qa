@@ -21,6 +21,13 @@
     from request
     where id = #{id,jdbcType=INTEGER}
   </select>
+
+  <select id="findReqRowByEid" resultType="int" parameterType="java.lang.Integer" >
+    select
+    count(*)
+    from request
+    where req_eid = #{eId,jdbcType=INTEGER}
+  </select>
   <select id="selectByReqId" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
     select
     <include refid="Base_Column_List" />
@@ -32,7 +39,19 @@
     select
     <include refid="Base_Column_List" />
     from request
-    where req_eid = #{reqEId,jdbcType=INTEGER}
+    where req_eid = #{reqEId,jdbcType=INTEGER} limit #{offset},#{limit}
+  </select>
+  <select id="findRefuseTask" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select
+    <include refid="Base_Column_List" />
+    from request
+    where status = '不通过' limit #{offset},#{limit}
+  </select>
+  <select id="findRefuseTaskRows" resultType="int" >
+    select
+  count(*)
+    from request
+    where status = '不通过'
   </select>
   <select id="selectByReqEId0" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
     select
@@ -41,9 +60,15 @@
     where req_eid = #{reqEId,jdbcType=INTEGER} and status = '通过'
   </select>
 
-  <select id="selectReqByStatus" resultMap="BaseResultMap" parameterType="String">
+  <select id="selectReqByStatus" resultMap="BaseResultMap">
     select
     <include refid="Base_Column_List" />
+    from request
+    where  status = #{status} limit #{offset},#{limit}
+  </select>
+  <select id="findReqByStatusRows" resultType="int" parameterType="String">
+    select
+   count(*)
     from request
     where  status = #{status}
   </select>

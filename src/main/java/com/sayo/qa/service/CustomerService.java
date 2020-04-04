@@ -32,6 +32,9 @@ public class CustomerService {
     private HostHolderCustomer hostHolderCustomer;
     @Autowired
     private LoginTicketMapper loginTicketMapper;
+    @Autowired
+    private SampleService sampleService;
+
 
     public Customer findCustomerByName(String name){
         return customerMapper.selectCustomerByName(name);
@@ -95,13 +98,13 @@ public class CustomerService {
             map.put("passwordMsg", "密码不正确");
             return map;
         }
-        LoginTicket loginTicket = new LoginTicket();
-        loginTicket.setUserId(customer.getId());
-        loginTicket.setTicket(CommunityUtil.generateUUID());
-        loginTicket.setStatus(0);
-        loginTicket.setExpired(new Date(System.currentTimeMillis() + 3600 * 12 * 1000));
-        loginTicketMapper.insert(loginTicket);
-        map.put("ticket", loginTicket.getTicket());
+//        LoginTicket loginTicket = new LoginTicket();
+//        loginTicket.setUserId(customer.getId());
+//        loginTicket.setTicket(CommunityUtil.generateUUID());
+//        loginTicket.setStatus(0);
+//        loginTicket.setExpired(new Date(System.currentTimeMillis() + 3600 * 12 * 1000));
+//        loginTicketMapper.insert(loginTicket);
+//        map.put("ticket", loginTicket.getTicket());
         return map;
     }
 
@@ -191,13 +194,13 @@ public class CustomerService {
     @Autowired
     private ReqArrangeService reqArrangeService;
     //抽检申请记录表
-    public List<Map<String, Object>> getRequest() {
-        Customer customer = hostHolderCustomer.getCustomer();
+    public List<Map<String, Object>> getRequest(Customer customer,int offset,int limit) {
+//        Customer customer = customerMapper.selectByPrimaryKey((int)request.getSession().getAttribute("loginCustomer"));
         if (customer == null) {
             throw new RuntimeException("并没有登录");
         }
         //查找的是该customer所在企业的所有申请记录，应该以企业id来查找
-        List<Request> list = requestMapper.selectByReqEId(customer.getEnterpriseId());
+        List<Request> list = requestMapper.selectByReqEId(customer.getEnterpriseId(),offset,limit);
         List<Map<String, Object>> reqList = new ArrayList<>();
         for (Request r : list) {
             Map<String, Object> map = new HashMap<>();
@@ -210,6 +213,8 @@ public class CustomerService {
             map.put("reqEName", enterpriseMapper.selectByPrimaryKey(r.getReqEid()).getEnterpriseName());
             ReqArrange arrange = reqArrangeService.findReqArrangeByReqId(r.getId());
             map.put("arrange",arrange);
+            Sample sample = sampleService.findSampleByTaskId(r.getId());
+            map.put("sample",sample);
             reqList.add(map);
         }
         return reqList;
@@ -245,5 +250,9 @@ public class CustomerService {
 
     public Customer findCustomerById(int customerId) {
         return customerMapper.selectByPrimaryKey(customerId);
+    }
+
+    public int updateCustomerEId(int customerId,int eId){
+        return customerMapper.updateCustomerEId(customerId,eId);
     }
 }

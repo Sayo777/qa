@@ -27,7 +27,6 @@
                         <span><img alt="image" class="img-circle" th:src="@{/hh/img/profile_small.jpg}" /></span>
                         <a data-toggle="dropdown" class="dropdown-toggle" href="#">
                                 <span class="clear">
-                               <span class="block m-t-xs"><strong class="font-bold">Beaut-zihan</strong></span>
                                 <span class="text-muted text-xs block">3User管理员<b class="caret"></b></span>
                                 </span>
                         </a>
@@ -48,7 +47,13 @@
                     <div class="logo-element">H+
                     </div>
                 </li>
-
+                <li>
+                    <a href="#"><i class="fa fa-user"></i> <span class="nav-label">企业信息</span><span class="fa arrow"></span></a>
+                    <ul class="nav nav-second-level">
+                        <li><a class="J_menuItem" th:href="@{/customer/eApply}">申请认证企业信息</a></li>
+                        <li><a class="J_menuItem" th:href="@{/customer/searchApplies}">已申请的企业信息</a></li>
+                    </ul>
+                </li>
                 <li class="active">
                     <a href="#"><i class="fa fa-edit"></i> <span class="nav-label">质检任务管理</span><span class="fa arrow"></span></a>
                     <ul class="nav nav-second-level">

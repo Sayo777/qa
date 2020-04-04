@@ -14,12 +14,17 @@ public interface RequestMapper {
     int insertSelective(Request record);
 
     Request selectByPrimaryKey(Integer id);
+    int findReqRowByEid(int eId);
+
     List<Request> selectByReqId(Integer reqId);
-    List<Request> selectByReqEId(Integer reqEId);
+    List<Request> selectByReqEId(Integer reqEId,int offset,int limit);
+    List<Request> findRefuseTask(int offset,int limit);
+    int findRefuseTaskRows();
     //查找某个公司审核通过的申请记录request
     List<Request> selectByReqEId0(Integer reqEId);
     //查找任务请求的处理status来查找任务
-    List<Request> selectReqByStatus(String status);
+    List<Request> selectReqByStatus(String status,int offset,int limit);
+    int findReqByStatusRows(String status);
 
     int updateByPrimaryKeySelective(Request record);
     int updateReqStatusById(int id,String status);

@@ -1,6 +1,7 @@
 package com.sayo.qa.controller;
 
 import com.sayo.qa.entity.Inspector;
+import com.sayo.qa.entity.Manager;
 import com.sayo.qa.service.InspectorService;
 import com.sayo.qa.service.ManagerService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import javax.jws.WebParam;
+import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 import java.util.Map;
 
@@ -70,11 +72,11 @@ public class ManagerController {
 
     //第三方登录
     @RequestMapping(path = "/login3User",method = RequestMethod.POST)
-    public String login3User(String name, String password, String role, Model model){
+    public String login3User(String name, String password, String role, Model model, HttpServletRequest request){
         Map<String,Object> map = managerService.loginThirdUser(name,password,role,"第三方");
         if (map.isEmpty() || map==null){
             if ("管理员".equals(role)){//跳转第三方管理员
-                System.out.println("进入的的第三方管理员首页");
+                request.getSession().setAttribute("loginManager",name);
                 return "/hh/third/index_3User.html";
             }else{
                 return "/hh/indexInspector.html";

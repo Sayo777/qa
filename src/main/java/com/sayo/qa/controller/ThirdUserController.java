@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -36,6 +37,30 @@ public class ThirdUserController {
     private InspectorService inspectorService;
     @Autowired
     private ThirdTaskService thirdTaskService;
+    @Autowired
+    private ManagerService managerService;
+
+    //已完成的任务列表
+    @RequestMapping(path = "/finishedTask",method = RequestMethod.GET)
+    public String finishedTask(HttpServletRequest request, Model model){
+        Manager manager = managerService.findManagerByName((String)request.getSession().getAttribute("loginManager"));
+        List<Task> taskList = taskService.findFinishedTaskByQaEid(manager.getEnterpriseId());
+        List<Map<String,Object>> taskVoList = new ArrayList<>();
+        if (taskList!=null){
+            for (Task task:taskList) {
+                Map<String,Object> taskVo = new HashMap<>();
+                taskVo.put("task",task);
+                taskVo.put("startTime", DateUtil.dateToString(task.getStartTime().toString()));
+                taskVo.put("reqEnterprise",enterpriseService.getEnterPriseById(requestService.getRequest(task.getTaskId()).getReqEid()));
+                taskVo.put("inspector1",inspectorService.findInspectorById(task.getInspectorOne()));
+                taskVo.put("inspector2",inspectorService.findInspectorById(task.getInspectorTwo()));
+                taskVoList.add(taskVo);
+            }
+        }
+        model.addAttribute("tasks",taskVoList);
+        return "/hh/third/finishedTask.html";
+    }
+
 
 
 

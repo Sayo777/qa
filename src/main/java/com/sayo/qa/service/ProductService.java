@@ -5,6 +5,8 @@ import com.sayo.qa.entity.Product;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class ProductService {
     @Autowired
@@ -20,5 +22,21 @@ public class ProductService {
 
     public Product findProductById(int id){
         return productMapper.selectByPrimaryKey(id);
+    }
+
+    public List<Product> findProductByEid(int Eid,int offset,int limit){
+        return productMapper.findProductByEid(Eid,offset,limit);
+    }
+    public List<Product> findProductByEid1(int Eid){
+        return productMapper.findProductByEid1(Eid);
+    }
+
+
+    public int delProductById(int id){
+        return productMapper.deleteByPrimaryKey(id);
+    }
+
+    public int findProductRows(int eId){
+        return productMapper.findProductRows(eId);
     }
 }

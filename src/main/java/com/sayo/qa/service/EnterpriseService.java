@@ -13,4 +13,11 @@ public class EnterpriseService {
     public Enterprise getEnterPriseById(int id){
         return enterpriseMapper.selectByPrimaryKey(id);
     }
+    public Enterprise getEnterPriseByName(String eName){
+        return enterpriseMapper.selectByEname(eName);
+    }
+
+    public int findEnterpriseStatusByCustomerId(int customerId){
+        return enterpriseMapper.findEnterpriseStatusByCustomerId(customerId);
+    }
 }

@@ -20,6 +20,12 @@
     select
     <include refid="Base_Column_List" />
     from req_arrange
+    where is_arrange = #{isArrange} limit #{offset},#{limit}
+  </select>
+  <select id="selectReqByIsArrangeRows" resultType="int" parameterType="java.lang.Integer" >
+    select
+   count(*)
+    from req_arrange
     where is_arrange = #{isArrange}
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >

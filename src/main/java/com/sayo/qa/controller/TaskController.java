@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.*;
 
 @Controller
@@ -36,10 +37,15 @@ public class TaskController {
     @Autowired
     private ResultService resultService;
 
+    @Autowired
+    private ManagerService managerService;
+    @Autowired
+    private MessageService messageService;
+
     //待审核的质检任务请求
     @RequestMapping(path = "/uncheckedReq",method = RequestMethod.GET)
-    public String getCheckedTask(Model model){
-        List<Request>  uncheckList = requestService.findReqByStatus("未审核");
+    public String getCheckedTask(Model model,Page page){
+        List<Request>  uncheckList = requestService.findReqByStatus("未审核",page.getOffset(),page.getLimit());
         List<Map<String,Object>>  VoList = new ArrayList<>();
         for (Request r: uncheckList) {
             Map<String,Object> map = new HashMap<>();
@@ -51,6 +57,8 @@ public class TaskController {
             map.put("reqType",clothesTypeService.getClothesType(r.getReqType()));
             VoList.add(map);
         }
+        page.setRows(requestService.findReqByStatusRows("未审核"));
+        page.setPath("/task/uncheckedReq");
         model.addAttribute("uncheckList",VoList);
         return "/hh/table_uncheckTask";
     }
@@ -59,14 +67,16 @@ public class TaskController {
     /*这里应该是要进行事务处理的*/
     @RequestMapping(path = "/checkStatus",method = RequestMethod.POST)
     @ResponseBody
-    public String checkStatus(int reqId,String status,String reason){
+    public String checkStatus(int reqId, String status, String reason, HttpServletRequest request){
         //将审核结果添加到审核任务表中
+        Request r = requestService.getRequest(reqId);
+        Customer customer = customerService.findCustomerById(r.getReqId());
         TaskCheck taskCheck = new TaskCheck();
         taskCheck.setReqId(reqId);
         taskCheck.setResult(status);
         taskCheck.setReason(reason);
-        /*这里是系统当前登录的人id，注意是政府的manager*/
-        taskCheck.setCheckerId(3);
+        Manager loginGovManager = managerService.findManagerByName((String)request.getSession().getAttribute("loginGovManager"));
+        taskCheck.setCheckerId(loginGovManager.getId());
         taskCheck.setCheckTime(new Date());
         taskService.insertTaskCheck(taskCheck);
         requestService.updateReqStatus(reqId,status);
@@ -77,15 +87,21 @@ public class TaskController {
             reqArrange.setIsArrange(0);
             reqArrange.setGaozhiConfirm(0);//告知书未确认
             reqArrangeService.insertArrange(reqArrange);
+            Message message = new Message();
+            message.setToId(customer.getId());
+            message.setType("告知单确认");
+            messageService.addMessage(message);
         }
         return CommunityUtil.getJSONString(0,"审核成功！");
     }
 
     //待处理任务列表
     @RequestMapping(path = "/unfinishTask",method = RequestMethod.GET)
-    public String getUnfinishTask(Model model){
+    public String getUnfinishTask(Model model,Page page){
         //这里是没有被安排的质检任务
-        List<ReqArrange> reqArranges = taskService.findReqByIsArrange(0);
+        List<ReqArrange> reqArranges = taskService.findReqByIsArrange(0,page.getOffset(),page.getLimit());
+        page.setRows(taskService.findReqByIsArrangeRows(0));
+        page.setPath("/task/unfinishTask");
         List<Map<String,Object>> list = new ArrayList<>();
         for (ReqArrange r:reqArranges) {
             Map<String,Object> map = new HashMap<>();
@@ -213,8 +229,10 @@ public class TaskController {
      * @return
      */
     @RequestMapping(path = "/finishedTask",method = RequestMethod.GET)
-    public String FinishedTask(Model model){
-        List<Result> results = resultService.findResults();
+    public String FinishedTask(Model model,Page page){
+        List<Result> results = resultService.findResults(page.getOffset(),page.getLimit());
+        page.setRows(resultService.findResultsRows());
+        page.setPath("/task/finishedTask");
         List<Map<String,Object>> Volist = new ArrayList<>();
         Map<String,Object> map = null;
         for (Result r: results) {

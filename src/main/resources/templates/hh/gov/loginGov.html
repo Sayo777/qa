@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+
+    <title>政府端</title>
+    <link th:href="@{/hh/css/bootstrap.min.css?v=3.3.6}" rel="stylesheet">
+    <link th:href="@{/hh/css/font-awesome.css?v=4.4.0}" rel="stylesheet">
+
+    <link th:href="@{/hh/css/animate.css}" rel="stylesheet">
+    <link th:href="@{/hh/css/style.css?v=4.1.0}" rel="stylesheet">
+    <link th:href="@{/hh/css/purple.css}" rel="stylesheet" type="text/css" media="all"/>
+    <script>if (window.top !== window.self) {
+        window.top.location = window.location;
+    }</script>
+</head>
+
+<body class="gray-bg">
+
+<div class="main-w3layouts wrapper">
+    <div class="main-agileinfo">
+        <div class="agileits-top">
+            <form th:action="@{/gov/login}" method="post">
+                <input class="text" type="text" name="name" th:value="${name}" placeholder="姓名" required="">
+                <p style="color: red;float: left" th:text="${nameMsg}">sss</p>
+                <input class="text" type="password" name="password" placeholder="密码" required="">
+                <p style="color: red;float: left" th:text="${passwordMsg}">sss</p>
+                <div style="text-align: center;margin: 22px 0 10px 0;color:#fff">
+                    <label>
+                        <input type="radio" name="role" id="manager" value="管理员" checked="checked"> 管理员
+                    </label>
+                    <label style="margin-left: 30px">
+                        <input type="radio" name="role" id="inspector" value="质检员"> 质检员
+                    </label>
+
+                </div>
+                <input type="submit" value="登录" style="margin: 1em 0">
+            </form>
+<!--            <p>创建一个账号? <a th:href="@{/customer/register}"> 立即注册!</a></p>-->
+        </div>
+    </div>
+    <!-- copyright -->
+    <div class="w3copyright-agile">
+        <p>© 政府端 </p>
+    </div>
+</div>
+
+
+<script th:src="@{/hh/js/jquery.min.js?v=2.1.4}"></script>
+<script th:src="@{/hh/js/bootstrap.min.js?v=3.3.6}"></script>
+<script type="text/javascript">
+    $(function () {
+        $('input:not([autocomplete]),textarea:not([autocomplete]),select:not([autocomplete])').attr('autocomplete', 'off');
+    });
+</script>
+</body>
+
+</html>

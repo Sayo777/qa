@@ -14,7 +14,8 @@ public interface ReqArrangeMapper {
     int insertSelective(ReqArrange record);
 
     ReqArrange selectByPrimaryKey(Integer requestId);
-    List<ReqArrange> selectReqByIsArrange(int isArrange);
+    List<ReqArrange> selectReqByIsArrange(int isArrange,int offset,int limit);
+    int selectReqByIsArrangeRows(int isArrange);
 
     int updateByPrimaryKeySelective(ReqArrange record);
     int updateByReqId(int requestId);

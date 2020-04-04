@@ -21,12 +21,29 @@ public class TaskService {
     @Autowired
     private ReqArrangeMapper reqArrangeMapper;
 
+    public List<Task> findFinishedTaskByEid(int eId,int offset,int limit){
+        return taskMapper.findFinishedTaskByEid(eId,offset,limit);
+    }
+    public int findFinishedTaskByEidRows(int eId){
+        return taskMapper.findFinishedTaskByEidRows(eId);
+    }
+    public List<Task> findFinishedTaskByQaEid(int qaeId){
+        return taskMapper.findFinishedTaskByQaEid(qaeId);
+    }
+
     public List<Task> findTaskByQaTypeAndEid(String type,int EId){
         return taskMapper.selectTaskByQaTypeAndEid(type, EId);
     }
 
     public List<Task> findFinishedTaskByInspector(int inspectorId){
         return taskMapper.findFinishedTaskByInspector(inspectorId);
+    }
+    public List<Task> findFinishTaskAll(int offset,int limit){
+        return taskMapper.findFinishTaskAll(offset,limit);
+    }
+
+    public int findFinishTaskAllRows() {
+        return taskMapper.findFinishTaskAllRows();
     }
 
     public List<Task> findTaskforCheckIns(){
@@ -41,8 +58,11 @@ public class TaskService {
     }
 
     //根据是否被安排查找任务
-    public List<ReqArrange> findReqByIsArrange(int isArrange){
-        return reqArrangeMapper.selectReqByIsArrange(isArrange);
+    public List<ReqArrange> findReqByIsArrange(int isArrange,int offset,int limit){
+        return reqArrangeMapper.selectReqByIsArrange(isArrange,offset,limit);
+    }
+    public int findReqByIsArrangeRows(int isArrange){
+        return reqArrangeMapper.selectReqByIsArrangeRows(isArrange);
     }
 
     public TaskCheck findTaskCheckByReqId(int reqId){
@@ -58,8 +78,12 @@ public class TaskService {
      * @param inspectorId 质检员
      * @return
      */
-    public List<Task> findTaskByInsoector0(int inspectorId){
-        return taskMapper.selectTaskByInspectorId0(inspectorId);
+    public List<Task> findTaskByInsoector0(int inspectorId,int offset,int limit){
+        return taskMapper.selectTaskByInspectorId0(inspectorId,offset,limit);
+    }
+
+    public int findTaskByInsoector0Rows(int inspectorId) {
+        return taskMapper.selectTaskByInspectorId0Rows(inspectorId);
     }
 
     public List<Task> findhasAssignTaskByEid(int eId){

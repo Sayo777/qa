@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+
+    <title>已拒绝的任务</title>
+    <link th:href="@{/hh/css/bootstrap.min.css?v=3.3.6}" rel="stylesheet">
+    <link th:href="@{/hh/css/font-awesome.css?v=4.4.0}" rel="stylesheet">
+    <link th:href="@{/hh/css/plugins/iCheck/custom.css}" rel="stylesheet">
+    <link th:href="@{/hh/css/animate.css}" rel="stylesheet">
+    <link th:href="@{/hh/css/style.css?v=4.1.0}" rel="stylesheet">
+
+</head>
+
+<body class="gray-bg">
+<div class="wrapper wrapper-content animated fadeInRight">
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="ibox float-e-margins">
+                <div class="ibox-title">
+                    <h5>已拒绝的任务列表</h5>
+                </div>
+                <div class="ibox-content">
+
+                    <div class="table-responsive">
+                        <table class="table table-striped">
+                            <thead>
+                            <tr>
+                                <th>任务编号</th>
+                                <th>申请人</th>
+                                <th>质检服装类型</th>
+                                <th>产品</th>
+                                <th>联系电话</th>
+                                <th>申请时间</th>
+                                <th>拒绝理由</th>
+                                <th>审核时间</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr th:each="list:${refuseList}">
+                                <td th:text="${list.r.id}">任务编号</td>
+                                <td th:text="${list.customer}">申请人</td>
+                                <td th:text="${list.clothesType}">质检服装类型</td>
+                                <td th:text="${list.product}">产品</td>
+                                <td th:text="${list.r.contact}">联系电话</td>
+                                <td th:text="${#dates.format(list.r.reqTime,'yyyy-MM-dd HH:mm:ss')}">申请时间</td>
+                                <td th:text="${list.taskcheck.reason}">拒绝理由</td>
+                                <td th:text="${#dates.format(list.taskcheck.checkTime,'yyyy-MM-dd HH:mm:ss')}">审核时间</td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <nav class="mt-5" th:if="${page.rows>0}" th:fragment="pagination">
+                        <ul class="pagination justify-content-center">
+                            <li class="page-item">
+                                <a class="page-link" th:href="@{${page.path}(current=1)}">首页</a>
+                            </li>
+                            <li th:class="|page-item ${page.current==1?'disabled':''}|">
+                                <a class="page-link" th:href="@{${page.path}(current=${page.current-1})}">上一页</a></li>
+                            <li th:class="|page-item ${i==page.current?'active':''}|" th:each="i:${#numbers.sequence(page.from,page.to)}">
+                                <a class="page-link" th:href="@{${page.path}(current=${i})}" th:text="${i}">1</a>
+                            </li>
+                            <li th:class="|page-item ${page.current==page.total?'disabled':''}|">
+                                <a class="page-link" th:href="@{${page.path}(current=${page.current+1})}">下一页</a>
+                            </li>
+                            <li class="page-item">
+                                <a class="page-link" th:href="@{${page.path}(current=${page.total})}">末页</a>
+                            </li>
+                        </ul>
+                    </nav>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<!-- 全局js -->
+<script th:src="@{/hh/js/jquery.min.js?v=2.1.4}"></script>
+<script th:src="@{/hh/js/bootstrap.min.js?v=3.3.6}"></script>
+</body>
+
+</html>

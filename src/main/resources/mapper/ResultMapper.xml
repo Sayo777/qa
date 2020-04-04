@@ -41,7 +41,10 @@
 
 
   <select id="selectResults" resultMap="BaseResultMap">
-    select task_id, result_src, qa_process from result
+    select task_id, result_src, qa_process from result limit #{offset},#{limit}
+  </select>
+  <select id="selectResultsRows" resultType="int">
+    select count(*) from result
   </select>
 
   <select id="selectResultByTaskId" resultMap="BaseResultMap" parameterType="int">

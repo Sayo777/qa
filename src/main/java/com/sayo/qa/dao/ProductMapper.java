@@ -3,6 +3,8 @@ package com.sayo.qa.dao;
 import com.sayo.qa.entity.Product;
 import org.apache.ibatis.annotations.Mapper;
 
+import java.util.List;
+
 @Mapper
 public interface ProductMapper {
     int deleteByPrimaryKey(Integer productId);
@@ -17,4 +19,9 @@ public interface ProductMapper {
     int updateByPrimaryKeySelective(Product record);
 
     int updateByPrimaryKey(Product record);
+
+    List<Product> findProductByEid(int Eid,int offset,int limit);
+    List<Product> findProductByEid1(int Eid);
+
+    int findProductRows(int Eid);
 }

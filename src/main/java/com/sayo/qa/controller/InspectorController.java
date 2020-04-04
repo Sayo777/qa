@@ -223,10 +223,13 @@ public class InspectorController {
      * @return
      */
     @RequestMapping(path = "/unInspectTask",method = RequestMethod.GET)
-    public String getUnInspectTask(Model model,HttpServletRequest request){
+    public String getUnInspectTask(Model model,HttpServletRequest request,Page page){
         Inspector  LoginInspector = inspectorService.findInspectorByName((String) request.getSession().getAttribute("inspectorName"));
 //        LoginInspector = inspectorService.findInspectorById(2);
-        List<Task> tasks = taskService.findTaskByInsoector0(LoginInspector.getId());
+
+        List<Task> tasks = taskService.findTaskByInsoector0(LoginInspector.getId(),page.getOffset(),page.getLimit());
+        page.setPath("/inspector/unInspectTask");
+        page.setRows(taskService.findTaskByInsoector0Rows(LoginInspector.getId()));
         List<Map<String,Object>> VoList = new ArrayList<>();
         Map<String,Object> map = null;
         for (Task t: tasks) {

@@ -60,6 +60,12 @@
     from manager
     where name = #{name} and type = #{type}
   </select>
+  <select id="findManagerByName" resultType="com.sayo.qa.entity.Manager" parameterType="String">
+    select
+    <include refid="selectFields" />
+    from manager
+    where name = #{name}
+  </select>
 
   <select id="selectByManagerEmail" resultType="com.sayo.qa.entity.Manager" parameterType="String">
     select

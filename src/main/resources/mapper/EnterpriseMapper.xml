@@ -38,6 +38,11 @@
     from enterprise
     where enterprise_name = #{EName}
   </select>
+  <select id="findEnterpriseStatusByCustomerId" resultType="int" parameterType="int" >
+    select is_valid
+    from enterprise
+    where id = (select enterprise_id from customer where id = #{customerId})
+  </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
     delete from enterprise
     where id = #{id,jdbcType=INTEGER}
