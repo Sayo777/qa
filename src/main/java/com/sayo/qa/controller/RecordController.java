@@ -58,7 +58,7 @@ public class RecordController {
      */
     @RequestMapping(path = "/finish",method = RequestMethod.POST)
     public String finish(String key,HttpServletRequest request){
-        String resultSrc = headerBucketUrl + "/" + key;
+        String resultSrc = "http://q88rpsxjk.bkt.clouddn.com/" + key;
         Result result = new Result();
         int taskId = (int)request.getSession().getAttribute("taskId");
         result.setTaskId(taskId);
@@ -91,21 +91,16 @@ public class RecordController {
     @Value("${qiniu.key.secret}")
     private String secretKey;
 
-    @Value("${qiniu.bucket.file.name}")
-    private String headerBucketName;
 
-    @Value("${quniu.bucket.file.url}")
-    private String headerBucketUrl;
 
     @RequestMapping(path = "/add1", method = RequestMethod.POST)
     public String add(int outlook, int size, int materia, int craft, int wash, int ztang, int pack, String standard,
                       int keyMateria, int qualityGuarantee, int hasReport, int isIllegal,
                       HttpServletRequest request,String key,String key2,String key3,String key4,String key5,String key6, Model model) {
         HttpSession session = request.getSession();
-//        int taskId = (int) session.getAttribute("taskId");
-        int taskId = 10;
-
-        String urlheader = "http://q5zmtmsy3.bkt.clouddn.com/";
+        int taskId = (int) session.getAttribute("taskId");
+//        int taskId = 10;
+        String urlheader = "http://q88rpsxjk.bkt.clouddn.com/";
         String notification_url = urlheader +key;
         String undertaking_url = urlheader +key2;
         String inspectorsPhoto_url = urlheader +key3;
@@ -206,7 +201,7 @@ public class RecordController {
             policy.put("returnBody", CommunityUtil.getJSONString(0));
             // 生成上传凭证
             Auth auth = Auth.create(accessKey, secretKey);
-            String uploadToken = auth.uploadToken(headerBucketName, fileName, 3600, policy);
+            String uploadToken = auth.uploadToken("sayo-process1", fileName, 3600, policy);
 
             model.addAttribute("uploadToken", uploadToken);
             model.addAttribute("fileName", fileName);
@@ -232,8 +227,8 @@ public class RecordController {
      */
     @RequestMapping(path = "/recordForm", method = RequestMethod.GET)
     public String downloadInfo(Model model, HttpServletRequest req) {
-//        int id = (int) req.getSession().getAttribute("taskId"); // taskId
-        int id = 10;
+        int id = (int) req.getSession().getAttribute("taskId"); // taskId
+//        int id = 10;
         Request request = requestService.getRequest(id);
         Product product = productService.findProductById(request.getProductId());
         model.addAttribute("p",product);

@@ -18,15 +18,18 @@ public interface TaskMapper {
     List<Task> selectByQaId(int qaId);
     List<Task> selectTaskByQaTypeAndEid(String type,int EId);
     List<Task> findFinishedTaskByInspector(int inspectorId);
-    List<Task> findhasAssignTaskByEid(int eId);
+    List<Task> findhasAssignTaskByEid(int eId,int offset,int limit);
+    int findRowshasAssignTaskByEid(int eId);
     List<Task> findwaitingAssignTaskByEid(int eId);
     List<Task> findTaskforCheckIns();
-    List<Task> findfinishAssignTaskByEidAndStatus(int eId,int status);
+    List<Task> findfinishAssignTaskByEidAndStatus(int eId,int status,int offset,int limit);
+    int findRowsfinishAssignTaskByEidAndStatus(int eId,int status);
     List<Task> findFinishTaskAll(int offset,int limit);
     int findFinishTaskAllRows();
     List<Task> findFinishedTaskByEid(int eId,int offset,int limit);
     int findFinishedTaskByEidRows(int eId);
-    List<Task> findFinishedTaskByQaEid(int qaeId);
+    List<Task> findFinishedTaskByQaEid(int qaeId,int offset,int limit);
+    int findRowsFinishedTaskByQaEid(int qaeId);
     Task selectTaskByTaskId(int taskId);
 
     int updateByPrimaryKeySelective(Task record);

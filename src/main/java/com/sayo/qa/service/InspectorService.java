@@ -18,6 +18,10 @@ public class InspectorService {
     @Autowired
     TaskMapper taskMapper;
 
+    public int addInsSelective(Inspector inspector){
+        return inspectorMapper.insertSelective(inspector);
+    }
+
     public List<Inspector> findInspectors(){
         return inspectorMapper.selectInspector();
     }
@@ -26,8 +30,12 @@ public class InspectorService {
         return inspectorMapper.selectByPrimaryKey(id);
     }
 
-    public List<Inspector> findInspectorsByType(String type){
-        return inspectorMapper.selectInspectorByType(type);
+    public List<Inspector> findInspectorsByType(String type,int offset,int limit){
+        return inspectorMapper.selectInspectorByType(type,offset,limit);
+    }
+
+    public int  findRowsInspectorsByType(String type) {
+        return inspectorMapper.selectRowsInspectorByType(type);
     }
 
     public List<Inspector> findInspectorByTypeAndQaType(String type,int qaType){
@@ -36,6 +44,9 @@ public class InspectorService {
 
     public List<Inspector> findInspectorByqa3AndQaType(int enterpriseId,int qaType){
         return inspectorMapper.selectInspectorByqa3AndQaType(enterpriseId,qaType);
+    }
+    public List<Inspector> findInspectorByqa3AndType(int enterpriseId,String type){
+        return inspectorMapper.selectInspectorByqa3AndType(enterpriseId,type);
     }
     public List<Inspector> findInspectorByqa3(int enterpriseId){
         return inspectorMapper.selectInspectorByqa3(enterpriseId);
@@ -82,5 +93,9 @@ public class InspectorService {
             return map;
         }
         return map;
+    }
+
+    public int findInspectorMaxId(){
+        return inspectorMapper.findInspectorMaxId();
     }
 }

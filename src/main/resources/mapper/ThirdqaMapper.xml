@@ -32,10 +32,25 @@
     from thirdqa
     where id = #{id,jdbcType=INTEGER}
   </select>
+  <select id="selectByName" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select
+    <include refid="Base_Column_List" />
+    from thirdqa
+    where third_name = #{name}
+  </select>
   <select id="selectThirdqas" resultMap="BaseResultMap" >
     select
     <include refid="Base_Column_List" />
     from thirdqa
+  </select>
+  <select id="selectThirdqasByNotes" resultMap="BaseResultMap" >
+    select
+    <include refid="Base_Column_List" />
+    from thirdqa where notes = #{notes} limit #{offset},#{limit}
+  </select>
+  <select id="selectRowsThirdqasByNotes" resultType="int" >
+    select count(*)
+    from thirdqa where notes = #{notes}
   </select>
 
   <select id="selectIdByName" resultType="Integer">
@@ -262,6 +277,11 @@
       notes = #{notes,jdbcType=VARCHAR},
       contact_person = #{contactPerson,jdbcType=VARCHAR},
       tel = #{tel,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateNotesById" >
+    update thirdqa
+    set notes = #{status,jdbcType=VARCHAR}
     where id = #{id,jdbcType=INTEGER}
   </update>
 </mapper>

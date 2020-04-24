@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.sayo.qa.dao.InformationMapper" >
+  <resultMap id="BaseResultMap" type="com.sayo.qa.entity.Information" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="fromid" property="fromid" jdbcType="INTEGER" />
+    <result column="toid" property="toid" jdbcType="INTEGER" />
+    <result column="content" property="content" jdbcType="VARCHAR" />
+    <result column="type" property="type" jdbcType="VARCHAR" />
+    <result column="createtime" property="createtime" jdbcType="TIMESTAMP" />
+    <result column="status" property="status" jdbcType="INTEGER" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, fromid, toid, content, type, createtime, status
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from information
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <select id="selectInformationsBytoid" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select
+    <include refid="Base_Column_List" />
+    from information
+    where toid = #{toid,jdbcType=INTEGER} limit #{offset},#{limit}
+  </select>
+  <select id="selectRowsInformationsBytoid" resultType="int" >
+    select
+    count(*)
+    from information
+    where toid = #{toid,jdbcType=INTEGER}
+  </select>
+  <select id="selectRowsInformationsBytoid0" resultType="int" >
+    select
+    count(*)
+    from information
+    where toid = #{toid,jdbcType=INTEGER} and status = 0
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from information
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.sayo.qa.entity.Information" >
+    insert into information (id, fromid, toid,
+      content, type, createtime, 
+      status)
+    values (#{id,jdbcType=INTEGER}, #{fromid,jdbcType=INTEGER}, #{toid,jdbcType=INTEGER},
+      #{content,jdbcType=VARCHAR}, #{type,jdbcType=VARCHAR}, #{createtime,jdbcType=TIMESTAMP}, 
+      #{status,jdbcType=INTEGER})
+  </insert>
+  <insert id="insertSelective" parameterType="com.sayo.qa.entity.Information" >
+    insert into information
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="fromid != null" >
+        fromid,
+      </if>
+      <if test="toid != null" >
+        toid,
+      </if>
+      <if test="content != null" >
+        content,
+      </if>
+      <if test="type != null" >
+        type,
+      </if>
+      <if test="createtime != null" >
+        createtime,
+      </if>
+      <if test="status != null" >
+        status,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="fromid != null" >
+        #{fromid,jdbcType=INTEGER},
+      </if>
+      <if test="toid != null" >
+        #{toid,jdbcType=INTEGER},
+      </if>
+      <if test="content != null" >
+        #{content,jdbcType=VARCHAR},
+      </if>
+      <if test="type != null" >
+        #{type,jdbcType=VARCHAR},
+      </if>
+      <if test="createtime != null" >
+        #{createtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="status != null" >
+        #{status,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.sayo.qa.entity.Information" >
+    update information
+    <set >
+      <if test="fromid != null" >
+        fromid = #{fromid,jdbcType=INTEGER},
+      </if>
+      <if test="toid != null" >
+        toid = #{toid,jdbcType=INTEGER},
+      </if>
+      <if test="content != null" >
+        content = #{content,jdbcType=VARCHAR},
+      </if>
+      <if test="type != null" >
+        type = #{type,jdbcType=VARCHAR},
+      </if>
+      <if test="createtime != null" >
+        createtime = #{createtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="status != null" >
+        status = #{status,jdbcType=INTEGER},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.sayo.qa.entity.Information" >
+    update information
+    set fromid = #{fromid,jdbcType=INTEGER},
+      toid = #{toid,jdbcType=INTEGER},
+      content = #{content,jdbcType=VARCHAR},
+      type = #{type,jdbcType=VARCHAR},
+      createtime = #{createtime,jdbcType=TIMESTAMP},
+      status = #{status,jdbcType=INTEGER}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateStatusBytoId" >
+    update information
+    set status = 1
+    where toid = #{toid,jdbcType=INTEGER}
+  </update>
+</mapper>

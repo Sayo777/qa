@@ -84,6 +84,7 @@
                             </tr>
                             </tbody>
                         </table>
+                        <p style="text-align:center" th:text="${hint}">jjdjdjdj</p>
                     </div>
                     <nav class="mt-5" th:if="${page.rows>0}" th:fragment="pagination">
                         <ul class="pagination justify-content-center">
@@ -111,14 +112,10 @@
                                 <div class="modal-header" style="padding: 0px 12px;">
                                     <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span
                                             class="sr-only">Close</span></button>
-                                    <h4 class="modal-title" style="font-size: 21px;">审核</h4>
+                                    <h4 class="modal-title" style="font-size: 21px;">告知书确认</h4>
                                 </div>
                                 <div class="modal-body" style="padding: 1px 30px 2px 30px">
                                     <input type="hidden" name="myId" id="myId" value="">
-
-                                    <p><i th:text="${reqEnterprise}" style="text-decoration: underline;color: red">xxcccc</i>
-                                        (受检单位)：
-                                    </p>
                                     <p>根据《中华人民共和国产品质量法》、《产品质量监督抽查管理办法》
                                         （国家质检总局第133 号令）等有关法律法规规定，质量技术监督局依法对贵单位
                                         进行产品质量监督抽查。现将贵单位在配合监督抽查工作中的权利与义务告知如下：</p>
@@ -299,6 +296,16 @@
     function setValue(id) {
         $("#myId").val(id);
     }
+    function timestampToTime(timestamp) {
+        var date = new Date(timestamp);//时间戳为10位需*1000，时间戳为13位的话不需乘1000
+        Y = date.getFullYear() + '-';
+        M = (date.getMonth()+1 < 10 ? '0'+(date.getMonth()+1) : date.getMonth()+1) + '-';
+        D = date.getDate() + ' ';
+        h = date.getHours() + ':';
+        m = date.getMinutes() + ':';
+        s = date.getSeconds();
+        return Y+M+D;
+    }
 
     function setId(id) {
         $("#sampleId").val(id);
@@ -311,7 +318,7 @@
                 $("#type").val(data.sample.type);
                 $("#basicNumber").val(data.sample.basicNumber);
                 $("#sampleNumber").val(data.sample.sampleNumber);
-                $("#sampleDate").val(data.sample.sampleDate);
+                $("#sampleDate").val(timestampToTime(data.sample.sampleDate));
                 $("#sampleMethod").val(data.sample.sampleMethod);
                 $("#sampleQuantity").val(data.sample.sampleQuantity);
                 $("#place").val(data.sample.place);

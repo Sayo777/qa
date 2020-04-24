@@ -6,12 +6,6 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-
-    <title>待审核任务列表</title>
-    <meta name="keywords" content="待审核任务列表">
-    <meta name="description" content="待审核任务列表">
-
-    <link rel="shortcut icon" th:href="@{/hh/favicon.ico}">
     <link th:href="@{/hh/css/bootstrap.min.css?v=3.3.6}" rel="stylesheet">
     <link th:href="@{/hh/css/font-awesome.css?v=4.4.0}" rel="stylesheet">
     <link th:href="@{/hh/css/plugins/iCheck/custom.css}" rel="stylesheet">
@@ -29,24 +23,6 @@
                     <h5>待办任务列表</h5>
                 </div>
                 <div class="ibox-content">
-                    <div class="row">
-                        <div class="col-sm-5 m-b-xs" style="width: 200px;">
-                            <select class="input-sm form-control input-s-sm inline">
-                                <option value="1">选项1</option>
-                                <option value="1">选项1</option>
-                                <option value="1">选项1</option>
-                                <option value="1">选项1</option>
-                            </select>
-                        </div>
-
-                        <div class="col-sm-3">
-                            <div class="input-group">
-                                <input type="text" placeholder="请输入关键词" class="input-sm form-control"> <span
-                                    class="input-group-btn">
-                                        <button type="button" class="btn btn-sm btn-primary"> 搜索</button> </span>
-                            </div>
-                        </div>
-                    </div>
                     <div class="table-responsive">
                         <table class="table table-striped">
                             <thead>
@@ -71,12 +47,13 @@
                                 <td>
                                     <input type="hidden"  th:value="${list.VoTask.taskId}"/>
                                     <button th:onclick="'javascript:setValue('+${list.VoTask.taskId}+')' " type="button" class="btn btn-primary" data-toggle="modal" data-target="#sendIns">
-                                        点击审核
+                                        任务分配
                                     </button></td>
 
                             </tr>
                             </tbody>
                         </table>
+                        <p style="text-align:center" th:text="${hint}">jjdjdjdj</p>
                     </div>
                     <div class="modal inmodal fade" id="sendIns" tabindex="-1" role="dialog"  aria-hidden="true">
                         <div class="modal-dialog modal-sm">
@@ -89,9 +66,13 @@
                                     <input type="hidden" id="myId" name="myId" value="">
                                     <div style="font-weight:bold;">质检员1：</div>
                                     <select class="input-sm form-control input-s-sm inline" id="ins1" style="height: 32px">
-                                        <option value="貂蝉" >貂蝉</option>
-                                        <option value="周周" >周周</option>
+<!--                                        <option value="貂蝉" th:each="${list}" >貂蝉</option>-->
+<!--                                        <option value="周周" >周周</option>-->
+                                        <ul th:each="A:${list}">
+                                            <option  th:value="${A.name}" th:text="${A.name}"></option>
+                                        </ul>
                                     </select>
+
                                     <div style="font-weight:bold;">质检员2：</div>
                                     <select class="input-sm form-control input-s-sm inline" id="ins2" style="height: 32px">
                                         <option value="貂蝉" >貂蝉</option>

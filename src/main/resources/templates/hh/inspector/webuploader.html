@@ -31,6 +31,9 @@
 <body>
 
 <div class="aui-content-up">
+    <button onclick="javascript:history.back(-1);"  class="btn btn-primary" >
+        返回
+    </button>
     <form name="form1" id="form1" class="form-horizontal" th:action="@{/record/add1}" method="post">
 
     <div class="aui-content-up-form">
@@ -248,7 +251,7 @@
             </label>
         </div>
         <div class="form-group">
-            <label class="col-sm-4 control-label">是否存在产品质量违法行为：</label>
+            <label class="col-sm-4 control-label" style="color: red">是否存在产品质量违法行为：</label>
             <label>
                 <input type="radio" name="isIllegal" value="1" id="isIllegal1" > 是
             </label>
@@ -331,6 +334,7 @@
         var hasReport = $("input[name='hasReport']:checked").val();
         var isIllegal = $("input[name='isIllegal']:checked").val();
         var answer = confirm("确认所填信息吗？（确认后不可更改！！）");
+        alert("在京津冀的角度讲");
         if (answer) {
             $.post(
                 "/qa/record/add",

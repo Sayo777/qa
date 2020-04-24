@@ -7,8 +7,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 
-    <title>已完成的任务</title>
-    <link rel="shortcut icon" th:href="@{/hh/favicon.ico}">
+
     <link th:href="@{/hh/css/bootstrap.min.css?v=3.3.6}" rel="stylesheet">
     <link th:href="@{/hh/css/font-awesome.css?v=4.4.0}" rel="stylesheet">
     <link th:href="@{/hh/css/plugins/iCheck/custom.css}" rel="stylesheet">
@@ -23,26 +22,9 @@
         <div class="col-sm-12">
             <div class="ibox float-e-margins">
                 <div class="ibox-title">
-                    <h5>质检员列表</h5>
+                    <h5>已完成任务列表</h5>
                 </div>
                 <div class="ibox-content">
-                    <div class="row">
-                        <div class="col-sm-5 m-b-xs" style="width: 200px;">
-                            <select class="input-sm form-control input-s-sm inline" >
-                                <option value="1" >选项1</option>
-                                <option value="1" >选项1</option>
-                                <option value="1" >选项1</option>
-                                <option value="1" >选项1</option>
-                            </select>
-                        </div>
-
-                        <div class="col-sm-3">
-                            <div class="input-group" >
-                                <input type="text" placeholder="请输入关键词" class="input-sm form-control"> <span class="input-group-btn">
-                                        <button type="button" class="btn btn-sm btn-primary"> 搜索</button> </span>
-                            </div>
-                        </div>
-                    </div>
                     <div class="table-responsive">
                         <table class="table table-striped">
                             <thead>
@@ -64,10 +46,11 @@
                                 <td th:text="${tasks.reqEnterprise.enterpriseName}">受检企业</td>
                                 <td th:text="${#dates.format(tasks.task.startTime,'yyyy-MM-dd HH:mm:ss')}">受检开始时间</td>
                                 <td th:text="${#dates.format(tasks.task.endTime,'yyyy-MM-dd HH:mm:ss')}">受检结束时间</td>
-                                <td ><a th:href="@{|/inspector/finishedDetail/${tasks.task.taskId}|}"><i class="fa fa-check text-navy">详情</i></a></td>
+                                <td ><a th:href="@{|/inspector/finishedDetail/${tasks.task.taskId}|}"><i class="fa text-navy">更多...</i></a></td>
                             </tr>
                             </tbody>
                         </table>
+                        <p style="text-align:center" th:text="${hint}">jjdjdjdj</p>
                     </div>
 
                 </div>

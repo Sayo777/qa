@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link th:href="@{/hh/css/bootstrap.min.css?v=3.3.6}" rel="stylesheet">
+    <link th:href="@{/hh/css/font-awesome.css?v=4.4.0}" rel="stylesheet">
+    <link th:href="@{/hh/css/plugins/iCheck/custom.css}" rel="stylesheet">
+    <link th:href="@{/hh/css/animate.css}" rel="stylesheet">
+    <link th:href="@{/hh/css/style.css?v=4.1.0}" rel="stylesheet">
+
+</head>
+
+<body class="gray-bg">
+<div class="wrapper wrapper-content animated fadeInRight">
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="ibox float-e-margins">
+                <div class="ibox-title">
+                    <h5>已申请认证检测机构信息</h5>
+                    <p th:text="${hint}" style="margin-left: 163px;color: #4DAF29">（待审核中）</p>
+
+                </div>
+                <div class="ibox-content">
+                    <form class="form-horizontal" name="myForm" id="myForm">
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">机构名称：</label>
+                            <div class="col-sm-3">
+                                <input type="text" class="form-control" id="thirdName" name="thirdName"
+                                       th:value="${t.thirdName}" required="">
+                            </div>
+                            <label class="col-sm-2 control-label">法定代表人：</label>
+                            <div class="col-sm-3">
+                                <input type="text" class="form-control" id="legalPerson" name="legalPerson"
+                                       th:value="${t.legalPerson}" required="">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">工商注册号：</label>
+                            <div class="col-sm-3">
+                                <input type="text" class="form-control" id="commercialNumber" name="commercialNumber"
+                                       th:value="${t.commercialNumber}" required="">
+                            </div>
+                            <label class="col-sm-2 control-label">信用代码：</label>
+                            <div class="col-sm-3">
+                                <input type="text" class="form-control" id="creditCode" name="creditCode"
+                                       th:value="${t.creditCode}" required="">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">机构类型：</label>
+                            <div class="col-sm-3">
+                                <input type="text" class="form-control" id="type" name="type" th:value="${t.type}"
+                                       required="">
+                            </div>
+                            <label class="col-sm-2 control-label">组织机构代码：</label>
+                            <div class="col-sm-3">
+                                <input type="text" class="form-control" id="organCode" name="organCode"
+                                       th:value="${t.organCode}" required="">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">经营状态：</label>
+                            <div class="col-sm-3">
+                                <input type="text" class="form-control" id="status" name="status" th:value="${t.status}"
+                                       required="">
+                            </div>
+                            <label class="col-sm-2 control-label">机构邮箱：</label>
+                            <div class="col-sm-3">
+                                <input type="email" class="form-control" id="thirdEmail" name="thirdEmail"
+                                       th:value="${t.thirdEmail}" required="">
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+
+                            <label class="col-sm-2 control-label">联系人：</label>
+
+                            <div class="col-sm-3">
+                                <input type="text" class="form-control" id="contactPerson" name="contactPerson"
+                                       th:value="${t.contactPerson}" required="">
+                            </div>
+                            <label class="col-sm-2 control-label">联系电话：</label>
+                            <div class="col-sm-3">
+                                <input class="form-control" id="tel" name="tel" th:value="${t.tel}" required="">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">企业审核日期：</label>
+                            <div class="col-sm-3">
+                                <input name="auditDate" class="form-control"
+                                       th:value="${#dates.format(t.auditDate,'yyyy-MM-dd')}" required="">
+                            </div>
+                            <label class="col-sm-2 control-label">经营范围：</label>
+                            <div class="col-sm-3">
+                                <input type="text" class="form-control" id="scope" name="scope" th:value="${t.scope}"
+                                       required="">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">详细地址：</label>
+                            <div class="col-sm-3">
+                                <input type="text" class="form-control"
+                                       id="address" name="address" th:value="${t.address}" required="">
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script th:src="@{/hh/js/jquery.min.js?v=2.1.4}"></script>
+<script th:src="@{/hh/js/bootstrap.min.js?v=3.3.6}"></script>
+</body>
+
+</html>

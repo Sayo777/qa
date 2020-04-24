@@ -7,11 +7,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 
-    <title>申请质检</title>
-    <meta name="keywords" content="H+后台主题,后台bootstrap框架,会员中心主题,后台HTML,响应式后台">
-    <meta name="description" content="H+是一个完全响应式，基于Bootstrap3最新版本开发的扁平化主题，她采用了主流的左右两栏式布局，使用了Html5+CSS3等现代技术">
-
-    <link rel="shortcut icon" th:href="@{/hh/favicon.ico}">
     <link th:href="@{/hh/css/bootstrap.min.css?v=3.3.6}" rel="stylesheet">
     <link th:href="@{/hh/css/font-awesome.css?v=4.4.0}" rel="stylesheet">
     <link th:href="@{/hh/css/plugins/iCheck/custom.css}" rel="stylesheet">
@@ -71,7 +66,7 @@
                         </div>
                         <div class="form-group">
                             <div class="col-sm-offset-3 col-sm-8">
-                                <button class="btn btn-primary" type="submit" >提交申请</button>
+                                <button class="btn btn-primary" type="submit" >添加产品</button>
                                 <button class="btn btn-primary" type="reset" >重置</button>
                             </div>
                         </div>
@@ -109,11 +104,13 @@
 <!-- iCheck -->
 <script th:src="@{/hh/js/plugins/iCheck/icheck.min.js}"></script>
 <script>
-    $(document).ready(function () {
+    $(document).ready(
+        function () {
         $('.i-checks').iCheck({
             checkboxClass: 'icheckbox_square-green',
             radioClass: 'iradio_square-green',
         });
+            $('input:not([autocomplete]),textarea:not([autocomplete]),select:not([autocomplete])').attr('autocomplete', 'off');
     });
 </script>
 <script type="text/javascript">

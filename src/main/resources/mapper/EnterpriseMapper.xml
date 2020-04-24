@@ -38,6 +38,19 @@
     from enterprise
     where enterprise_name = #{EName}
   </select>
+  <select id="findEnterpriseByStatus" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select
+    <include refid="Base_Column_List" />
+    from enterprise
+    where is_valid = #{status} order by id desc
+     limit #{offset},#{limit}
+  </select>
+  <select id="findEnterpriseRowsByStatus" resultType="int" parameterType="java.lang.Integer" >
+    select
+   count(*)
+    from enterprise
+    where is_valid = #{status}
+  </select>
   <select id="findEnterpriseStatusByCustomerId" resultType="int" parameterType="int" >
     select is_valid
     from enterprise
@@ -254,6 +267,11 @@
       audit_date = #{auditDate,jdbcType=TIMESTAMP},
       license_src = #{licenseSrc,jdbcType=VARCHAR},
       is_valid = #{isValid,jdbcType=INTEGER}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateStatusById" parameterType="int" >
+    update enterprise
+    set is_valid = #{status,jdbcType=INTEGER}
     where id = #{id,jdbcType=INTEGER}
   </update>
 </mapper>

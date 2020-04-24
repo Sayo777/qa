@@ -5,6 +5,8 @@ import com.sayo.qa.entity.ThirdTask;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class ThirdTaskService {
     @Autowired
@@ -23,6 +25,9 @@ public class ThirdTaskService {
     }
     public ThirdTask findThirdTaskById(int taskId){
         return thirdTaskMapper.findThirdTaskById(taskId);
+    }
+    public List<ThirdTask> findTaskByStatus(int status){
+        return thirdTaskMapper.findTaskByStatus(status);
     }
     public int updateStatusByTaskIdAndCode(int statusCode,int taskId){
         return thirdTaskMapper.updateStatusByTaskIdAndCode(statusCode,taskId);

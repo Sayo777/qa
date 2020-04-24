@@ -59,7 +59,12 @@ public class TaskController {
         }
         page.setRows(requestService.findReqByStatusRows("未审核"));
         page.setPath("/task/uncheckedReq");
-        model.addAttribute("uncheckList",VoList);
+        if (VoList.size()==0){
+            model.addAttribute("hint","暂时没有记录！");
+        }else{
+
+            model.addAttribute("uncheckList",VoList);
+        }
         return "/hh/table_uncheckTask";
     }
 
@@ -122,7 +127,7 @@ public class TaskController {
         //质检机构
         List<Thirdqa> thirdqaList = thirdqaService.findThirdqas();
         model.addAttribute("thirdQa",thirdqaList);
-        List<Inspector> inspectors = inspectorService.findInspectorsByType("第三方");
+        List<Inspector> inspectors = inspectorService.findInspectorsByType("第三方",0,1000);
         List<Map<String,Object>> VoList = new ArrayList<>();
         List<String> qaTypeList = clothesTypeService.getClothesList();
         for (String type:qaTypeList) {
@@ -134,8 +139,10 @@ public class TaskController {
             VoList.add(map);
         }
         model.addAttribute("Volist",VoList);
-
         model.addAttribute("inspectorsList",inspectors);
+        if (reqArranges.size()==0){
+            model.addAttribute("hint","暂时没有记录！");
+        }
         return "/hh/unfinishArrange.html";
     }
 
@@ -178,6 +185,8 @@ public class TaskController {
         thirdTask.setTaskId(reqId);
         thirdTask.setQaEid(thirdqaService.findIdByName(qaName));
         thirdTaskService.addThirdTask(thirdTask);
+        //将请求安排表req_arrange表该请求的isArrange变为1
+        reqArrangeService.updateReqArrange(reqId);
         return CommunityUtil.getJSONString(0,"安排给"+qaName+"成功！");
     }
 
@@ -211,6 +220,8 @@ public class TaskController {
         thirdTask.setIns1(inspectorService.findInspectorByName(inspector1).getId());
         thirdTask.setIns2(inspectorService.findInspectorByName(inspector1).getId());
         thirdTaskService.addThirdTask(thirdTask);
+        //将请求安排表req_arrange表该请求的isArrange变为1
+        reqArrangeService.updateReqArrange(reqId);
         return CommunityUtil.getJSONString(0,"安排给"+qaName+"成功！"+inspector1+"---"+inspector2);
     }
 
@@ -249,6 +260,9 @@ public class TaskController {
             Volist.add(map);
         }
         model.addAttribute("Volist",Volist);
+        if (Volist.size()==0){
+            model.addAttribute("hint","暂时没有记录！");
+        }
         return "/hh/table_finishedTask.html";
     }
 

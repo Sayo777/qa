@@ -5,13 +5,6 @@
 
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-
-    <title>政府质检员列表</title>
-    <meta name="keywords" content="政府质检员列表">
-    <meta name="description" content="政府质检员列表">
-
-    <link rel="shortcut icon" th:href="@{/hh/favicon.ico}">
     <link th:href="@{/hh/css/bootstrap.min.css?v=3.3.6}" rel="stylesheet">
     <link th:href="@{/hh/css/font-awesome.css?v=4.4.0}" rel="stylesheet">
     <link th:href="@{/hh/css/plugins/iCheck/custom.css}" rel="stylesheet">
@@ -29,28 +22,11 @@
                     <h5>质检员列表</h5>
                 </div>
                 <div class="ibox-content">
-                    <div class="row">
-                        <div class="col-sm-5 m-b-xs" style="width: 200px;">
-                            <select class="input-sm form-control input-s-sm inline" >
-                                <option value="1" >选项1</option>
-                                <option value="1" >选项1</option>
-                                <option value="1" >选项1</option>
-                                <option value="1" >选项1</option>
-                            </select>
-                        </div>
-
-                        <div class="col-sm-3">
-                            <div class="input-group" >
-                                <input type="text" placeholder="请输入关键词" class="input-sm form-control"> <span class="input-group-btn">
-                                        <button type="button" class="btn btn-sm btn-primary"> 搜索</button> </span>
-                            </div>
-                        </div>
-                    </div>
                     <div class="table-responsive">
                         <table class="table table-striped">
                             <thead>
                             <tr>
-                                <th>选择</th>
+
                                 <th>编号</th>
                                 <th>姓名</th>
                                 <th>性别</th>
@@ -61,16 +37,16 @@
                             </thead>
                             <tbody>
                             <tr th:each="inspector:${inspectors}">
-                                <td><input type="checkbox" checked class="i-checks" name="input[]"></td>
                                 <td th:text="${inspector.id}">编号</td>
                                 <td th:text="${inspector.name}">姓名</td>
                                 <td th:text="${inspector.gender}">性别</td>
                                 <td th:text="${inspector.inspectType}">质检方向</td>
                                 <td th:text="${inspector.email}">邮箱</td>
-                                <td ><a th:href="@{|/inspector/detail/${inspector.id}|}"><i class="fa fa-check text-navy">详情</i></a></td>
+                                <td ><a th:href="@{|/inspector/detail/${inspector.id}|}"><i class="fa text-navy">详情</i></a></td>
                             </tr>
                             </tbody>
                         </table>
+                        <p style="text-align:center" th:text="${hint}">jjdjdjdj</p>
                     </div>
 
                 </div>

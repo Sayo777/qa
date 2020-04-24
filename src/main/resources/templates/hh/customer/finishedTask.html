@@ -23,7 +23,7 @@
         <div class="col-sm-12">
             <div class="ibox float-e-margins">
                 <div class="ibox-title">
-                    <h5>质检员列表</h5>
+                    <h5>历史记录列表</h5>
                 </div>
                 <div class="ibox-content">
                     <div class="table-responsive">
@@ -47,10 +47,11 @@
                                 <td th:text="${tasks.reqEnterprise.enterpriseName}">受检企业</td>
                                 <td th:text="${#dates.format(tasks.task.startTime,'yyyy-MM-dd HH:mm:ss')}">受检开始时间</td>
                                 <td th:text="${#dates.format(tasks.task.endTime,'yyyy-MM-dd HH:mm:ss')}">受检结束时间</td>
-                                <td ><a th:href="@{|/inspector/finishedDetail/${tasks.task.taskId}|}"><i class="fa fa-check text-navy">详情</i></a></td>
+                                <td ><a th:href="@{|/inspector/finishedDetail/${tasks.task.taskId}|}"><i class="fa text-navy">查看更多...</i></a></td>
                             </tr>
                             </tbody>
                         </table>
+                        <p style="text-align:center" th:text="${hint}">jjdjdjdj</p>
                     </div>
                     <nav class="mt-5" th:if="${page.rows>0}" th:fragment="pagination">
                         <ul class="pagination justify-content-center">

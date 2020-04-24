@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link th:href="@{/hh/css/bootstrap.min.css?v=3.3.6}" rel="stylesheet">
+    <link th:href="@{/hh/css/font-awesome.css?v=4.4.0}" rel="stylesheet">
+    <link th:href="@{/hh/css/plugins/iCheck/custom.css}" rel="stylesheet">
+    <link th:href="@{/hh/css/animate.css}" rel="stylesheet">
+    <link th:href="@{/hh/css/style.css?v=4.1.0}" rel="stylesheet">
+
+</head>
+
+<body class="gray-bg">
+<div class="wrapper wrapper-content animated fadeInRight">
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="ibox float-e-margins">
+                <div class="ibox-title">
+                    <h5>质检员列表</h5>
+                    <a th:href="@{/gov/addInspector}"><i class="fa text-navy">添加质检员</i></a>
+                </div>
+                <div class="ibox-content">
+                    <div class="table-responsive">
+                        <table class="table table-striped">
+                            <thead>
+                            <tr>
+
+                                <th>编号</th>
+                                <th>姓名</th>
+                                <th>性别</th>
+                                <th>质检类别</th>
+                                <th>邮箱</th>
+                                <th>详情</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr th:each="inspector:${inspectors}">
+                                <td th:text="${inspector.i.id}">编号</td>
+                                <td th:text="${inspector.i.name}">姓名</td>
+                                <td th:text="${inspector.i.gender}">性别</td>
+                                <td th:text="${inspector.type}">质检方向</td>
+                                <td th:text="${inspector.i.email}">邮箱</td>
+                                <td ><a th:href="@{|/inspector/detail/${inspector.i.id}|}"><i class="fa text-navy">详情</i></a></td>
+                            </tr>
+                            </tbody>
+                        </table>
+                        <p style="text-align:center" th:text="${hint}">jjdjdjdj</p>
+                    </div>
+
+                    <div class="modal inmodal fade" id="checkIns" tabindex="-1" role="dialog"  aria-hidden="true">
+                        <div class="modal-dialog modal-sm">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                                    <h4 class="modal-title">审核</h4>
+                                </div>
+                                <div class="modal-body" style="padding: 20px 30px 2px 30px">
+                                    <input type="hidden" id="myId" name="myId" value="">
+                                    <div style="font-weight:bold;">审核结果：</div>
+                                    <select class="input-sm form-control input-s-sm inline" id="result" style="height: 32px">
+                                        <option value="通过" >通过</option>
+                                        <option value="不通过" >不通过</option>
+                                    </select>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-white" data-dismiss="modal">取消</button>
+                                    <button type="button" class="btn btn-primary" onclick="mycheck()">确定</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <nav class="mt-5" th:if="${page.rows>0}" th:fragment="pagination">
+                        <ul class="pagination justify-content-center">
+                            <li class="page-item">
+                                <a class="page-link" th:href="@{${page.path}(current=1)}">首页</a>
+                            </li>
+                            <li th:class="|page-item ${page.current==1?'disabled':''}|">
+                                <a class="page-link" th:href="@{${page.path}(current=${page.current-1})}">上一页</a></li>
+                            <li th:class="|page-item ${i==page.current?'active':''}|" th:each="i:${#numbers.sequence(page.from,page.to)}">
+                                <a class="page-link" th:href="@{${page.path}(current=${i})}" th:text="${i}">1</a>
+                            </li>
+                            <li th:class="|page-item ${page.current==page.total?'disabled':''}|">
+                                <a class="page-link" th:href="@{${page.path}(current=${page.current+1})}">下一页</a>
+                            </li>
+                            <li class="page-item">
+                                <a class="page-link" th:href="@{${page.path}(current=${page.total})}">末页</a>
+                            </li>
+                        </ul>
+                    </nav>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<!-- 全局js -->
+<script th:src="@{/hh/js/jquery.min.js?v=2.1.4}"></script>
+<script th:src="@{/hh/js/bootstrap.min.js?v=3.3.6}"></script>
+
+
+
+<!-- Peity -->
+<script th:src="@{/hh/js/plugins/peity/jquery.peity.min.js}"></script>
+
+<script>
+    function getId() {
+        alert(9999);
+        $.post(
+            "/qa/inspector/findInsCount",
+            {},
+            function (data) {
+                data = $.parseJSON(data);
+                console.log(data.code);
+            }
+        );
+    }
+</script>
+
+<!-- iCheck -->
+<script th:src="@{/hh/js/plugins/iCheck/icheck.min.js}"></script>
+
+<!-- Peity -->
+<script th:src="@{/hh/js/demo/peity-demo.js}"></script>
+
+
+
+</body>
+
+</html>

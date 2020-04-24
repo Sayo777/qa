@@ -5,13 +5,6 @@
 
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-
-    <title>H+ 后台主题UI框架 - 基本表单</title>
-    <meta name="keywords" content="H+后台主题,后台bootstrap框架,会员中心主题,后台HTML,响应式后台">
-    <meta name="description" content="H+是一个完全响应式，基于Bootstrap3最新版本开发的扁平化主题，她采用了主流的左右两栏式布局，使用了Html5+CSS3等现代技术">
-
-    <link rel="shortcut icon" th:href="@{/hh/favicon.ico}">
     <link th:href="@{/hh/css/bootstrap.min.css?v=3.3.6}" rel="stylesheet">
     <link th:href="@{/hh/css/font-awesome.css?v=4.4.0}" rel="stylesheet">
     <link th:href="@{/hh/css/plugins/iCheck/custom.css}" rel="stylesheet">
@@ -27,9 +20,10 @@
         <div class="row">
             <div class="col-sm-12">
                 <div class="ibox float-e-margins">
-                    <div><a th:href="@{/manager/findInspector}">返回</a></div>
                     <div class="ibox-title">
-                        <h5>详细信息</h5>
+                        <button onclick="javascript:history.back(-1);"  class="btn btn-primary" >
+                            返回
+                        </button>
                     </div>
                     <div class="ibox-content">
                         <form method="get" class="form-horizontal">

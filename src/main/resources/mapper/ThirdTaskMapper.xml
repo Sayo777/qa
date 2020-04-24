@@ -32,6 +32,12 @@
     from thirdtask
     where task_id = #{taskId}
   </select>
+<select id="findTaskByStatus" resultMap="BaseResultMap" >
+    select
+    <include refid="Base_Column_List" />
+    from thirdtask
+    where status = #{status}
+  </select>
 
   <insert id="insertSelective" parameterType="com.sayo.qa.entity.ThirdTask" >
     insert into thirdtask

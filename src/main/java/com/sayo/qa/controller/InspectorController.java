@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import javax.jws.WebParam;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import java.lang.invoke.VolatileCallSite;
 import java.util.*;
 
 @Controller
@@ -46,11 +47,34 @@ public class InspectorController {
 
     //质检员列表（政府）
     @RequestMapping(path = "/searchInspectorGov",method = RequestMethod.GET)
-    public String getInspectorGov(Model model){
-        List<Inspector> inspectors = inspectorService.findInspectorsByType("政府");
-        model.addAttribute("inspectors",inspectors);
-        return "/hh/table_inspectorGov.html";
+    public String getInspectorGov(Model model,Page page){
+        page.setPath("/inspector/searchInspectorGov");
+        page.setRows(inspectorService.findRowsInspectorsByType("政府"));
+        List<Inspector> inspectors = inspectorService.findInspectorsByType("政府",page.getOffset(),page.getLimit());
+        List<Map<String,Object>> mapList = new ArrayList<>();
+        for (Inspector i : inspectors){
+            Map<String,Object> map = new HashMap<>();
+            String type = clothesTypeService.getClothesType(i.getInspectType());
+            map.put("i",i);
+            map.put("type",type);
+            mapList.add(map);
+        }
+        model.addAttribute("inspectors",mapList);
+        if (mapList.size()==0){
+            model.addAttribute("hint","暂时没有记录！");
+        }
+        return "/hh/inspector/table_inspectorGov.html";
     }
+
+
+
+    //查找所有的质检员数量
+    @RequestMapping(path = "/findInsCount",method = RequestMethod.POST)
+    public String findInsCount(){
+        int count = inspectorService.findInspectorMaxId();
+        return CommunityUtil.getJSONString(count);
+    }
+
 
     //质检员详细信息
     @RequestMapping(path = "/detail/{Id}",method = RequestMethod.GET)
@@ -76,7 +100,12 @@ public class InspectorController {
                 taskVoList.add(taskVo);
             }
         }
-        model.addAttribute("tasks",taskVoList);
+        if (taskVoList.size()==0){
+            model.addAttribute("hint","暂时没有记录！");
+        }else{
+
+            model.addAttribute("tasks",taskVoList);
+        }
         return "/hh/arrangeTasks_Gov.html";
     }
 
@@ -225,8 +254,9 @@ public class InspectorController {
     @RequestMapping(path = "/unInspectTask",method = RequestMethod.GET)
     public String getUnInspectTask(Model model,HttpServletRequest request,Page page){
         Inspector  LoginInspector = inspectorService.findInspectorByName((String) request.getSession().getAttribute("inspectorName"));
-//        LoginInspector = inspectorService.findInspectorById(2);
-
+        if (LoginInspector == null){
+            return "redirect:/inspector/login";
+        }
         List<Task> tasks = taskService.findTaskByInsoector0(LoginInspector.getId(),page.getOffset(),page.getLimit());
         page.setPath("/inspector/unInspectTask");
         page.setRows(taskService.findTaskByInsoector0Rows(LoginInspector.getId()));
@@ -249,6 +279,9 @@ public class InspectorController {
                 map.put("status",false);
             }
             VoList.add(map);
+        }
+        if (VoList.size()==0){
+            model.addAttribute("hint","暂时没有记录！");
         }
         model.addAttribute("VoList",VoList);
         return "/hh/inspector/unInspectTask.html";
@@ -311,7 +344,7 @@ public class InspectorController {
 
 
 
-    @Value("sayo-process")
+    @Value("sayo-process1")
     private String headerBucketName;
     /**
      * 根据taskId来记录检测的过程数据
@@ -449,6 +482,9 @@ public class InspectorController {
                 taskVo.put("inspector2",inspectorService.findInspectorById(task.getInspectorTwo()));
                 taskVoList.add(taskVo);
             }
+        }
+        if (taskVoList.size()==0){
+            model.addAttribute("hint","暂时没有记录！");
         }
         model.addAttribute("tasks",taskVoList);
         return "/hh/inspector/finishedTask.html";

@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link th:href="@{/hh/css/bootstrap.min.css?v=3.3.6}" rel="stylesheet">
+    <link th:href="@{/hh/css/font-awesome.css?v=4.4.0}" rel="stylesheet">
+    <link th:href="@{/hh/css/plugins/iCheck/custom.css}" rel="stylesheet">
+    <link th:href="@{/hh/css/animate.css}" rel="stylesheet">
+    <link th:href="@{/hh/css/style.css?v=4.1.0}" rel="stylesheet">
+
+</head>
+
+<body class="gray-bg">
+<div class="wrapper wrapper-content animated fadeInRight" >
+    <div class="row" >
+        <div class="col-sm-12" >
+            <div class="ibox float-e-margins" >
+                <div class="ibox-title">
+                    <button onclick="javascript:history.back(-1);"  class="btn btn-primary" >
+                        返回
+                    </button>
+
+                </div>
+                <div class="ibox-content" >
+                    <form class="form-horizontal">
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">企业名称：</label>
+                            <div class="col-sm-2">
+                                <input type="text"  class="form-control"   th:value="${e.enterpriseName}">
+                            </div>
+                            <label class="col-sm-2 control-label">企业邮箱：</label>
+                            <div class="col-sm-2">
+                                <input type="text"  class="form-control"   th:value="${e.enterpriseEmail}">
+                            </div>
+                        </div>
+                       <div class="form-group">
+                            <label class="col-sm-2 control-label">官网：</label>
+                            <div class="col-sm-2">
+                                <input type="text"  class="form-control"   th:value="${e.website}">
+                            </div>
+                            <label class="col-sm-2 control-label">法定代表人：</label>
+                            <div class="col-sm-2">
+                                <input type="text"  class="form-control"   th:value="${e.legalPerson}">
+                            </div>
+                        </div>
+                       <div class="form-group">
+                            <label class="col-sm-2 control-label">工商注册号：</label>
+                            <div class="col-sm-2">
+                                <input type="text"  class="form-control"  th:value="${e.commercialNumber}">
+                            </div>
+                            <label class="col-sm-2 control-label">信用代码：</label>
+                            <div class="col-sm-2">
+                                <input type="text"  class="form-control"   th:value="${e.creditCode}">
+                            </div>
+                        </div>
+                       <div class="form-group">
+                            <label class="col-sm-2 control-label">企业类型：</label>
+                            <div class="col-sm-2">
+                                <input type="text"  class="form-control"  th:value="${e.type}">
+                            </div>
+                           <label class="col-sm-2 control-label">企业详细地址：</label>
+                           <div class="col-sm-2">
+                               <input type="text"  class="form-control"   th:value="${e.address}">
+                           </div>
+                        </div>
+                       <div class="form-group">
+                            <label class="col-sm-2 control-label">经营范围：</label>
+                            <div class="col-sm-2">
+                                <input type="text"  class="form-control"  th:value="${e.scope}">
+                            </div>
+                            <label class="col-sm-2 control-label">经营状态：</label>
+                            <div class="col-sm-2">
+                                <input type="text"  class="form-control"   th:value="${e.status}">
+                            </div>
+                        </div>
+                       <div class="form-group">
+                           <label class="col-sm-2 control-label">企业详细地址：</label>
+                           <div class="col-sm-6">
+                               <input type="text"  class="form-control"   th:value="${e.address}">
+                           </div>
+                        </div>
+                       <div class="form-group">
+                            <label class="col-sm-2 control-label">经营许可证：</label>
+                            <div class="col-sm-2">
+                                <img id="img_notification" border=0 th:src="${e.licenseSrc}"
+                                     width="270" height="270"/>
+                            </div>
+                        </div>
+
+
+
+                    </form>
+                </div>
+                <div class="modal fade" id="hintModal" tabindex="-1" role="dialog" aria-labelledby="hintModalLabel" aria-hidden="true">
+                    <div class="modal-dialog modal-lg" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="hintModalLabel">提示</h5>
+                            </div>
+                            <div class="modal-body" id="hintBody">
+                                发布完毕!
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+</div>
+
+
+<!-- 全局js -->
+<script th:src="@{/hh/js/jquery.min.js?v=2.1.4}"></script>
+<script th:src="@{/hh/js/bootstrap.min.js?v=3.3.6}"></script>
+
+<!-- 自定义js -->
+<script th:src="@{/hh/js/content.js?v=1.0.0}"></script>
+
+</body>
+
+</html>

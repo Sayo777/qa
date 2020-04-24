@@ -8,6 +8,7 @@ import java.util.List;
 @Mapper
 public interface InspectorMapper {
     int deleteByPrimaryKey(Integer id);
+    int findInspectorMaxId();
 
     int insert(Inspector record);
     int insertPart(String name,String password,String email,int enterpriseId,String type);
@@ -15,7 +16,8 @@ public interface InspectorMapper {
     int insertSelective(Inspector record);
 
     List<Inspector> selectInspector();
-    List<Inspector> selectInspectorByType(String type);
+    List<Inspector> selectInspectorByType(String type,int offset,int limit);
+    int selectRowsInspectorByType(String type);
 
     Inspector selectByPrimaryKey(Integer id);
     Inspector selectInspectorByName(String name,String type);
@@ -23,6 +25,7 @@ public interface InspectorMapper {
     Inspector selectInspectorByEmail(String email);
     List<Inspector> selectInspectorByTypeAndQaType(String type,int qaType);
     List<Inspector> selectInspectorByqa3AndQaType(int enterpriseId,int qaType);
+    List<Inspector> selectInspectorByqa3AndType(int enterpriseId,String type);
     List<Inspector> selectInspectorByqa3(int enterpriseId);
 
 

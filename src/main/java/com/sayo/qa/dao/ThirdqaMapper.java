@@ -14,10 +14,14 @@ public interface ThirdqaMapper {
     int insertSelective(Thirdqa record);
 
     Thirdqa selectByPrimaryKey(Integer id);
+    Thirdqa selectByName(String name);
     List<Thirdqa> selectThirdqas();
+    List<Thirdqa> selectThirdqasByNotes(String notes,int offset,int limit);
+    int selectRowsThirdqasByNotes(String notes);
     int selectIdByName(String name);
 
     int updateByPrimaryKeySelective(Thirdqa record);
 
     int updateByPrimaryKey(Thirdqa record);
+    int updateNotesById(int id,String status);
 }

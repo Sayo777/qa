@@ -5,12 +5,9 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="renderer" content="webkit">
+    <title>质检员端</title>
 
-    <title>质检员端首页</title>
 
-    <!--[if lt IE 9]>
-    <meta http-equiv="refresh" content="0;ie.html" />
-    <![endif]-->
     <link th:href="@{/houtai/css/bootstrap.min.css?v=3.3.6}" rel="stylesheet">
     <link th:href="@{/houtai/css/font-awesome.min.css?v=4.4.0}" rel="stylesheet">
     <link th:href="@{/houtai/css/animate.css}" rel="stylesheet">
@@ -18,7 +15,7 @@
 </head>
 
 <body class="fixed-sidebar full-height-layout gray-bg" style="overflow:hidden">
-<div id="wrapper">
+<div id="wrapper" style="height: 730px;">
     <!--左侧导航开始-->
     <nav class="navbar-default navbar-static-side" role="navigation">
         <div class="nav-close"><i class="fa fa-times-circle"></i>
@@ -30,7 +27,6 @@
                         <span><img alt="image" class="img-circle" th:src="@{/hh/img/profile_small.jpg}" /></span>
                         <a data-toggle="dropdown" class="dropdown-toggle" href="#">
                                 <span class="clear">
-                               <span class="block m-t-xs"><strong class="font-bold">Beaut-zihan</strong></span>
                                 <span class="text-muted text-xs block">质检员用户<b class="caret"></b></span>
                                 </span>
                         </a>
@@ -73,7 +69,7 @@
     </nav>
     <!--左侧导航结束-->
     <!--右侧部分开始-->
-    <div id="page-wrapper" class="gray-bg dashbard-1" style="height:800px">
+    <div id="page-wrapper" class="gray-bg dashbard-1">
         <div class="row J_mainContent" id="content-main">
             <iframe class="J_iframe" name="iframe0" width="100%" height="100%" th:src="@{/inspector/unInspectTask}" frameborder="0" data-id="index_v1.html" seamless></iframe>
         </div>

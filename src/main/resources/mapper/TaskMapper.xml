@@ -76,15 +76,28 @@
     from task
     where end_time is not null and task_id in (select id from request where req_eid = #{eId})
   </select>
-  <select id="findFinishedTaskByQaEid" resultMap="BaseResultMap" parameterType="int">
+  <select id="findFinishedTaskByQaEid" resultMap="BaseResultMap">
     select
     <include refid="Base_Column_List" />
+    from task
+    where end_time is not null and qa_eid = #{qaeId} limit #{offset},#{limit}
+  </select>
+  <select id="findRowsFinishedTaskByQaEid" resultType="int">
+    select
+   count(*)
     from task
     where end_time is not null and qa_eid = #{qaeId}
   </select>
   <select id="findhasAssignTaskByEid" resultMap="BaseResultMap" >
     select
     <include refid="Base_Column_List" />
+    from task
+    where qa_eid = #{eId} and inspector_one is not null and end_time is null and task_id in
+    (select task_id from thirdtask where status = 0 and ins1 is not null) limit #{offset},#{limit}
+  </select>
+  <select id="findRowshasAssignTaskByEid" resultType="int" >
+    select
+    count(*)
     from task
     where qa_eid = #{eId} and inspector_one is not null and end_time is null and task_id in
     (select task_id from thirdtask where status = 0 and ins1 is not null)
@@ -105,6 +118,13 @@
   <select id="findfinishAssignTaskByEidAndStatus" resultMap="BaseResultMap" >
     select
     <include refid="Base_Column_List" />
+    from task
+    where  task_id in (select task_id from thirdtask where qa_eid = #{eId} and status = #{status})
+    limit #{offset},#{limit}
+  </select>
+<select id="findRowsfinishAssignTaskByEidAndStatus" resultType="int" >
+    select
+   count(*)
     from task
     where  task_id in (select task_id from thirdtask where qa_eid = #{eId} and status = #{status})
   </select>

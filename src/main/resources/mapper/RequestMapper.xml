@@ -39,7 +39,7 @@
     select
     <include refid="Base_Column_List" />
     from request
-    where req_eid = #{reqEId,jdbcType=INTEGER} limit #{offset},#{limit}
+    where req_eid = #{reqEId,jdbcType=INTEGER} order by id desc limit #{offset},#{limit}
   </select>
   <select id="findRefuseTask" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
     select

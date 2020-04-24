@@ -5,13 +5,6 @@
 
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-
-    <title>H+ 后台主题UI框架 - 基本表单</title>
-    <meta name="keywords" content="H+后台主题,后台bootstrap框架,会员中心主题,后台HTML,响应式后台">
-    <meta name="description" content="H+是一个完全响应式，基于Bootstrap3最新版本开发的扁平化主题，她采用了主流的左右两栏式布局，使用了Html5+CSS3等现代技术">
-
-    <link rel="shortcut icon" th:href="@{/hh/favicon.ico}">
     <link th:href="@{/hh/css/bootstrap.min.css?v=3.3.6}" rel="stylesheet">
     <link th:href="@{/hh/css/font-awesome.css?v=4.4.0}" rel="stylesheet">
     <link th:href="@{/hh/css/plugins/iCheck/custom.css}" rel="stylesheet">
@@ -20,7 +13,7 @@
     <style>
         /*给表格设置属性*/
         .table {
-            width: 600px;
+            width: 762px;
             border-collapse: collapse;
             table-layout: fixed;
             margin: auto;
@@ -52,8 +45,11 @@
 <body class="gray-bg">
 
 
-<div class="ibox float-e-margins" style="background-color: #3dc7ab; margin: 0 auto;width: 700px">
+<div class="ibox float-e-margins" style=" margin: 0 auto;">
     <div class="ibox-content">
+        <button onclick="javascript:history.back(-1);"  class="btn btn-primary" style="float: left">
+            返回
+        </button>
         <form th:action="@{/record/download}" method="post">
             <table class="table">
                 <caption>生产企业产品质量状况调查表</caption>
@@ -140,11 +136,12 @@
                 </tr>
                 </tbody>
             </table>
-            <button class="btn btn-primary block m-b" id="download" type="submit">下载文档</button>
+            <button class="btn btn-primary block m-b" id="download" type="submit" style="margin: 5px 0px 5px 200px;">下载文档</button>
 
 
         </form>
-        <form name="finishForm" id="finishForm" th:action="@{/record/finish}" method="post">
+        <div class="hr-line-dashed"></div>
+        <form name="finishForm" id="finishForm" th:action="@{/record/finish}" style="margin: 20px 0px 10px 200px" method="post">
             <p>上传结果文档：</p>
             <div style="border:1px dashed #000;width: 200px">
                 <input  type="hidden" name="token" th:value="${uploadToken}">
@@ -156,7 +153,7 @@
 
 
             </div>
-            <button class="btn btn-primary block m-b" id="finish" type="submit">完成任务</button>
+            <button class="btn btn-primary block m-b" id="finish" type="submit" style="margin-top: 5px">完成任务</button>
         </form>
     </div>
 

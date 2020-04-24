@@ -81,7 +81,9 @@
                                 </td>
                             </tr>
                             </tbody>
+
                         </table>
+                        <p style="text-align:center" th:text="${hint}">jjdjdjdj</p>
                     </div>
                     <nav class="mt-5" th:if="${page.rows>0}" th:fragment="pagination">
                         <ul class="pagination justify-content-center">
@@ -303,7 +305,7 @@
             return false;
         }
         if (qaType == 1) {
-            console.log("执行添加到政府任务,质检员是：" + inspector1 + "&" + inspector2 + "，质检时间" + arrangeTime);
+            // console.log("执行添加到政府任务,质检员是：" + inspector1 + "&" + inspector2 + "，质检时间" + arrangeTime);
             inspector1 = $("#inspector1").val();
             inspector2 = $("#inspector2").val();
             $.post(
@@ -322,7 +324,7 @@
         } else {
             var qaName = $("#aa").val();
             if (val == 0) {
-                alert("不指定质检员的三方机构:" + qaName);
+                // alert("不指定质检员的三方机构:" + qaName);
                 $.post(
                     "/qa/task/taskTo3un",
                     {"reqId": reqId, "arrangeTime": arrangeTime, "qaName": qaName},
@@ -360,7 +362,7 @@
                 );
 
 
-                alert("指定质检员的三方机构" + qaName + "，质检员是：" + inspector1 + "&" + inspector2 + "，质检时间" + arrangeTime);
+                // alert("指定质检员的三方机构" + qaName + "，质检员是：" + inspector1 + "&" + inspector2 + "，质检时间" + arrangeTime);
             }
         }
 

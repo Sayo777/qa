@@ -6,6 +6,7 @@ import com.sayo.qa.CommonUtil.CommunityUtil;
 import com.sayo.qa.CommonUtil.DateUtil;
 import com.sayo.qa.CommonUtil.HostHolderCustomer;
 import com.sayo.qa.entity.*;
+import com.sayo.qa.event.EventPro;
 import com.sayo.qa.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -88,7 +89,12 @@ public class CustomerController {
                 taskVoList.add(taskVo);
             }
         }
-        model.addAttribute("tasks", taskVoList);
+        if (taskVoList.size()==0){
+            model.addAttribute("hint","暂时没有记录！");
+        }else{
+
+            model.addAttribute("tasks", taskVoList);
+        }
         return "/hh/customer/finishedTask.html";
     }
 
@@ -100,6 +106,9 @@ public class CustomerController {
         page.setPath("/customer/productList");
         List<Product> list = productService.findProductByEid(customer.getEnterpriseId(), page.getOffset(), page.getLimit());
         model.addAttribute("productList", list);
+        if (list.size()==0){
+            model.addAttribute("hint","暂时没有记录！");
+        }
         return "/hh/customer/table_product.html";
     }
 
@@ -142,9 +151,12 @@ public class CustomerController {
     @RequestMapping(path = "/hi", method = RequestMethod.GET)
     public String getForm(Model model, HttpServletRequest request, Page page) {
         Customer customer = customerService.findCustomerById((int) request.getSession().getAttribute("loginCustomer"));
-
         List<Map<String, Object>> list = customerService.getRequest(customer, page.getOffset(), page.getLimit());
-        model.addAttribute("list", list);
+        if(list.size()==0){
+            model.addAttribute("hint","暂时没有记录！");
+        }else{
+            model.addAttribute("list", list);
+        }
         page.setRows(requestService.findReqRowByEid(customer.getEnterpriseId()));
         page.setPath("/customer/hi");
         return "/hh/table_request.html";
@@ -295,18 +307,47 @@ public class CustomerController {
     @RequestMapping(path = "/searchApplies", method = RequestMethod.GET)
     public String searchApplies(Model model, HttpServletRequest request) {
         int customerId = (int) request.getSession().getAttribute("loginCustomer");
-        List<Map<String, Object>> appliesList = customerService.getApplied(customerId);
-        model.addAttribute("appliesList", appliesList);
-        //跳转至认证企业申请列表
-        return "/hh/table_applied.html";
+        int eId = customerService.findCustomerById(customerId).getEnterpriseId();
+
+//        List<Map<String, Object>> appliesList = customerService.getApplied(customerId);
+//        model.addAttribute("appliesList", appliesList);
+//        if (appliesList.size()==0){
+//            model.addAttribute("hint","暂时没有记录");
+//        }
+//        //跳转至认证企业申请列表
+//        return "/hh/table_applied.html";
+        return "redirect:/customer/inf/"+eId;
     }
+
+    @Autowired
+    private ThirdqaService thirdqaService;
+    @RequestMapping(path = "/inf/{id}",method = RequestMethod.GET)
+    public String toInf(@PathVariable("id") int id,Model model){
+        Thirdqa thirdqa = thirdqaService.findThirdqaById(id);
+        model.addAttribute("t",thirdqa);
+        return "/hh/customer/thirdqaInf.html";
+    }
+
+    @Autowired
+    private EventPro eventPro;
 
     //申请质检
     @RequestMapping(path = "/qaReq", method = RequestMethod.POST)
-    public String qaReq1(String eName, int reqType, String reqName, String contact, int productId, Model model) {
+    public String qaReq1(String eName, int reqType, String reqName, String contact, int productId, Model model,HttpServletRequest request) {
+        int customerId = (int) request.getSession().getAttribute("loginCustomer");
         Map<String, Object> map = customerService.qaReq(eName, reqType, reqName, contact, productId);
         if (map == null || map.size() == 0) {
+            Event event = new Event();
+            event.setTopic("req")
+                    .setUserId(customerId)
+                    .setEntityuserId(0)
+                    .setEntityType("质检申请");
+            eventPro.fireEvent(event);
+
+
             model.addAttribute("msg", "申请成功");
+
+
         } else {
             model.addAttribute("msg", "申请失败，请检查表单填写！！");
         }
@@ -319,6 +360,9 @@ public class CustomerController {
     public String getFormReqQa(Model model, HttpServletRequest request) {
         int customerId = (int) request.getSession().getAttribute("loginCustomer");
         int eid = customerService.findCustomerById(customerId).getEnterpriseId();
+        Customer customer = customerService.findCustomerById(customerId);
+        model.addAttribute("cName",customer.getName());
+        model.addAttribute("tel",customer.getPhone());
         Enterprise enterprise = enterpriseService.getEnterPriseById(eid);
         model.addAttribute("eName", enterprise.getEnterpriseName());
         List<Product> productList = productService.findProductByEid1(eid);
@@ -338,6 +382,9 @@ public class CustomerController {
     public String getReqrecord(Model model) {
         List<Map<String, Object>> list = customerService.getReqrecord();
         model.addAttribute("list", list);
+        if (list.size()==0){
+            model.addAttribute("hint","暂时没有记录！");
+        }
         return "/hh/table_reqResult.html";
     }
 

@@ -3,6 +3,8 @@ package com.sayo.qa.dao;
 import com.sayo.qa.entity.ThirdTask;
 import org.apache.ibatis.annotations.Mapper;
 
+import java.util.List;
+
 @Mapper
 public interface ThirdTaskMapper {
     int insert(ThirdTask record);
@@ -16,4 +18,6 @@ public interface ThirdTaskMapper {
     int updateThirdTaskIns(int taskId,int ins1,int ins2);
 
     ThirdTask findThirdTaskById(int taskId);
+
+    List<ThirdTask> findTaskByStatus(int status);
 }

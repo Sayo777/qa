@@ -7,11 +7,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 
-    <title>待审核任务列表</title>
-    <meta name="keywords" content="待审核任务列表">
-    <meta name="description" content="待审核任务列表">
-
-    <link rel="shortcut icon" th:href="@{/hh/favicon.ico}">
     <link th:href="@{/hh/css/bootstrap.min.css?v=3.3.6}" rel="stylesheet">
     <link th:href="@{/hh/css/font-awesome.css?v=4.4.0}" rel="stylesheet">
     <link th:href="@{/hh/css/plugins/iCheck/custom.css}" rel="stylesheet">
@@ -29,24 +24,6 @@
                     <h5>待审核（质检员）任务</h5>
                 </div>
                 <div class="ibox-content">
-                    <div class="row">
-                        <div class="col-sm-5 m-b-xs" style="width: 200px;">
-                            <select class="input-sm form-control input-s-sm inline">
-                                <option value="1">选项1</option>
-                                <option value="1">选项1</option>
-                                <option value="1">选项1</option>
-                                <option value="1">选项1</option>
-                            </select>
-                        </div>
-
-                        <div class="col-sm-3">
-                            <div class="input-group">
-                                <input type="text" placeholder="请输入关键词" class="input-sm form-control"> <span
-                                    class="input-group-btn">
-                                        <button type="button" class="btn btn-sm btn-primary"> 搜索</button> </span>
-                            </div>
-                        </div>
-                    </div>
                     <div class="table-responsive">
                         <table class="table table-striped">
                             <thead>
@@ -82,6 +59,7 @@
                             </tr>
                             </tbody>
                         </table>
+                        <p style="text-align:center" th:text="${hint}">jjdjdjdj</p>
                     </div>
                     <div class="modal inmodal fade" id="checkIns" tabindex="-1" role="dialog"  aria-hidden="true">
                         <div class="modal-dialog modal-sm">

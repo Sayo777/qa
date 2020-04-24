@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link th:href="@{/hh/css/bootstrap.min.css?v=3.3.6}" rel="stylesheet">
+    <link th:href="@{/hh/css/font-awesome.css?v=4.4.0}" rel="stylesheet">
+    <link th:href="@{/hh/css/plugins/iCheck/custom.css}" rel="stylesheet">
+    <link th:href="@{/hh/css/animate.css}" rel="stylesheet">
+    <link th:href="@{/hh/css/style.css?v=4.1.0}" rel="stylesheet">
+
+</head>
+
+<body class="gray-bg">
+<div class="wrapper wrapper-content animated fadeInRight">
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="ibox float-e-margins">
+                <div class="ibox-title">
+                    <h5>待审核任务列表</h5>
+                </div>
+                <div class="ibox-content">
+
+                    <div class="table-responsive">
+                        <table class="table table-striped">
+                            <thead>
+                            <tr>
+                                <th>任务编号</th>
+                                <th>质检机构</th>
+                                <th>待定质检员1</th>
+                                <th>待定质检员2</th>
+                                <th>操作</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr th:each="list:${insList}">
+                                <td th:text="${list.req.id}">任务编号</td>
+                                <td th:text="${list.reqE.enterpriseName}">质检机构</td>
+                                <td th:text="${list.reqC.name}">待定质检员1</td>
+                                <td th:text="${list.req.contact}">待定质检员2</td>
+                                <td>
+                                    <input type="hidden"  th:value="${list.req.id}"/>
+                                    <button th:onclick="'javascript:setValue('+${list.req.id}+')' " type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal6">
+                                        点击审核
+                                    </button></td>
+                            </tr>
+                            </tbody>
+                        </table>
+                        <p style="text-align:center" th:text="${hint}">jjdjdjdj</p>
+                    </div>
+
+
+                    <nav class="mt-5" th:if="${page.rows>0}" th:fragment="pagination">
+                        <ul class="pagination justify-content-center">
+                            <li class="page-item">
+                                <a class="page-link" th:href="@{${page.path}(current=1)}">首页</a>
+                            </li>
+                            <li th:class="|page-item ${page.current==1?'disabled':''}|">
+                                <a class="page-link" th:href="@{${page.path}(current=${page.current-1})}">上一页</a></li>
+                            <li th:class="|page-item ${i==page.current?'active':''}|" th:each="i:${#numbers.sequence(page.from,page.to)}">
+                                <a class="page-link" th:href="@{${page.path}(current=${i})}" th:text="${i}">1</a>
+                            </li>
+                            <li th:class="|page-item ${page.current==page.total?'disabled':''}|">
+                                <a class="page-link" th:href="@{${page.path}(current=${page.current+1})}">下一页</a>
+                            </li>
+                            <li class="page-item">
+                                <a class="page-link" th:href="@{${page.path}(current=${page.total})}">末页</a>
+                            </li>
+                        </ul>
+                    </nav>
+                    <!--窗口start-->
+                    <div class="modal inmodal fade" id="myModal6" tabindex="-1" role="dialog"  aria-hidden="true">
+                        <div class="modal-dialog modal-sm">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                                    <h4 class="modal-title">审核</h4>
+                                </div>
+                                <div class="modal-body" style="padding: 20px 30px 2px 30px">
+                                    <input type="hidden" id="myId" name="myId" value="">
+                                    <div style="font-weight:bold;">审核结果：</div>
+                                    <select class="input-sm form-control input-s-sm inline" id="result" style="height: 32px">
+                                        <option value="通过" >通过</option>
+                                        <option value="不通过" >不通过</option>
+                                    </select>
+                                    <div style="margin-top: 15px;font-weight: bold;">理由（不通过时请说明原因）：</div>
+                                    <textarea class="form-control" rows="3" id="reason"></textarea>
+                                    <div style="margin-top:8px;padding:0px;font-size: smaller">温馨提示：</div>
+                                    <div style="padding:0px;font-size: smaller">审核通过时将自动发送《抽查告知书》</div>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-white" data-dismiss="modal">取消</button>
+                                    <button type="button" class="btn btn-primary" id="check">确定</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!--窗口end-->
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<!-- 全局js -->
+<script th:src="@{/hh/js/jquery.min.js?v=2.1.4}"></script>
+<script th:src="@{/hh/js/bootstrap.min.js?v=3.3.6}"></script>
+
+
+
+<!-- Peity -->
+<script th:src="@{/hh/js/plugins/peity/jquery.peity.min.js}"></script>
+
+<!-- 自定义js -->
+<script th:src="@{/hh/js/content.js?v=1.0.0}"></script>
+
+
+<!-- iCheck -->
+<script th:src="@{/hh/js/plugins/iCheck/icheck.min.js}"></script>
+
+<!-- Peity -->
+<script th:src="@{/hh/js/demo/peity-demo.js}"></script>
+
+<script>
+    function setValue(id) {
+        $("#myId").val(id);
+    }
+    $(document).ready(function () {
+        $(function(){
+            $("#check").click(check);
+        });
+
+        function check() {
+            // $("#publishModal").modal("hide");
+            var reqId = $("#myId").val()
+            var status = result.value;
+            var reason = $("#reason").val();
+            if (status == "不通过" && reason ==''){
+                alert("请说明未通过原因！")
+                return false;
+            }
+            //发送异步请求
+            $.post(
+                "/qa/task/checkStatus",
+                {"reqId":reqId,"status":status,"reason":reason},
+                function (data) {
+                    data = $.parseJSON(data);
+                    // alert(data.msg);
+                    //在提示框当中显示返回的消息
+                    // $("#hintBody").text(data.msg);
+                    // 提示框显示
+                    // $("#hintModal").modal("show");
+                    //2s后自动隐藏提示框
+                    setTimeout(function(){
+                        // $("#hintModal").modal("hide");
+                        //刷新页面
+                        if (data.code == 0){
+                            window.location.reload();
+                        }
+                    }, 500);
+                }
+            );
+
+
+        }
+
+    });
+</script>
+
+
+</body>
+
+</html>
