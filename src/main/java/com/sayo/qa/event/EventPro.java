@@ -8,13 +8,13 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class EventPro {
-    @Autowired
-    private KafkaTemplate kafkaTemplate;
-
-    //处理事件
-    public void fireEvent(Event event){
-        //将事件发布到指定主题
-        kafkaTemplate.send(event.getTopic(), JSONObject.toJSONString(event));
-    }
+//    @Autowired
+//    private KafkaTemplate kafkaTemplate;
+//
+//    //处理事件
+//    public void fireEvent(Event event){
+//        //将事件发布到指定主题
+//        kafkaTemplate.send(event.getTopic(), JSONObject.toJSONString(event));
+//    }
 
 }

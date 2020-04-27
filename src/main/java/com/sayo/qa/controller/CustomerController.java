@@ -327,9 +327,9 @@ public class CustomerController {
         model.addAttribute("t",thirdqa);
         return "/hh/customer/thirdqaInf.html";
     }
-
-    @Autowired
-    private EventPro eventPro;
+//
+//    @Autowired
+//    private EventPro eventPro;
 
     //申请质检
     @RequestMapping(path = "/qaReq", method = RequestMethod.POST)
@@ -342,7 +342,7 @@ public class CustomerController {
                     .setUserId(customerId)
                     .setEntityuserId(0)
                     .setEntityType("质检申请");
-            eventPro.fireEvent(event);
+//            eventPro.fireEvent(event);
 
 
             model.addAttribute("msg", "申请成功");

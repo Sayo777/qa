@@ -19,34 +19,34 @@ import java.util.Map;
 
 @Component
 public class EventCon {
-    private static final Logger logger = LoggerFactory.getLogger(EventCon.class);
-
-    @Autowired
-    private InformationService informationService;
-
-    @KafkaListener(topics = {"inf","sam","fin","req"})
-    public void handle(ConsumerRecord record){
-        if (record == null || record.value() == null){
-            logger.error("消息的内容为空");
-            return;
-        }
-        Event event = JSONObject.parseObject(record.value().toString(),Event.class);
-        if (event == null){
-            logger.error("消息格式错误");
-            return;
-        }
-
-        //发送站内通知
-        Information information = new Information();
-        information.setFromid(1);//1就是系统通知
-        information.setToid(event.getEntityuserId());
-        information.setType(event.getTopic());
-        information.setCreatetime(new Date());
-
-
-        information.setContent(event.getEntityType());
-        informationService.addInformation(information);
-    }
+//    private static final Logger logger = LoggerFactory.getLogger(EventCon.class);
+//
+//    @Autowired
+//    private InformationService informationService;
+//
+//    @KafkaListener(topics = {"inf","sam","fin","req"})
+//    public void handle(ConsumerRecord record){
+//        if (record == null || record.value() == null){
+//            logger.error("消息的内容为空");
+//            return;
+//        }
+//        Event event = JSONObject.parseObject(record.value().toString(),Event.class);
+//        if (event == null){
+//            logger.error("消息格式错误");
+//            return;
+//        }
+//
+//        //发送站内通知
+//        Information information = new Information();
+//        information.setFromid(1);//1就是系统通知
+//        information.setToid(event.getEntityuserId());
+//        information.setType(event.getTopic());
+//        information.setCreatetime(new Date());
+//
+//
+//        information.setContent(event.getEntityType());
+//        informationService.addInformation(information);
+//    }
 
 
 }
